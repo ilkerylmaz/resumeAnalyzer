@@ -125,24 +125,24 @@
 
 ## ⬜ What's Left to Build (MVP Scope)
 
-### Phase 1: Foundation (Week 1) - NOT STARTED
-- ⬜ Initialize Next.js project
-- ⬜ Setup Supabase project
+### Phase 1: Foundation (Week 1) - ✅ COMPLETED
+- ✅ Initialize Next.js project
+- ⬜ Setup Supabase project (MANUAL - Next step)
   - ⬜ Create database
   - ⬜ Enable pgvector extension
   - ⬜ Run schema migration
   - ⬜ Configure auth settings
   - ⬜ Create storage bucket for CV uploads
-- ⬜ Setup Gemini API
+- ⬜ Setup Gemini API (MANUAL - Next step)
   - ⬜ Get API key
   - ⬜ Create wrapper library
-- ⬜ Configure environment variables
-- ⬜ Install core dependencies (see techContext.md)
-- ⬜ Setup shadcn/ui
-- ⬜ Create project structure (folders, initial files)
-- ⬜ Configure ESLint + Prettier
-- ⬜ Setup Git repository
-- ⬜ Create initial commit
+- ✅ Configure environment variables (.env.example created)
+- ✅ Install core dependencies (see techContext.md)
+- ✅ Setup shadcn/ui
+- ✅ Create project structure (folders, initial files)
+- ✅ Configure ESLint + Prettier
+- ✅ Setup Git repository
+- ✅ Create initial commit
 
 ### Phase 2: Authentication (Week 1-2) - NOT STARTED
 - ⬜ Create Supabase client instances (client-side, server-side)
@@ -436,9 +436,9 @@
 
 ## 📊 Progress Statistics
 
-### Overall Completion: ~5%
+### Overall Completion: ~15%
 - ✅ Planning & Documentation: 100%
-- ⬜ Development Setup: 0%
+- ✅ Development Setup: 80% (Supabase & Gemini API keys pending)
 - ⬜ Core Features: 0%
 - ⬜ Testing: 0%
 - ⬜ Deployment: 0%
@@ -466,15 +466,15 @@
 
 ## 🎯 Milestone Tracking
 
-### Milestone 1: Project Setup ⬜
+### Milestone 1: Project Setup ✅
 **Target:** End of Week 1  
-**Status:** Not Started  
+**Status:** 80% Complete (Supabase & Gemini keys pending)  
 **Completion Criteria:**
-- [ ] Next.js project initialized
-- [ ] Supabase configured
-- [ ] Database schema created
+- [x] Next.js project initialized
+- [ ] Supabase configured (NEXT: Manual setup at supabase.com)
+- [ ] Database schema created (NEXT: After Supabase setup)
 - [ ] Auth working (login/signup)
-- [ ] Can navigate between pages
+- [x] Can navigate between pages
 
 ### Milestone 2: CV Builder Functional ⬜
 **Target:** End of Week 4  
@@ -508,6 +508,19 @@
 ---
 
 ## 📝 Change Log
+
+### November 15, 2025 - Phase 1 Completed
+- **COMPLETED:** Next.js 16.0.3 project initialization
+- **COMPLETED:** Tailwind CSS 3.4.16 setup (downgraded from 4.x for Turbopack compatibility)
+- **COMPLETED:** shadcn/ui installation and configuration
+- **COMPLETED:** Prettier + ESLint integration
+- **COMPLETED:** Git repository initialized
+- **COMPLETED:** Initial commit created (29 files)
+- **ADDED:** components.json for shadcn/ui
+- **ADDED:** .prettierrc.json and .prettierignore
+- **ADDED:** Import alias (@/*) in tsconfig.json
+- **FIXED:** Tailwind 4.x → 3.x for Turbopack support
+- **STATUS:** Ready for Supabase and Gemini API setup
 
 ### November 15, 2025
 - **ADDED:** Created entire Memory Bank structure
