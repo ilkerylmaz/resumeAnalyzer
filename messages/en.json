@@ -7,17 +7,37 @@
         "create": "Create",
         "loading": "Loading...",
         "error": "An error occurred",
-        "success": "Success!"
+        "success": "Success!",
+        "login": "Log In",
+        "signup": "Sign Up"
     },
     "auth": {
-        "login": "Log In",
-        "signup": "Sign Up",
-        "logout": "Log Out",
         "email": "Email",
-        "password": "Password",
-        "forgotPassword": "Forgot Password?",
-        "noAccount": "Don't have an account?",
-        "haveAccount": "Already have an account?"
+        "login": {
+            "title": "Welcome Back",
+            "subtitle": "Log in to your account",
+            "button": "Log In",
+            "loading": "Logging in...",
+            "noAccount": "Don't have an account?",
+            "link": "Log in"
+        },
+        "signup": {
+            "title": "Create Account",
+            "subtitle": "Start building your CV today",
+            "button": "Sign Up",
+            "loading": "Creating account...",
+            "hasAccount": "Already have an account?",
+            "link": "Sign up"
+        },
+        "verify": {
+            "title": "Check Your Email",
+            "message": "We've sent you a confirmation email. Please click the link to verify your account."
+        },
+        "password": {
+            "label": "Password",
+            "hint": "At least 6 characters"
+        },
+        "logout": "Log Out"
     },
     "dashboard": {
         "welcome": "Welcome back, {name}!",
@@ -44,5 +64,78 @@
         "addSkill": "Add Skill",
         "downloadPDF": "Download PDF",
         "preview": "Preview"
+    },
+    "landing": {
+        "hero": {
+            "title": "Land Your Dream Job with an AI-Perfected CV",
+            "subtitle": "Create professional, ATS-optimized resumes in minutes with our intelligent CV builder",
+            "cta": "Get Started for Free"
+        },
+        "features": {
+            "title": "Features",
+            "aiScoring": {
+                "title": "AI-Powered Scoring",
+                "description": "Get instant feedback on your CV's effectiveness"
+            },
+            "keywords": {
+                "title": "Smart Keywords",
+                "description": "Optimize your CV for Applicant Tracking Systems"
+            },
+            "templates": {
+                "title": "Professional Templates",
+                "description": "Choose from beautifully designed CV layouts"
+            },
+            "matching": {
+                "title": "Job Matching",
+                "description": "Find jobs that match your skills and experience"
+            }
+        },
+        "howItWorks": {
+            "title": "How It Works",
+            "step1": {
+                "title": "Upload Your CV",
+                "description": "Start with your existing CV or create from scratch"
+            },
+            "step2": {
+                "title": "Get AI Feedback",
+                "description": "Our AI analyzes and suggests improvements"
+            },
+            "step3": {
+                "title": "Apply with Confidence",
+                "description": "Download your perfected CV and start applying"
+            }
+        },
+        "testimonials": {
+            "title": "What Our Users Say",
+            "user1": {
+                "name": "Sarah L.",
+                "role": "Marketing Manager",
+                "text": "This tool helped me land my dream job! The AI suggestions were incredibly helpful."
+            },
+            "user2": {
+                "name": "John D.",
+                "role": "Software Engineer",
+                "text": "Best CV builder I've used. The job matching feature is a game-changer."
+            }
+        },
+        "finalCTA": {
+            "title": "Ready to Transform Your Career?",
+            "subtitle": "Join thousands of job seekers who found their dream jobs with AI CV Pro",
+            "button": "Create Your CV Now"
+        },
+        "footer": {
+            "product": "Product",
+            "cvBuilder": "CV Builder",
+            "jobListings": "Job Listings",
+            "templates": "Templates",
+            "company": "Company",
+            "about": "About Us",
+            "contact": "Contact",
+            "blog": "Blog",
+            "legal": "Legal",
+            "privacy": "Privacy Policy",
+            "terms": "Terms of Service",
+            "tagline": "Transform your career with AI-powered CV optimization"
+        }
     }
 }

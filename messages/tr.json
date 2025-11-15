@@ -7,17 +7,37 @@
         "create": "Oluştur",
         "loading": "Yükleniyor...",
         "error": "Bir hata oluştu",
-        "success": "Başarılı!"
+        "success": "Başarılı!",
+        "login": "Giriş Yap",
+        "signup": "Kayıt Ol"
     },
     "auth": {
-        "login": "Giriş Yap",
-        "signup": "Kayıt Ol",
-        "logout": "Çıkış Yap",
         "email": "E-posta",
-        "password": "Şifre",
-        "forgotPassword": "Şifremi Unuttum?",
-        "noAccount": "Hesabınız yok mu?",
-        "haveAccount": "Zaten hesabınız var mı?"
+        "login": {
+            "title": "Tekrar Hoş Geldiniz",
+            "subtitle": "Hesabınıza giriş yapın",
+            "button": "Giriş Yap",
+            "loading": "Giriş yapılıyor...",
+            "noAccount": "Hesabınız yok mu?",
+            "link": "Giriş yap"
+        },
+        "signup": {
+            "title": "Hesap Oluştur",
+            "subtitle": "Bugün CV oluşturmaya başlayın",
+            "button": "Kayıt Ol",
+            "loading": "Hesap oluşturuluyor...",
+            "hasAccount": "Zaten hesabınız var mı?",
+            "link": "Kayıt ol"
+        },
+        "verify": {
+            "title": "E-postanızı Kontrol Edin",
+            "message": "Size bir onay e-postası gönderdik. Hesabınızı doğrulamak için lütfen bağlantıya tıklayın."
+        },
+        "password": {
+            "label": "Şifre",
+            "hint": "En az 6 karakter"
+        },
+        "logout": "Çıkış Yap"
     },
     "dashboard": {
         "welcome": "Tekrar hoş geldin, {name}!",
@@ -44,5 +64,78 @@
         "addSkill": "Yetenek Ekle",
         "downloadPDF": "PDF İndir",
         "preview": "Önizleme"
+    },
+    "landing": {
+        "hero": {
+            "title": "Hayalinizdeki İşe Yapay Zeka Destekli CV ile Ulaşın",
+            "subtitle": "Akıllı CV oluşturucumuz ile dakikalar içinde profesyonel, ATS uyumlu özgeçmişler hazırlayın",
+            "cta": "Ücretsiz Başlayın"
+        },
+        "features": {
+            "title": "Özellikler",
+            "aiScoring": {
+                "title": "Yapay Zeka Destekli Puanlama",
+                "description": "CV'nizin etkinliği hakkında anında geri bildirim alın"
+            },
+            "keywords": {
+                "title": "Akıllı Anahtar Kelimeler",
+                "description": "CV'nizi İnsan Kaynakları Sistemleri için optimize edin"
+            },
+            "templates": {
+                "title": "Profesyonel Şablonlar",
+                "description": "Güzel tasarlanmış CV düzenleri arasından seçim yapın"
+            },
+            "matching": {
+                "title": "İş Eşleştirme",
+                "description": "Becerileriniz ve deneyiminize uygun işler bulun"
+            }
+        },
+        "howItWorks": {
+            "title": "Nasıl Çalışır",
+            "step1": {
+                "title": "CV'nizi Yükleyin",
+                "description": "Mevcut CV'nizle başlayın veya sıfırdan oluşturun"
+            },
+            "step2": {
+                "title": "Yapay Zeka Geri Bildirimi Alın",
+                "description": "Yapay zekamız analiz eder ve iyileştirmeler önerir"
+            },
+            "step3": {
+                "title": "Güvenle Başvurun",
+                "description": "Mükemmelleşmiş CV'nizi indirin ve başvurmaya başlayın"
+            }
+        },
+        "testimonials": {
+            "title": "Kullanıcılarımız Ne Diyor",
+            "user1": {
+                "name": "Ayşe K.",
+                "role": "Pazarlama Müdürü",
+                "text": "Bu araç hayalimdekilişi bulmama yardımcı oldu! Yapay zeka önerileri inanılmaz derecede faydalıydı."
+            },
+            "user2": {
+                "name": "Mehmet Y.",
+                "role": "Yazılım Mühendisi",
+                "text": "Kullandığım en iyi CV oluşturucu. İş eşleştirme özelliği oyunun kurallarını değiştiriyor."
+            }
+        },
+        "finalCTA": {
+            "title": "Kariyerinizi Dönüştürmeye Hazır mısınız?",
+            "subtitle": "AI CV Pro ile hayallerindeki işi bulan binlerce iş arayan kişiye katılın",
+            "button": "Şimdi CV Oluştur"
+        },
+        "footer": {
+            "product": "Ürün",
+            "cvBuilder": "CV Oluşturucu",
+            "jobListings": "İş İlanları",
+            "templates": "Şablonlar",
+            "company": "Şirket",
+            "about": "Hakkımızda",
+            "contact": "İletişim",
+            "blog": "Blog",
+            "legal": "Yasal",
+            "privacy": "Gizlilik Politikası",
+            "terms": "Kullanım Koşulları",
+            "tagline": "Yapay zeka destekli CV optimizasyonu ile kariyerinizi dönüştürün"
+        }
     }
 }

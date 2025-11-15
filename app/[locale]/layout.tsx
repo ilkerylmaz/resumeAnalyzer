@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { notFound } from 'next/navigation';
+import { Inter } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { notFound } from "next/navigation";
 import "../globals.css";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-display" });
 
 export const metadata: Metadata = {
     title: "AI CV Builder - Create ATS-Optimized Resumes",
@@ -33,7 +36,7 @@ export default async function RootLayout({
 
     return (
         <html lang={locale}>
-            <body className="antialiased">
+            <body className={`${inter.variable} font-display antialiased`}>
                 <NextIntlClientProvider messages={messages}>
                     {children}
                 </NextIntlClientProvider>
