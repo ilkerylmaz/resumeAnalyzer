@@ -1,11 +1,31 @@
 # Active Context
 
 ## Current Focus
-**Phase 4: Dashboard Development** - Authentication complete (Phase 2 ✅) and i18n fully working (Phase 3 ✅). Now building dashboard UI with CV list, job matches, and user profile.
+**Phase 5: CV Builder Development (40% Complete)** - Professional 4-column layout implemented with Personal Info and Experience forms working. Real-time preview + auto-save infrastructure ready. Now building remaining 7 form sections.
 
 ---
 
 ## Recent Changes
+- ✅ **Phase 5 Started** - CV Builder core infrastructure
+  - Zustand CV store with 9 sections + persist middleware
+  - Zod validation schemas for all CV sections
+  - PersonalInfoForm complete (real-time preview, debounced auto-save)
+  - ExperienceForm complete (multi-entry, add/edit/delete)
+  - CV Preview component (A4 paper design, 90% scale)
+- ✅ **XHTML Design Integration** - Professional 4-column layout
+  - Left sidebar (w-16): Logo + Edit/ATS nav with Material icons
+  - Form panel (w-80): Horizontal tabs, fixed height, custom scrollbar
+  - Preview panel (flex-1): Dominant, toolbar, ATS score indicator
+  - Right sidebar (w-56): Download, Save, AI actions
+  - Space Grotesk font, primary #2b7cee, pop-secondary #E040FB
+  - Global navbar restored above builder
+- ✅ **Layout Refinements**
+  - Re-balanced column widths (preview dominant)
+  - Thin custom scrollbar (6px, almost invisible until hover)
+  - Preview toolbar redesigned (single slim row)
+  - Form panel internally scrollable (fixed h-screen)
+  - Preview content scaled down for document view
+- ✅ **User Feedback:** "tasarim cok guzel oldu. bu tasarimi sevdik" ✨
 - ✅ **Phase 2 Completed** - Full authentication flow working
   - Supabase client instances (browser + server)
   - Signup, login, verify-email, callback, signout pages
@@ -35,6 +55,66 @@
 ---
 
 ## Next Immediate Steps
+
+### Phase 5: CV Builder Forms (Week 3-4) - Continuing
+**Current Status:** 40% Complete - Personal Info ✅, Experience ✅, Need 7 more forms
+
+**Next Priority Tasks:**
+1. **Build Summary Form**
+   - Simple textarea for professional summary
+   - Character counter (500 max)
+   - Real-time preview update
+   - Pattern: Similar to PersonalInfoForm (single section, no multi-entry)
+
+2. **Build Education Form**
+   - Multi-entry like ExperienceForm
+   - Fields: institution, degree, field, dates, current checkbox, GPA
+   - Add/edit/delete functionality
+   - Card-based display when not editing
+
+3. **Build Skills Form**
+   - Multi-entry with add/remove
+   - Fields: skill name, category, proficiency level (dropdown)
+   - Display as badges in preview
+   - Simple list view when not adding
+
+4. **Build Projects Form**
+   - Multi-entry like Experience
+   - Fields: name, description, technologies (array), dates, URLs
+   - Technologies as tag input
+   - Current project checkbox
+
+5. **Build Languages Form**
+   - Multi-entry, simpler than others
+   - Fields: language name, proficiency (dropdown: elementary/limited/professional/native)
+   - Display as simple list
+
+6. **Build Certificates, Social Media, Interests Forms**
+   - Follow same patterns as above
+   - Certificates: name, issuer, dates, credential ID, URL
+   - Social Media: platform, URL
+   - Interests: just name (simplest)
+
+**Implementation Pattern (for all remaining forms):**
+```typescript
+// 1. Use existing Zod schemas from lib/schemas/cv-schemas.ts
+// 2. Follow ExperienceForm pattern for multi-entry
+// 3. Follow PersonalInfoForm pattern for single-entry
+// 4. Use react-hook-form + zodResolver
+// 5. Update Zustand store on form changes
+// 6. No padding/title in form (handled by parent CVBuilder)
+// 7. Match XHTML design (form-input classes, rounded, border-[#dbe0e6])
+```
+
+**Success Criteria for Phase 5:**
+- All 9 form sections working
+- Real-time preview updates for all sections
+- Form validation with inline errors
+- Tab navigation between sections
+- Auto-save triggers on all form changes
+- Preview shows all CV sections correctly
+
+---
 
 ### Phase 1: Project Setup (Week 1)
 1. **Initialize Next.js Project**
@@ -120,7 +200,7 @@
 
 ---
 
-## Active Decisions & Considerations
+### Active Decisions & Considerations
 
 ### Confirmed Decisions
 ✅ **Framework:** Next.js 14+ with App Router  
@@ -133,10 +213,19 @@
 ✅ **State Management:** Zustand (global) + React Hook Form (forms)  
 ✅ **i18n:** next-intl with path-based routing (`/en`, `/tr`)  
 ✅ **Deployment:** Vercel (serverless)  
-✅ **Package Manager:** pnpm  
+✅ **Package Manager:** npm  
 ✅ **PDF Export:** react-to-print (MVP), docx.js (post-MVP for DOCX)  
 ✅ **PDF Parsing:** pdf-parse + Gemini structured extraction  
 ✅ **File Storage:** Supabase Storage (max 5MB PDFs)  
+✅ **CV Builder Design:** 4-column professional layout (XHTML-inspired)  
+✅ **Form Library:** react-hook-form 7.66.0 + @hookform/resolvers  
+✅ **Validation:** Zod 4.1.12 schemas  
+✅ **ID Generation:** nanoid for multi-entry items  
+✅ **Icons:** Material Symbols Outlined (Google)  
+✅ **Fonts:** Space Grotesk (primary), Inter, Poppins (fallbacks)  
+✅ **Colors:** Primary #2b7cee, Pop-secondary #E040FB, Accent-teal #14b8a6  
+✅ **Preview Scale:** 90% CSS transform for document view  
+✅ **Auto-Save:** 300ms debounce on form changes
 
 ### Deferred to Post-MVP
 ⏳ **ATS Score Analysis:** Gemini analyzes CV and provides score/suggestions  
@@ -192,6 +281,20 @@
 ---
 
 ## Learnings & Project Insights
+
+### CV Builder Design Insights (Phase 5)
+- **4-Column Layout:** Left sidebar (narrow), form panel (narrow), preview (WIDE/dominant), actions sidebar (narrow) creates professional workspace
+- **Preview Dominance:** Making preview `flex-1` while keeping other panels fixed width (w-16, w-80, w-56) ensures CV is the focal point
+- **Internal Scrolling:** Fixed `h-screen` panels with `overflow-y-auto` content keeps UI stable while allowing long forms to scroll
+- **Scale Transform:** CSS `scale(0.9)` on preview makes A4 document viewable without feeling "zoomed in" - more efficient use of space
+- **Horizontal Tabs:** Border-bottom style tabs (vs. card-style buttons) feel more professional and save vertical space
+- **Custom Scrollbar:** 6px width with almost-invisible default state (`#2b7cee20` = 12% opacity) and full color on hover creates polished look
+- **Material Icons:** Google's Material Symbols Outlined provide consistent, modern iconography across UI
+- **Form Patterns:** Multi-entry sections (Experience, Education) need add/edit/delete UI, single sections (Personal Info, Summary) are simpler forms
+- **Real-Time Preview:** Users expect instant feedback - 300ms debounce on auto-save feels natural (not too fast to spam API, not too slow to feel laggy)
+- **TypeScript Resolver:** zodResolver type mismatch with optional fields solved by explicit cast: `zodResolver(schema) as Resolver<Type, any>`
+- **Space Grotesk Font:** Modern, professional feel that works well for both UI text and CV preview content
+- **Toolbar Design:** Single slim horizontal row with proportionally-sized elements (compact buttons + small score indicator) keeps UI clean
 
 ### Database Design Insights
 - **Embedding Storage:** Store embeddings at resume level (not individual sections) for efficient matching

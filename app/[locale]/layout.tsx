@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins, Space_Grotesk } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -7,6 +7,11 @@ import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const poppins = Poppins({
+    subsets: ["latin"],
+    weight: ["400", "500", "600", "700"],
+    variable: "--font-poppins"
+});
+const spaceGrotesk = Space_Grotesk({
     subsets: ["latin"],
     weight: ["400", "500", "600", "700"],
     variable: "--font-display"
@@ -45,11 +50,11 @@ export default async function RootLayout({
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
                 <link
-                    href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+                    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
                     rel="stylesheet"
                 />
             </head>
-            <body className={`${poppins.variable} ${inter.variable} font-display antialiased`}>
+            <body className={`${spaceGrotesk.variable} ${poppins.variable} ${inter.variable} font-display antialiased`}>
                 <NextIntlClientProvider messages={messages}>
                     {children}
                 </NextIntlClientProvider>
