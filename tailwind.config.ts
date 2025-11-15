@@ -10,9 +10,15 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                primary: "#257bf4",
-                "background-light": "#f5f7f8",
-                "background-dark": "#101722",
+                primary: "#3b82f6",
+                "background-light": "#f3f4f6",
+                "background-dark": "#111827",
+                "card-light": "#ffffff",
+                "card-dark": "#1f2937",
+                "text-light": "#1f2937",
+                "text-dark": "#f3f4f6",
+                "accent-pink": "#ec4899",
+                "accent-teal": "#14b8a6",
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
                 card: {
@@ -51,13 +57,14 @@ const config: Config = {
                 },
             },
             fontFamily: {
-                display: ["Inter", "sans-serif"],
+                display: ["Poppins", "Inter", "sans-serif"],
             },
             borderRadius: {
-                lg: "var(--radius)",
-                md: "calc(var(--radius) - 2px)",
+                DEFAULT: "0.75rem",
+                lg: "1rem",
+                xl: "1.5rem",
                 sm: "calc(var(--radius) - 4px)",
-                xl: "0.75rem",
+                md: "calc(var(--radius) - 2px)",
                 full: "9999px",
             },
         },
