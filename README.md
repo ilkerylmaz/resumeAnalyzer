@@ -120,7 +120,7 @@ npm run lint
 ## MVP Features (Due: January 15, 2026)
 
 - ✅ Project setup complete
-- ⬜ Authentication (Supabase Auth)
+- ✅ Authentication (Supabase Auth)
 - ⬜ CV Builder (form-based creation)
 - ⬜ Real-time CV preview
 - ⬜ PDF export
