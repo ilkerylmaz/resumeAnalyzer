@@ -1,0 +1,48 @@
+{
+    "common": {
+        "save": "Kaydet",
+        "cancel": "İptal",
+        "delete": "Sil",
+        "edit": "Düzenle",
+        "create": "Oluştur",
+        "loading": "Yükleniyor...",
+        "error": "Bir hata oluştu",
+        "success": "Başarılı!"
+    },
+    "auth": {
+        "login": "Giriş Yap",
+        "signup": "Kayıt Ol",
+        "logout": "Çıkış Yap",
+        "email": "E-posta",
+        "password": "Şifre",
+        "forgotPassword": "Şifremi Unuttum?",
+        "noAccount": "Hesabınız yok mu?",
+        "haveAccount": "Zaten hesabınız var mı?"
+    },
+    "dashboard": {
+        "welcome": "Tekrar hoş geldin, {name}!",
+        "myCVs": "CV'lerim",
+        "noCVs": "Henüz bir CV oluşturmadınız.",
+        "createFirst": "Başlamak için ilk CV'nizi oluşturun",
+        "createCV": "CV Oluştur",
+        "matchedJobs": "Önerilen İş İlanları",
+        "noJobs": "Henüz eşleşen iş ilanı yok. Öneri almak için bir CV oluşturun."
+    },
+    "cvBuilder": {
+        "title": "CV Oluşturucu",
+        "personalInfo": "Kişisel Bilgiler",
+        "experience": "İş Deneyimi",
+        "education": "Eğitim",
+        "skills": "Yetenekler",
+        "projects": "Projeler",
+        "certificates": "Sertifikalar",
+        "languages": "Diller",
+        "socialMedia": "Sosyal Medya",
+        "interests": "İlgi Alanları",
+        "addExperience": "Deneyim Ekle",
+        "addEducation": "Eğitim Ekle",
+        "addSkill": "Yetenek Ekle",
+        "downloadPDF": "PDF İndir",
+        "preview": "Önizleme"
+    }
+}

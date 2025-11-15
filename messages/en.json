@@ -1,0 +1,48 @@
+{
+    "common": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "create": "Create",
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success!"
+    },
+    "auth": {
+        "login": "Log In",
+        "signup": "Sign Up",
+        "logout": "Log Out",
+        "email": "Email",
+        "password": "Password",
+        "forgotPassword": "Forgot Password?",
+        "noAccount": "Don't have an account?",
+        "haveAccount": "Already have an account?"
+    },
+    "dashboard": {
+        "welcome": "Welcome back, {name}!",
+        "myCVs": "My CVs",
+        "noCVs": "You haven't created any CVs yet.",
+        "createFirst": "Create your first CV to get started",
+        "createCV": "Create CV",
+        "matchedJobs": "Recommended Jobs",
+        "noJobs": "No job matches yet. Create a CV to see recommendations."
+    },
+    "cvBuilder": {
+        "title": "CV Builder",
+        "personalInfo": "Personal Information",
+        "experience": "Work Experience",
+        "education": "Education",
+        "skills": "Skills",
+        "projects": "Projects",
+        "certificates": "Certificates",
+        "languages": "Languages",
+        "socialMedia": "Social Media",
+        "interests": "Interests",
+        "addExperience": "Add Experience",
+        "addEducation": "Add Education",
+        "addSkill": "Add Skill",
+        "downloadPDF": "Download PDF",
+        "preview": "Preview"
+    }
+}
