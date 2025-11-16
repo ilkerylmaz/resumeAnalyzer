@@ -350,7 +350,41 @@
   - ⬜ Professional appearance
 - ⬜ Test on different browsers (Chrome, Firefox, Safari)
 
-### Phase 9: CV Upload & Parsing (Week 5-6) - NOT STARTED
+### Phase 9: Job Listings Page (Week 5) - NOT STARTED
+**Note:** This phase starts after CV Builder (Phases 5-8) is fully completed, including PDF Export.
+
+- ⬜ Create `/[locale]/jobs` route
+- ⬜ Build JobListings page component
+- ⬜ Implement job list UI:
+  - ⬜ Job cards with company, title, location, salary
+  - ⬜ Match score badge (visible only for logged-in users with CV)
+  - ⬜ Skill tags display
+  - ⬜ Save/bookmark functionality (for logged-in users)
+  - ⬜ Apply button/link
+- ⬜ Add search & filtering functionality:
+  - ⬜ Search by job title/company/keywords
+  - ⬜ Filter by location (city/country)
+  - ⬜ Filter by experience level (junior/mid/senior)
+  - ⬜ Filter by job type (full-time/part-time/remote)
+  - ⬜ Filter by match score (if user has CV, logged-in only)
+  - ⬜ Sort by: newest, match score, salary
+- ⬜ Implement pagination or infinite scroll
+- ⬜ Add job detail modal/drawer:
+  - ⬜ Full job description
+  - ⬜ Requirements & qualifications
+  - ⬜ Company information
+  - ⬜ Apply button/link
+  - ⬜ Similar jobs section
+  - ⬜ Share job link
+- ⬜ Public access (no login required to browse)
+- ⬜ Empty state when no jobs match filters
+- ⬜ Loading states for job fetching
+- ⬜ Error states (network failures, etc.)
+- ⬜ Mobile responsive design
+- ⬜ SEO optimization (meta tags, structured data)
+- ⬜ Test with sample job data (20-30 jobs minimum)
+
+### Phase 10: CV Upload & Parsing (Week 5-6) - NOT STARTED
 - ⬜ Create Supabase Storage bucket (`cv-uploads`)
 - ⬜ Configure bucket settings (max 5MB, PDF only)
 - ⬜ Setup RLS for storage bucket
@@ -371,7 +405,28 @@
   - ⬜ Different layouts
 - ⬜ Cleanup uploaded file after parsing
 
-### Phase 10: Embedding Generation (Week 6) - NOT STARTED
+### Phase 10: CV Upload & Parsing (Week 5-6) - NOT STARTED
+- ⬜ Create Supabase Storage bucket (`cv-uploads`)
+- ⬜ Configure bucket settings (max 5MB, PDF only)
+- ⬜ Setup RLS for storage bucket
+- ⬜ Build file upload component
+  - ⬜ Drag & drop support
+  - ⬜ File type validation
+  - ⬜ File size validation
+- ⬜ Create `/api/cv/parse` route
+- ⬜ Implement PDF text extraction (pdf-parse)
+- ⬜ Create Gemini parsing prompt (structured JSON)
+- ⬜ Implement Gemini API call
+- ⬜ Add JSON validation (Zod)
+- ⬜ Handle parsing errors
+- ⬜ Pre-fill form with parsed data
+- ⬜ Test with various CV formats:
+  - ⬜ Single-page CV
+  - ⬜ Multi-page CV
+  - ⬜ Different layouts
+- ⬜ Cleanup uploaded file after parsing
+
+### Phase 11: Embedding Generation (Week 6) - NOT STARTED
 - ⬜ Create Gemini embedding wrapper function
 - ⬜ Implement CV text extraction logic
 - ⬜ Create `/api/cv/embed` route
@@ -381,7 +436,7 @@
 - ⬜ Test embedding generation
 - ⬜ Verify vector dimensions (1024)
 
-### Phase 11: Job Matching (Week 6-7) - NOT STARTED
+### Phase 12: Job Matching (Week 6-7) - NOT STARTED
 - ⬜ Create sample job data (manual entry in database)
   - ⬜ Add 20-30 diverse jobs (mix of TR and EN)
   - ⬜ Generate embeddings for each job
@@ -397,7 +452,7 @@
   - ⬜ Marketing CV → returns marketing jobs
   - ⬜ Multilingual CV → matches language preference
 
-### Phase 12: Polish & Responsive Design (Week 7) - NOT STARTED
+### Phase 13: Polish & Responsive Design (Week 7) - NOT STARTED
 - ⬜ Make all pages mobile-responsive
   - ⬜ Dashboard
   - ⬜ CV Builder
@@ -416,11 +471,32 @@
   - ⬜ Tablet (iPad)
   - ⬜ Mobile (iPhone 14)
 
-### Phase 13: Testing & Bug Fixes (Week 7-8) - NOT STARTED
+### Phase 13: Polish & Responsive Design (Week 7) - NOT STARTED
+- ⬜ Make all pages mobile-responsive
+  - ⬜ Dashboard
+  - ⬜ CV Builder
+  - ⬜ Job Listings page
+  - ⬜ Auth pages
+- ⬜ Add loading states
+- ⬜ Add empty states
+- ⬜ Add error states
+- ⬜ Improve form UX:
+  - ⬜ Better spacing
+  - ⬜ Clear labels
+  - ⬜ Help text
+- ⬜ Add animations (subtle, not distracting)
+- ⬜ Test on devices:
+  - ⬜ Desktop (1920x1080)
+  - ⬜ Laptop (1366x768)
+  - ⬜ Tablet (iPad)
+  - ⬜ Mobile (iPhone 14)
+
+### Phase 14: Testing & Bug Fixes (Week 7-8) - NOT STARTED
 - ⬜ Manual testing of all features:
   - ⬜ User registration → CV creation → PDF download
   - ⬜ CV upload → parsing → editing → save
-  - ⬜ Job matching → view details
+  - ⬜ Job browsing → filtering → view details
+  - ⬜ Job matching → view matched jobs on dashboard
   - ⬜ Language switching → all pages
 - ⬜ Cross-browser testing (Chrome, Firefox, Safari, Edge)
 - ⬜ Fix critical bugs
@@ -433,7 +509,7 @@
   - ⬜ Screen reader support
   - ⬜ Color contrast
 
-### Phase 14: Deployment (Week 8) - NOT STARTED
+### Phase 15: Deployment (Week 8) - NOT STARTED
 - ⬜ Create Vercel account
 - ⬜ Connect Git repository to Vercel
 - ⬜ Configure environment variables in Vercel
@@ -444,7 +520,18 @@
 - ⬜ Setup custom domain (optional)
 - ⬜ Configure SSL (automatic with Vercel)
 
-### Phase 15: Documentation (Week 8) - NOT STARTED
+### Phase 15: Deployment (Week 8) - NOT STARTED
+- ⬜ Create Vercel account
+- ⬜ Connect Git repository to Vercel
+- ⬜ Configure environment variables in Vercel
+- ⬜ Setup production Supabase project
+- ⬜ Run database migration on production
+- ⬜ Deploy to production
+- ⬜ Test production deployment
+- ⬜ Setup custom domain (optional)
+- ⬜ Configure SSL (automatic with Vercel)
+
+### Phase 16: Documentation (Week 8) - NOT STARTED
 - ⬜ Write README.md:
   - ⬜ Project description
   - ⬜ Features list
@@ -569,15 +656,16 @@
 - Phase 6 (Templates): ~15 hours
 - Phase 7 (Save Logic): ~8 hours
 - Phase 8 (PDF Export): ~10 hours
-- Phase 9 (CV Upload): ~15 hours
-- Phase 10 (Embeddings): ~8 hours
-- Phase 11 (Job Matching): ~12 hours
-- Phase 12 (Polish): ~15 hours
-- Phase 13 (Testing): ~20 hours
-- Phase 14 (Deployment): ~6 hours
-- Phase 15 (Docs): ~10 hours
+- Phase 9 (Job Listings Page): ~18 hours
+- Phase 10 (CV Upload): ~15 hours
+- Phase 11 (Embeddings): ~8 hours
+- Phase 12 (Job Matching): ~12 hours
+- Phase 13 (Polish): ~15 hours
+- Phase 14 (Testing): ~20 hours
+- Phase 15 (Deployment): ~6 hours
+- Phase 16 (Docs): ~10 hours
 
-**Total Estimated: ~180 hours** (~22-23 full working days or ~8 weeks part-time)
+**Total Estimated: ~198 hours** (~25 full working days or ~9 weeks part-time)
 
 ---
 
