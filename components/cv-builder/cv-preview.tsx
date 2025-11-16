@@ -3,7 +3,7 @@
 import { useCVStore } from "@/stores/cv-store";
 
 export function CVPreview() {
-    const { personalInfo, experiences, education, skills } = useCVStore();
+    const { personalInfo, experiences, education, skills, projects, certificates, languages, socialMedia, interests } = useCVStore();
 
     return (
         <div className="max-w-3xl mx-auto bg-white shadow-2xl overflow-hidden min-h-[1122px]">
@@ -30,7 +30,7 @@ export function CVPreview() {
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2 border-b-2 border-primary pb-1">
                             Professional Summary
                         </h2>
-                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
+                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm whitespace-pre-wrap">
                             {personalInfo.summary}
                         </p>
                     </div>
@@ -62,7 +62,7 @@ export function CVPreview() {
                                         </p>
                                     )}
                                     {exp.description && (
-                                        <p className="text-gray-700 dark:text-gray-300 text-xs leading-relaxed">
+                                        <p className="text-gray-700 dark:text-gray-300 text-xs leading-relaxed whitespace-pre-wrap">
                                             {exp.description}
                                         </p>
                                     )}
@@ -109,13 +109,174 @@ export function CVPreview() {
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
                             Skills
                         </h2>
-                        <div className="flex flex-wrap gap-1.5">
-                            {skills.map((skill) => (
-                                <span
-                                    key={skill.id}
-                                    className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium"
+                        {/* Group by category */}
+                        {Object.entries(
+                            skills.reduce((acc, skill) => {
+                                if (!acc[skill.category]) {
+                                    acc[skill.category] = [];
+                                }
+                                acc[skill.category].push(skill);
+                                return acc;
+                            }, {} as Record<string, typeof skills>)
+                        ).map(([category, categorySkills]) => (
+                            <div key={category} className="mb-3">
+                                <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
+                                    {category}
+                                </h3>
+                                <div className="flex flex-wrap gap-1.5">
+                                    {categorySkills.map((skill) => (
+                                        <span
+                                            key={skill.id}
+                                            className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium"
+                                        >
+                                            {skill.name}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Projects */}
+                {projects.length > 0 && (
+                    <div className="mb-6">
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
+                            Projects
+                        </h2>
+                        <div className="space-y-3">
+                            {projects.map((project) => (
+                                <div key={project.id}>
+                                    <div className="flex justify-between items-start mb-0.5">
+                                        <h3 className="font-bold text-gray-900 dark:text-white text-sm">
+                                            {project.name}
+                                        </h3>
+                                        <span className="text-xs text-gray-600 dark:text-gray-400">
+                                            {project.startDate} - {project.current ? "Present" : project.endDate}
+                                        </span>
+                                    </div>
+                                    <p className="text-gray-700 dark:text-gray-300 text-xs leading-relaxed mb-1 whitespace-pre-wrap">
+                                        {project.description}
+                                    </p>
+                                    <div className="flex flex-wrap gap-1 mb-1">
+                                        {project.technologies.map((tech) => (
+                                            <span
+                                                key={tech}
+                                                className="px-1.5 py-0.5 bg-gray-100 text-gray-700 rounded text-xs"
+                                            >
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    {(project.url || project.github) && (
+                                        <div className="flex gap-2 text-xs">
+                                            {project.url && (
+                                                <a
+                                                    href={project.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-primary hover:underline"
+                                                >
+                                                    🔗 Demo
+                                                </a>
+                                            )}
+                                            {project.github && (
+                                                <a
+                                                    href={project.github}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-primary hover:underline"
+                                                >
+                                                    💻 Code
+                                                </a>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Certificates */}
+                {certificates.length > 0 && (
+                    <div className="mb-6">
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
+                            Certificates & Licenses
+                        </h2>
+                        <div className="space-y-2">
+                            {certificates.map((cert) => (
+                                <div key={cert.id}>
+                                    <h3 className="font-bold text-gray-900 dark:text-white text-sm">
+                                        {cert.name}
+                                    </h3>
+                                    <p className="text-primary text-xs">{cert.issuer}</p>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                                        Issued: {cert.issueDate}
+                                        {cert.expirationDate && ` • Expires: ${cert.expirationDate}`}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Languages */}
+                {languages.length > 0 && (
+                    <div className="mb-6">
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
+                            Languages
+                        </h2>
+                        <div className="flex flex-wrap gap-2">
+                            {languages.map((lang) => (
+                                <div key={lang.id} className="text-sm">
+                                    <span className="font-medium text-gray-900 dark:text-white">{lang.name}</span>
+                                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                                        {" "}({lang.proficiency === "elementary" ? "Elementary" :
+                                            lang.proficiency === "limited" ? "Limited Working" :
+                                                lang.proficiency === "professional" ? "Professional" : "Native"})
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Social Media */}
+                {socialMedia.length > 0 && (
+                    <div className="mb-6">
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
+                            Social Media
+                        </h2>
+                        <div className="flex flex-wrap gap-2 text-xs">
+                            {socialMedia.map((social) => (
+                                <a
+                                    key={social.id}
+                                    href={social.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-primary hover:underline"
                                 >
-                                    {skill.name}
+                                    {social.platform}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {/* Interests */}
+                {interests.length > 0 && (
+                    <div className="mb-6">
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
+                            Interests
+                        </h2>
+                        <div className="flex flex-wrap gap-1.5">
+                            {interests.map((interest) => (
+                                <span
+                                    key={interest.id}
+                                    className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs"
+                                >
+                                    {interest.name}
                                 </span>
                             ))}
                         </div>

@@ -3,6 +3,13 @@
 import { useCVStore } from "@/stores/cv-store";
 import { PersonalInfoForm } from "./forms/personal-info-form";
 import { ExperienceForm } from "./forms/experience-form";
+import { EducationForm } from "./forms/education-form";
+import { SkillsForm } from "./forms/skills-form";
+import { ProjectsForm } from "./forms/projects-form";
+import { CertificatesForm } from "./forms/certificates-form";
+import { LanguagesForm } from "./forms/languages-form";
+import { SocialMediaForm } from "./forms/social-media-form";
+import { InterestsForm } from "./forms/interests-form";
 import { CVPreview } from "./cv-preview";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +27,11 @@ const sections: Section[] = [
     { id: "experience", label: "Experience" },
     { id: "education", label: "Education" },
     { id: "skills", label: "Skills" },
-    { id: "custom", label: "Custom" },
+    { id: "projects", label: "Projects" },
+    { id: "certificates", label: "Certificates" },
+    { id: "languages", label: "Languages" },
+    { id: "social", label: "Social Media" },
+    { id: "interests", label: "Interests" },
 ];
 
 export function CVBuilder({ locale }: CVBuilderProps) {
@@ -47,11 +58,19 @@ export function CVBuilder({ locale }: CVBuilderProps) {
             case "experience":
                 return <ExperienceForm />;
             case "education":
-                return <div className="text-[#617289] dark:text-gray-400">Education Form (Coming soon)</div>;
+                return <EducationForm />;
             case "skills":
-                return <div className="text-[#617289] dark:text-gray-400">Skills Form (Coming soon)</div>;
-            case "custom":
-                return <div className="text-[#617289] dark:text-gray-400">Custom Sections (Coming soon)</div>;
+                return <SkillsForm />;
+            case "projects":
+                return <ProjectsForm />;
+            case "certificates":
+                return <CertificatesForm />;
+            case "languages":
+                return <LanguagesForm />;
+            case "social":
+                return <SocialMediaForm />;
+            case "interests":
+                return <InterestsForm />;
             default:
                 return <PersonalInfoForm />;
         }
@@ -67,23 +86,29 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                 return "Education";
             case "skills":
                 return "Skills & Expertise";
-            case "custom":
-                return "Custom Sections";
+            case "projects":
+                return "Projects";
+            case "certificates":
+                return "Certificates & Licenses";
+            case "languages":
+                return "Languages";
+            case "social":
+                return "Social Media Links";
+            case "interests":
+                return "Interests & Hobbies";
             default:
                 return "Personal Information";
         }
     };
 
     return (
-        <div className="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark">
-            <div className="flex h-full min-h-screen w-full grow flex-row">
+        <div className="relative flex h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-hidden">
+            <div className="flex h-full w-full flex-row overflow-hidden">
                 {/* Left Sidebar - Column 1 (Narrow) */}
-                <div className="flex h-full min-h-screen w-16 flex-col items-center border-r border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark p-3">
+                <div className="flex h-full w-16 flex-col items-center border-r border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark p-3">
                     <div className="flex flex-col gap-4 items-center">
                         {/* Logo */}
-                        <div className="bg-gradient-to-br from-primary to-pop-secondary bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 flex items-center justify-center text-white font-bold text-xl">
-                            AI
-                        </div>
+
 
                         {/* Navigation Items */}
                         <div className="flex flex-col gap-2 pt-8">
@@ -100,57 +125,55 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                 </div>
 
                 {/* Middle Panel - Form Area - Column 2 (Narrow, Fixed Height, Internal Scroll) */}
-                <div className="flex w-80 h-screen flex-col border-r border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark">
-                    <div className="flex flex-col h-full overflow-hidden">
-                        {/* Tab Navigation */}
-                        <div className="pb-3 px-6 pt-6 flex-shrink-0">
-                            <div className="flex border-b border-[#E9ECEF] dark:border-gray-700 gap-8 overflow-x-auto">
-                                {sections.map((section) => (
-                                    <button
-                                        key={section.id}
-                                        onClick={() => setActiveSection(section.id)}
-                                        className={cn(
-                                            "flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 whitespace-nowrap transition-colors",
-                                            activeSection === section.id
-                                                ? "border-b-primary text-primary"
-                                                : "border-b-transparent text-[#617289] dark:text-gray-400 hover:text-primary"
-                                        )}
-                                    >
-                                        <p className="text-sm font-bold leading-normal tracking-[0.015em]">
-                                            {section.label}
-                                        </p>
-                                    </button>
-                                ))}
-                            </div>
+                <div className="flex w-80 h-full flex-col border-r border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark relative">
+                    {/* Tab Navigation */}
+                    <div className="pb-3 px-6 pt-6 flex-shrink-0">
+                        <div className="flex border-b border-[#E9ECEF] dark:border-gray-700 gap-8 overflow-x-auto">
+                            {sections.map((section) => (
+                                <button
+                                    key={section.id}
+                                    onClick={() => setActiveSection(section.id)}
+                                    className={cn(
+                                        "flex flex-col items-center justify-center border-b-[3px] pb-[13px] pt-4 whitespace-nowrap transition-colors",
+                                        activeSection === section.id
+                                            ? "border-b-primary text-primary"
+                                            : "border-b-transparent text-[#617289] dark:text-gray-400 hover:text-primary"
+                                    )}
+                                >
+                                    <p className="text-sm font-bold leading-normal tracking-[0.015em]">
+                                        {section.label}
+                                    </p>
+                                </button>
+                            ))}
                         </div>
+                    </div>
 
-                        {/* Form Content - Scrollable */}
-                        <div className="flex flex-col gap-4 py-6 px-6 flex-1 overflow-y-auto custom-scrollbar">
-                            {renderForm()}
-                        </div>
+                    {/* Form Content - Scrollable with padding for fixed buttons */}
+                    <div className="flex flex-col gap-4 py-6 px-6 flex-1 overflow-y-auto custom-scrollbar pb-32">
+                        {renderForm()}
+                    </div>
 
-                        {/* Navigation Buttons */}
-                        <div className="flex items-center justify-between pt-6 px-6 pb-6 border-t border-[#E9ECEF] dark:border-gray-700 flex-shrink-0">
-                            <button
-                                onClick={handlePrevious}
-                                disabled={currentIndex === 0}
-                                className="rounded-full px-6 py-3 text-sm font-bold text-[#617289] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                Previous
-                            </button>
-                            <button
-                                onClick={handleNext}
-                                disabled={currentIndex === sections.length - 1}
-                                className="rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                Next Section
-                            </button>
-                        </div>
+                    {/* Navigation Buttons - Fixed at Bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between pt-6 px-6 pb-6 border-t border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark">
+                        <button
+                            onClick={handlePrevious}
+                            disabled={currentIndex === 0}
+                            className="rounded-full px-6 py-3 text-sm font-bold text-[#617289] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Previous
+                        </button>
+                        <button
+                            onClick={handleNext}
+                            disabled={currentIndex === sections.length - 1}
+                            className="rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Next Section
+                        </button>
                     </div>
                 </div>
 
                 {/* Main Preview Area - Column 3 (WIDE - Dominant, Full Height) */}
-                <div className="flex flex-1 flex-col h-screen overflow-hidden">
+                <div className="flex flex-1 flex-col h-full overflow-hidden">
                     {/* Preview Toolbar - Single Slim Row */}
                     <div className="flex items-center justify-between px-8 py-3 border-b border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark flex-shrink-0">
                         <div className="flex items-center gap-2">
@@ -192,7 +215,7 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                 </div>
 
                 {/* Right Sidebar - Actions - Column 4 (Narrow, Fixed Height) */}
-                <div className="flex w-56 h-screen flex-col border-l border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark p-6 overflow-y-auto">
+                <div className="flex w-56 h-full flex-col border-l border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark p-6 overflow-y-auto">
                     <div className="flex flex-col gap-4">
                         {/* Download Button */}
                         <button className="w-full rounded-full bg-primary px-4 py-3 text-base font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90">

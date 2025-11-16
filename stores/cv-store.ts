@@ -28,9 +28,9 @@ export interface Education {
     institution: string;
     degree: string;
     field: string;
-    location: string;
+    location?: string;
     startDate: string;
-    endDate: string;
+    endDate?: string;
     current: boolean;
     gpa?: string;
     description?: string;
@@ -49,7 +49,7 @@ export interface Project {
     description: string;
     technologies: string[];
     startDate: string;
-    endDate: string;
+    endDate?: string;
     current: boolean;
     url?: string;
     github?: string;

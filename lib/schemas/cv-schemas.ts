@@ -32,6 +32,17 @@ export const experienceSchema = z.object({
         message: "End date is required unless currently working",
         path: ["endDate"],
     }
+).refine(
+    (data) => {
+        if (!data.current && data.endDate && data.startDate) {
+            return data.endDate >= data.startDate;
+        }
+        return true;
+    },
+    {
+        message: "End date cannot be before start date",
+        path: ["endDate"],
+    }
 );
 
 // Education Schema
@@ -55,6 +66,17 @@ export const educationSchema = z.object({
     },
     {
         message: "End date is required unless currently studying",
+        path: ["endDate"],
+    }
+).refine(
+    (data) => {
+        if (!data.current && data.endDate && data.startDate) {
+            return data.endDate >= data.startDate;
+        }
+        return true;
+    },
+    {
+        message: "End date cannot be before start date",
         path: ["endDate"],
     }
 );
@@ -92,6 +114,17 @@ export const projectSchema = z.object({
         message: "End date is required unless currently working on this",
         path: ["endDate"],
     }
+).refine(
+    (data) => {
+        if (!data.current && data.endDate && data.startDate) {
+            return data.endDate >= data.startDate;
+        }
+        return true;
+    },
+    {
+        message: "End date cannot be before start date",
+        path: ["endDate"],
+    }
 );
 
 // Certificate Schema
@@ -103,7 +136,18 @@ export const certificateSchema = z.object({
     expirationDate: z.string().optional(),
     credentialId: z.string().max(100).optional(),
     url: z.string().url("Invalid URL").optional().or(z.literal("")),
-});
+}).refine(
+    (data) => {
+        if (data.expirationDate && data.issueDate) {
+            return data.expirationDate >= data.issueDate;
+        }
+        return true;
+    },
+    {
+        message: "Expiration date cannot be before issue date",
+        path: ["expirationDate"],
+    }
+);
 
 // Language Schema
 export const languageSchema = z.object({
