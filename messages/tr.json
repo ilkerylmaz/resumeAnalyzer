@@ -41,12 +41,18 @@
     },
     "dashboard": {
         "welcome": "Tekrar hoş geldin, {name}!",
-        "myCVs": "CV'lerim",
-        "noCVs": "Henüz bir CV oluşturmadınız.",
-        "createFirst": "Başlamak için ilk CV'nizi oluşturun",
-        "createCV": "CV Oluştur",
-        "matchedJobs": "Önerilen İş İlanları",
-        "noJobs": "Henüz eşleşen iş ilanı yok. Öneri almak için bir CV oluşturun."
+        "subtitle": "Profesyonel profilinizin ve fırsatlarınızın özeti burada.",
+        "myResumes": "Özgeçmişlerim",
+        "addNewResume": "Yeni Özgeçmiş Ekle",
+        "createFirstResume": "İlk Özgeçmişinizi Oluşturun",
+        "emptyState": {
+            "noCVs": "Henüz özgeçmiş yok",
+            "description": "İş eşleştirme ve ATS optimizasyonuna başlamak için yapay zeka destekli ilk özgeçmişinizi oluşturun"
+        },
+        "recommendedJobs": "Sizin İçin Önerilen İşler",
+        "jobsSubtitle": "Kişiselleştirilmiş iş eşleşmelerini görmek için bir özgeçmiş oluşturun",
+        "noJobMatches": "Henüz eşleşen iş yok",
+        "uploadResumeFirst": "Önce bir özgeçmiş yükleyin"
     },
     "cvBuilder": {
         "title": "CV Oluşturucu",
@@ -275,75 +281,81 @@
     },
     "landing": {
         "hero": {
-            "title": "Hayalinizdeki İşe Yapay Zeka Destekli CV ile Ulaşın",
-            "subtitle": "Akıllı CV oluşturucumuz ile dakikalar içinde profesyonel, ATS uyumlu özgeçmişler hazırlayın",
-            "cta": "Ücretsiz Başlayın"
+            "title": "Yapay Zeka Destekli CV ile Hayalinizdeki İşe Kavuşun",
+            "titlePart1": "Hayalinizdeki İşe",
+            "titleHighlight": "Yapay Zeka Destekli",
+            "titlePart2": "CV ile Kavuşun",
+            "subtitle": "Tahmin etmeyi bırakın. Etkilemeye başlayın. Yapay zekamız, özgeçmişinizi sektör standartlarına göre analiz eder, ATS sistemlerini geçmenize yardımcı olur ve kariyer hedeflerinize uygun işlerle eşleştirir.",
+            "primaryCTA": "CV'mi Ücretsiz Oluştur",
+            "secondaryCTA": "Nasıl Çalıştığını Gör"
         },
         "features": {
-            "title": "Özellikler",
-            "aiScoring": {
-                "title": "Yapay Zeka Destekli Puanlama",
-                "description": "CV'nizin etkinliği hakkında anında geri bildirim alın"
+            "sectionTitle": "Kariyerinizin Geleceği Burada Başlıyor",
+            "sectionTitlePart1": "Kariyerinizin",
+            "sectionTitleHighlight": "Geleceği",
+            "sectionTitlePart2": "Burada Başlıyor",
+            "sectionSubtitle": "Kazanan bir özgeçmiş oluşturmak ve daha fazla mülakat için ihtiyacınız olan her şey",
+            "aiAnalysis": {
+                "title": "Yapay Zeka CV Analizi",
+                "description": "Özgeçmişinizin ATS uyumluluğu, anahtar kelime optimizasyonu ve genel etkisi hakkında anlık geri bildirim alın. Yapay zekamız CV'nizi puanlar ve uygulanabilir iyileştirme önerileri sunar."
             },
-            "keywords": {
-                "title": "Akıllı Anahtar Kelimeler",
-                "description": "CV'nizi İnsan Kaynakları Sistemleri için optimize edin"
+            "instantCV": {
+                "title": "Anında CV Oluşturma",
+                "description": "Dakikalar içinde profesyonel, ATS dostu bir özgeçmiş oluşturun. Otomatik taramayı geçmek ve işe alım müdürlerini etkilemek için tasarlanmış modern şablonlar arasından seçim yapın."
             },
-            "templates": {
-                "title": "Profesyonel Şablonlar",
-                "description": "Güzel tasarlanmış CV düzenleri arasından seçim yapın"
-            },
-            "matching": {
-                "title": "İş Eşleştirme",
-                "description": "Becerileriniz ve deneyiminize uygun işler bulun"
+            "jobMatching": {
+                "title": "Akıllı İş Eşleştirme",
+                "description": "CV'nizi yükleyin ve becerileriniz, deneyiminiz ve kariyer hedeflerinizle eşleşen iş fırsatlarını keşfedin. Size en uygun pozisyonları buluyoruz."
             }
         },
         "howItWorks": {
-            "title": "Nasıl Çalışır",
+            "sectionTitle": "3 Basit Adımda İşe Alının",
+            "sectionSubtitle": "Kariyer dönüşümünüz şimdi başlıyor",
             "step1": {
-                "title": "CV'nizi Yükleyin",
-                "description": "Mevcut CV'nizle başlayın veya sıfırdan oluşturun"
+                "number": "1",
+                "title": "CV'nizi Yükleyin veya Oluşturun",
+                "description": "Mevcut özgeçmişinizi yükleyerek veya sezgisel oluşturucumuzu kullanarak sıfırdan yeni bir tane oluşturarak başlayın. Tasarım becerisi gerektirmez."
             },
             "step2": {
-                "title": "Yapay Zeka Geri Bildirimi Alın",
-                "description": "Yapay zekamız analiz eder ve iyileştirmeler önerir"
+                "number": "2",
+                "title": "Yapay Zeka ile Geliştirin",
+                "description": "Yapay zekamız CV'nizi analiz eder, iyileştirme alanlarını vurgular ve ATS'ı geçme ve mülakatlara çağrılma şansınızı artırmak için optimizasyonlar önerir."
             },
             "step3": {
+                "number": "3",
                 "title": "Güvenle Başvurun",
-                "description": "Mükemmelleşmiş CV'nizi indirin ve başvurmaya başlayın"
+                "description": "Cilalanmış, ATS optimize edilmiş özgeçmişinizi indirin ve eşleşen iş fırsatlarına başvurun. Başvurularınızı takip edin ve daha hızlı işe alının."
             }
         },
         "testimonials": {
-            "title": "Kullanıcılarımız Ne Diyor",
+            "sectionTitle": "Dünya Çapında Profesyoneller Tarafından Güvenilir",
+            "sectionSubtitle": "Kullanıcılarımızın söylediklerine bakın",
             "user1": {
-                "name": "Ayşe K.",
+                "name": "Sarah L.",
                 "role": "Pazarlama Müdürü",
-                "text": "Bu araç hayalimdekilişi bulmama yardımcı oldu! Yapay zeka önerileri inanılmaz derecede faydalıydı."
+                "text": "Sağlam deneyimime rağmen mülakatlara çağrılmakta zorluk çekiyordum. CareerPop'un yapay zeka analizi, özgeçmişimde tam olarak neyin yanlış olduğunu gösterdi. Optimize edilmiş sürümü kullanmaya başladıktan 2 hafta sonra, 5 mülakat aldım ve hayallerimi işe kavuştum!"
             },
             "user2": {
-                "name": "Mehmet Y.",
+                "name": "Mark C.",
                 "role": "Yazılım Mühendisi",
-                "text": "Kullandığım en iyi CV oluşturucu. İş eşleştirme özelliği oyunun kurallarını değiştiriyor."
+                "text": "ATS optimizasyonu özelliği oyunun kurallarını değiştiriyor. Eski özgeçmişimin başvuru takip sistemleri tarafından filtrelendiğini bilmiyordum. Şimdi özgeçmişim gerçekten gerçek insanlar tarafından görülüyor."
+            },
+            "user3": {
+                "name": "Jessica Y.",
+                "role": "Ürün Tasarımcısı",
+                "text": "CareerPop sadece özgeçmiş oluşturmama yardımcı olmadı—işe alım uzmanlarının ne aradığını anlamama yardımcı oldu. İş eşleştirme özelliği de saatlerce arama yapmamdan tasarruf sağladı. Kesinlikle tavsiye ederim!"
             }
         },
         "finalCTA": {
-            "title": "Kariyerinizi Dönüştürmeye Hazır mısınız?",
-            "subtitle": "AI CV Pro ile hayallerindeki işi bulan binlerce iş arayan kişiye katılın",
-            "button": "Şimdi CV Oluştur"
+            "title": "Kariyerinizi Patlatmaya Hazır mısınız?",
+            "subtitle": "Yapay zeka destekli özgeçmişlerle hayallerindeki işe kavuşan binlerce kişiye katılın",
+            "button": "Ücretsiz Oluşturmaya Başla"
         },
         "footer": {
-            "product": "Ürün",
-            "cvBuilder": "CV Oluşturucu",
-            "jobListings": "İş İlanları",
-            "templates": "Şablonlar",
-            "company": "Şirket",
-            "about": "Hakkımızda",
-            "contact": "İletişim",
-            "blog": "Blog",
-            "legal": "Yasal",
+            "copyright": "© 2024 CareerPop. Tüm hakları saklıdır.",
+            "terms": "Hizmet Şartları",
             "privacy": "Gizlilik Politikası",
-            "terms": "Kullanım Koşulları",
-            "tagline": "Yapay zeka destekli CV optimizasyonu ile kariyerinizi dönüştürün"
+            "contact": "İletişim"
         }
     }
 }

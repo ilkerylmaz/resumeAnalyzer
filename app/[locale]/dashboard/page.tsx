@@ -36,10 +36,10 @@ export default async function DashboardPage({
                         <div className="flex flex-wrap justify-between gap-4 p-4">
                             <div className="flex flex-col gap-1">
                                 <p className="text-slate-900 dark:text-slate-50 text-3xl font-black tracking-tighter">
-                                    Welcome back, {userName}!
+                                    {t("welcome", { name: userName })}
                                 </p>
                                 <p className="text-slate-600 dark:text-slate-400 text-base font-normal">
-                                    Here's a summary of your professional profile and opportunities.
+                                    {t("subtitle")}
                                 </p>
                             </div>
                         </div>
@@ -51,7 +51,7 @@ export default async function DashboardPage({
                                 {/* Section Header and Button */}
                                 <div className="flex justify-between items-center">
                                     <h2 className="text-slate-900 dark:text-slate-50 text-xl font-bold tracking-tight">
-                                        My Resumes
+                                        {t("myResumes")}
                                     </h2>
                                     <Link
                                         href={`/${locale}/cv/create`}
@@ -70,7 +70,7 @@ export default async function DashboardPage({
                                                 d="M12 4v16m8-8H4"
                                             />
                                         </svg>
-                                        <span className="truncate">Add New Resume</span>
+                                        <span className="truncate">{t("addNewResume")}</span>
                                     </Link>
                                 </div>
 
@@ -90,10 +90,10 @@ export default async function DashboardPage({
                                         />
                                     </svg>
                                     <p className="text-slate-900 dark:text-slate-50 text-lg font-semibold mb-1">
-                                        No resumes yet
+                                        {t("emptyState.noCVs")}
                                     </p>
                                     <p className="text-slate-600 dark:text-slate-400 text-sm text-center mb-6 max-w-sm">
-                                        Create your first AI-powered resume to get started with job matching and ATS optimization
+                                        {t("emptyState.description")}
                                     </p>
                                     <Link
                                         href={`/${locale}/cv/create`}
@@ -112,7 +112,7 @@ export default async function DashboardPage({
                                                 d="M12 4v16m8-8H4"
                                             />
                                         </svg>
-                                        Create Your First Resume
+                                        {t("createFirstResume")}
                                     </Link>
                                 </div>
 
@@ -125,10 +125,10 @@ export default async function DashboardPage({
                                 {/* Section Header */}
                                 <div className="flex flex-col">
                                     <h2 className="text-slate-900 dark:text-slate-50 text-xl font-bold tracking-tight">
-                                        Recommended Jobs For You
+                                        {t("recommendedJobs")}
                                     </h2>
                                     <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-                                        Create a resume to see personalized job matches
+                                        {t("jobsSubtitle")}
                                     </p>
                                 </div>
 
@@ -148,10 +148,10 @@ export default async function DashboardPage({
                                         />
                                     </svg>
                                     <p className="text-slate-700 dark:text-slate-300 text-sm font-medium text-center">
-                                        No job matches yet
+                                        {t("noJobMatches")}
                                     </p>
                                     <p className="text-slate-500 dark:text-slate-500 text-xs text-center mt-1">
-                                        Upload a resume first
+                                        {t("uploadResumeFirst")}
                                     </p>
                                 </div>
                             </div>

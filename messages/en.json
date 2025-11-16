@@ -41,12 +41,18 @@
     },
     "dashboard": {
         "welcome": "Welcome back, {name}!",
-        "myCVs": "My CVs",
-        "noCVs": "You haven't created any CVs yet.",
-        "createFirst": "Create your first CV to get started",
-        "createCV": "Create CV",
-        "matchedJobs": "Recommended Jobs",
-        "noJobs": "No job matches yet. Create a CV to see recommendations."
+        "subtitle": "Here's a summary of your professional profile and opportunities.",
+        "myResumes": "My Resumes",
+        "addNewResume": "Add New Resume",
+        "createFirstResume": "Create Your First Resume",
+        "emptyState": {
+            "noCVs": "No resumes yet",
+            "description": "Create your first AI-powered resume to get started with job matching and ATS optimization"
+        },
+        "recommendedJobs": "Recommended Jobs For You",
+        "jobsSubtitle": "Create a resume to see personalized job matches",
+        "noJobMatches": "No job matches yet",
+        "uploadResumeFirst": "Upload a resume first"
     },
     "cvBuilder": {
         "title": "CV Builder",
@@ -275,75 +281,81 @@
     },
     "landing": {
         "hero": {
-            "title": "Land Your Dream Job with an AI-Perfected CV",
-            "subtitle": "Create professional, ATS-optimized resumes in minutes with our intelligent CV builder",
-            "cta": "Get Started for Free"
+            "title": "Land Your Dream Job with an AI-Powered CV",
+            "titlePart1": "Land Your Dream Job with an",
+            "titleHighlight": "AI-Powered",
+            "titlePart2": "CV",
+            "subtitle": "Stop guessing. Start impressing. Our AI analyzes your resume against industry standards, helps you beat ATS systems, and matches you with jobs that fit your career goals.",
+            "primaryCTA": "Build My CV for Free",
+            "secondaryCTA": "See How It Works"
         },
         "features": {
-            "title": "Features",
-            "aiScoring": {
-                "title": "AI-Powered Scoring",
-                "description": "Get instant feedback on your CV's effectiveness"
+            "sectionTitle": "The Future of Your Career Starts Here",
+            "sectionTitlePart1": "The",
+            "sectionTitleHighlight": "Future",
+            "sectionTitlePart2": "of Your Career Starts Here",
+            "sectionSubtitle": "Everything you need to create a winning resume and land more interviews",
+            "aiAnalysis": {
+                "title": "AI CV Analysis",
+                "description": "Get instant feedback on your resume's ATS compatibility, keyword optimization, and overall impact. Our AI scores your CV and provides actionable improvement tips."
             },
-            "keywords": {
-                "title": "Smart Keywords",
-                "description": "Optimize your CV for Applicant Tracking Systems"
+            "instantCV": {
+                "title": "Instant CV Building",
+                "description": "Create a professional, ATS-friendly resume in minutes. Choose from modern templates designed to pass automated screening and impress hiring managers."
             },
-            "templates": {
-                "title": "Professional Templates",
-                "description": "Choose from beautifully designed CV layouts"
-            },
-            "matching": {
-                "title": "Job Matching",
-                "description": "Find jobs that match your skills and experience"
+            "jobMatching": {
+                "title": "Smart Job Matching",
+                "description": "Upload your CV and discover job opportunities that match your skills, experience, and career aspirations. We find the roles you're most likely to land."
             }
         },
         "howItWorks": {
-            "title": "How It Works",
+            "sectionTitle": "Get Hired in 3 Simple Steps",
+            "sectionSubtitle": "Your career transformation starts now",
             "step1": {
-                "title": "Upload Your CV",
-                "description": "Start with your existing CV or create from scratch"
+                "number": "1",
+                "title": "Upload or Build Your CV",
+                "description": "Start by uploading your existing resume or create a new one from scratch using our intuitive builder. No design skills required."
             },
             "step2": {
-                "title": "Get AI Feedback",
-                "description": "Our AI analyzes and suggests improvements"
+                "number": "2",
+                "title": "Enhance with AI",
+                "description": "Our AI analyzes your CV, highlights improvement areas, and suggests optimizations to increase your chances of getting past ATS and landing interviews."
             },
             "step3": {
+                "number": "3",
                 "title": "Apply with Confidence",
-                "description": "Download your perfected CV and start applying"
+                "description": "Download your polished, ATS-optimized resume and apply to matched job opportunities. Track your applications and get hired faster."
             }
         },
         "testimonials": {
-            "title": "What Our Users Say",
+            "sectionTitle": "Trusted by Professionals Worldwide",
+            "sectionSubtitle": "See what our users have to say",
             "user1": {
                 "name": "Sarah L.",
                 "role": "Marketing Manager",
-                "text": "This tool helped me land my dream job! The AI suggestions were incredibly helpful."
+                "text": "I was struggling to get interviews despite having solid experience. CareerPop's AI analysis showed me exactly what was wrong with my resume. Within 2 weeks of using the optimized version, I landed 5 interviews and got my dream job!"
             },
             "user2": {
-                "name": "John D.",
+                "name": "Mark C.",
                 "role": "Software Engineer",
-                "text": "Best CV builder I've used. The job matching feature is a game-changer."
+                "text": "The ATS optimization feature is a game-changer. I had no idea my old resume was being filtered out by applicant tracking systems. Now my resume actually gets seen by real people."
+            },
+            "user3": {
+                "name": "Jessica Y.",
+                "role": "Product Designer",
+                "text": "CareerPop didn't just help me build a resume—it helped me understand what recruiters are looking for. The job matching feature also saved me hours of searching. Highly recommend!"
             }
         },
         "finalCTA": {
-            "title": "Ready to Transform Your Career?",
-            "subtitle": "Join thousands of job seekers who found their dream jobs with AI CV Pro",
-            "button": "Create Your CV Now"
+            "title": "Ready to Pop Your Career?",
+            "subtitle": "Join thousands who've landed their dream jobs with AI-powered resumes",
+            "button": "Start Building for Free"
         },
         "footer": {
-            "product": "Product",
-            "cvBuilder": "CV Builder",
-            "jobListings": "Job Listings",
-            "templates": "Templates",
-            "company": "Company",
-            "about": "About Us",
-            "contact": "Contact",
-            "blog": "Blog",
-            "legal": "Legal",
-            "privacy": "Privacy Policy",
+            "copyright": "© 2024 CareerPop. All rights reserved.",
             "terms": "Terms of Service",
-            "tagline": "Transform your career with AI-powered CV optimization"
+            "privacy": "Privacy Policy",
+            "contact": "Contact"
         }
     }
 }
