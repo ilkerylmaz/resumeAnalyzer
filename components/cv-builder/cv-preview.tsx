@@ -1,9 +1,12 @@
 "use client";
 
 import { useCVStore } from "@/stores/cv-store";
+import { useTranslations } from "next-intl";
 
 export function CVPreview() {
     const { personalInfo, experiences, education, skills, projects, certificates, languages, socialMedia, interests } = useCVStore();
+    const tPreview = useTranslations("cvBuilder.preview");
+    const tLang = useTranslations("cvBuilder.languages");
 
     return (
         <div className="max-w-3xl mx-auto bg-white shadow-2xl overflow-hidden min-h-[1122px]">
@@ -28,7 +31,7 @@ export function CVPreview() {
                 {personalInfo.summary && (
                     <div className="mb-6">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2 border-b-2 border-primary pb-1">
-                            Professional Summary
+                            {tPreview("professionalSummary")}
                         </h2>
                         <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm whitespace-pre-wrap">
                             {personalInfo.summary}
@@ -40,7 +43,7 @@ export function CVPreview() {
                 {experiences.length > 0 && (
                     <div className="mb-6">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            Work Experience
+                            {tPreview("workExperience")}
                         </h2>
                         <div className="space-y-3">
                             {experiences.map((exp) => (
@@ -53,7 +56,7 @@ export function CVPreview() {
                                             <p className="text-primary font-medium text-sm">{exp.company}</p>
                                         </div>
                                         <span className="text-xs text-gray-600 dark:text-gray-400">
-                                            {exp.startDate} - {exp.current ? "Present" : exp.endDate}
+                                            {exp.startDate} - {exp.current ? tPreview("present") : exp.endDate}
                                         </span>
                                     </div>
                                     {exp.location && (
@@ -76,7 +79,7 @@ export function CVPreview() {
                 {education.length > 0 && (
                     <div className="mb-6">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            Education
+                            {tPreview("education")}
                         </h2>
                         <div className="space-y-3">
                             {education.map((edu) => (
@@ -89,12 +92,12 @@ export function CVPreview() {
                                             <p className="text-primary font-medium text-sm">{edu.institution}</p>
                                         </div>
                                         <span className="text-xs text-gray-600 dark:text-gray-400">
-                                            {edu.startDate} - {edu.current ? "Present" : edu.endDate}
+                                            {edu.startDate} - {edu.current ? tPreview("present") : edu.endDate}
                                         </span>
                                     </div>
                                     {edu.gpa && (
                                         <p className="text-xs text-gray-600 dark:text-gray-400">
-                                            GPA: {edu.gpa}
+                                            {tPreview("gpa")}: {edu.gpa}
                                         </p>
                                     )}
                                 </div>
@@ -107,7 +110,7 @@ export function CVPreview() {
                 {skills.length > 0 && (
                     <div className="mb-6">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            Skills
+                            {tPreview("skills")}
                         </h2>
                         {/* Group by category */}
                         {Object.entries(
@@ -142,7 +145,7 @@ export function CVPreview() {
                 {projects.length > 0 && (
                     <div className="mb-6">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            Projects
+                            {tPreview("projects")}
                         </h2>
                         <div className="space-y-3">
                             {projects.map((project) => (
@@ -152,7 +155,7 @@ export function CVPreview() {
                                             {project.name}
                                         </h3>
                                         <span className="text-xs text-gray-600 dark:text-gray-400">
-                                            {project.startDate} - {project.current ? "Present" : project.endDate}
+                                            {project.startDate} - {project.current ? tPreview("present") : project.endDate}
                                         </span>
                                     </div>
                                     <p className="text-gray-700 dark:text-gray-300 text-xs leading-relaxed mb-1 whitespace-pre-wrap">
@@ -202,7 +205,7 @@ export function CVPreview() {
                 {certificates.length > 0 && (
                     <div className="mb-6">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            Certificates & Licenses
+                            {tPreview("certificates")}
                         </h2>
                         <div className="space-y-2">
                             {certificates.map((cert) => (
@@ -212,8 +215,8 @@ export function CVPreview() {
                                     </h3>
                                     <p className="text-primary text-xs">{cert.issuer}</p>
                                     <p className="text-xs text-gray-600 dark:text-gray-400">
-                                        Issued: {cert.issueDate}
-                                        {cert.expirationDate && ` • Expires: ${cert.expirationDate}`}
+                                        {tPreview("issued")}: {cert.issueDate}
+                                        {cert.expirationDate && ` • ${tPreview("expires")}: ${cert.expirationDate}`}
                                     </p>
                                 </div>
                             ))}
@@ -225,16 +228,16 @@ export function CVPreview() {
                 {languages.length > 0 && (
                     <div className="mb-6">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            Languages
+                            {tPreview("languages")}
                         </h2>
                         <div className="flex flex-wrap gap-2">
                             {languages.map((lang) => (
                                 <div key={lang.id} className="text-sm">
                                     <span className="font-medium text-gray-900 dark:text-white">{lang.name}</span>
                                     <span className="text-xs text-gray-600 dark:text-gray-400">
-                                        {" "}({lang.proficiency === "elementary" ? "Elementary" :
-                                            lang.proficiency === "limited" ? "Limited Working" :
-                                                lang.proficiency === "professional" ? "Professional" : "Native"})
+                                        {" "}({lang.proficiency === "elementary" ? tLang("levels.elementary") :
+                                            lang.proficiency === "limited" ? tLang("levels.limited") :
+                                                lang.proficiency === "professional" ? tLang("levels.professional") : tLang("levels.native")})
                                     </span>
                                 </div>
                             ))}
@@ -246,7 +249,7 @@ export function CVPreview() {
                 {socialMedia.length > 0 && (
                     <div className="mb-6">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            Social Media
+                            {tPreview("socialMedia")}
                         </h2>
                         <div className="flex flex-wrap gap-2 text-xs">
                             {socialMedia.map((social) => (
@@ -268,7 +271,7 @@ export function CVPreview() {
                 {interests.length > 0 && (
                     <div className="mb-6">
                         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            Interests
+                            {tPreview("interests")}
                         </h2>
                         <div className="flex flex-wrap gap-1.5">
                             {interests.map((interest) => (
@@ -299,8 +302,8 @@ export function CVPreview() {
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                             />
                         </svg>
-                        <p className="text-lg">Start filling out your resume</p>
-                        <p className="text-sm mt-1">Your changes will appear here in real-time</p>
+                        <p className="text-lg">{tPreview("emptyState.title")}</p>
+                        <p className="text-sm mt-1">{tPreview("emptyState.subtitle")}</p>
                     </div>
                 )}
             </div>

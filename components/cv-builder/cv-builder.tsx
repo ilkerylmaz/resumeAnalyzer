@@ -12,6 +12,7 @@ import { SocialMediaForm } from "./forms/social-media-form";
 import { InterestsForm } from "./forms/interests-form";
 import { CVPreview } from "./cv-preview";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface CVBuilderProps {
     locale: string;
@@ -19,23 +20,27 @@ interface CVBuilderProps {
 
 interface Section {
     id: string;
-    label: string;
+    labelKey: string;
 }
 
 const sections: Section[] = [
-    { id: "personal", label: "Personal Info" },
-    { id: "experience", label: "Experience" },
-    { id: "education", label: "Education" },
-    { id: "skills", label: "Skills" },
-    { id: "projects", label: "Projects" },
-    { id: "certificates", label: "Certificates" },
-    { id: "languages", label: "Languages" },
-    { id: "social", label: "Social Media" },
-    { id: "interests", label: "Interests" },
+    { id: "personal", labelKey: "personalInfo" },
+    { id: "experience", labelKey: "experience" },
+    { id: "education", labelKey: "education" },
+    { id: "skills", labelKey: "skills" },
+    { id: "projects", labelKey: "projects" },
+    { id: "certificates", labelKey: "certificates" },
+    { id: "languages", labelKey: "languages" },
+    { id: "social", labelKey: "socialMedia" },
+    { id: "interests", labelKey: "interests" },
 ];
 
 export function CVBuilder({ locale }: CVBuilderProps) {
     const { activeSection, setActiveSection } = useCVStore();
+    const t = useTranslations("cvBuilder");
+    const tSections = useTranslations("cvBuilder.sections");
+    const tNav = useTranslations("cvBuilder.navigation");
+    const tActions = useTranslations("cvBuilder.actions");
 
     const currentIndex = sections.findIndex((s) => s.id === activeSection);
 
@@ -76,31 +81,6 @@ export function CVBuilder({ locale }: CVBuilderProps) {
         }
     };
 
-    const getSectionTitle = () => {
-        switch (activeSection) {
-            case "personal":
-                return "Personal Information";
-            case "experience":
-                return "Work Experience";
-            case "education":
-                return "Education";
-            case "skills":
-                return "Skills & Expertise";
-            case "projects":
-                return "Projects";
-            case "certificates":
-                return "Certificates & Licenses";
-            case "languages":
-                return "Languages";
-            case "social":
-                return "Social Media Links";
-            case "interests":
-                return "Interests & Hobbies";
-            default:
-                return "Personal Information";
-        }
-    };
-
     return (
         <div className="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark">
             <div className="flex h-full min-h-screen w-full grow flex-row">
@@ -114,11 +94,11 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                         <div className="flex flex-col gap-2 pt-8">
                             <a className="flex flex-col items-center gap-1.5 p-2 rounded text-primary bg-primary/10" href="#">
                                 <span className="material-symbols-outlined">description</span>
-                                <span className="text-[11px] font-medium leading-none">Edit</span>
+                                <span className="text-[11px] font-medium leading-none">{tNav("edit")}</span>
                             </a>
                             <a className="flex flex-col items-center gap-1.5 p-2 rounded text-[#617289] dark:text-gray-400 hover:bg-primary/10 hover:text-primary" href="#">
                                 <span className="material-symbols-outlined">auto_awesome</span>
-                                <span className="text-[11px] font-medium leading-none">ATS</span>
+                                <span className="text-[11px] font-medium leading-none">{tNav("ats")}</span>
                             </a>
                         </div>
                     </div>
@@ -142,7 +122,7 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                                         )}
                                     >
                                         <p className="text-sm font-bold leading-normal tracking-[0.015em]">
-                                            {section.label}
+                                            {tSections(section.labelKey)}
                                         </p>
                                     </button>
                                 ))}
@@ -161,14 +141,14 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                                 disabled={currentIndex === 0}
                                 className="rounded-full px-6 py-3 text-sm font-bold text-[#617289] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Previous
+                                {tNav("previous")}
                             </button>
                             <button
                                 onClick={handleNext}
                                 disabled={currentIndex === sections.length - 1}
                                 className="rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Next Section
+                                {tNav("next")}
                             </button>
                         </div>
                     </div>
@@ -181,11 +161,11 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                         <div className="flex items-center gap-2">
                             <button className="flex items-center gap-2 rounded-full border border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-1.5 text-xs font-medium text-[#111418] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
                                 <span className="material-symbols-outlined text-sm">swap_vert</span>
-                                Reorder
+                                {tActions("reorder")}
                             </button>
                             <button className="flex items-center gap-2 rounded-full border border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-1.5 text-xs font-medium text-[#111418] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700">
                                 <span className="material-symbols-outlined text-sm">style</span>
-                                Style
+                                {tActions("style")}
                             </button>
                         </div>
 
@@ -203,7 +183,7 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                             </svg>
                             <div className="flex flex-col items-center">
                                 <span className="text-sm font-bold text-[#111418] dark:text-white">87</span>
-                                <span className="text-[8px] text-[#617289] dark:text-gray-400">Score</span>
+                                <span className="text-[8px] text-[#617289] dark:text-gray-400">{t("atsScore.label")}</span>
                             </div>
                         </div>
                     </div>
@@ -221,18 +201,18 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                     <div className="flex flex-col gap-4">
                         {/* Download Button */}
                         <button className="w-full rounded-full bg-primary px-4 py-3 text-base font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90">
-                            Download
+                            {tActions("download")}
                         </button>
 
                         {/* Save/Duplicate Actions */}
                         <div className="flex flex-col gap-2 pt-4">
                             <a className="flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
                                 <span className="material-symbols-outlined text-xl text-[#617289] dark:text-gray-400">save</span>
-                                <span className="text-sm font-medium">Save</span>
+                                <span className="text-sm font-medium">{tActions("save")}</span>
                             </a>
                             <a className="flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
                                 <span className="material-symbols-outlined text-xl text-[#617289] dark:text-gray-400">content_copy</span>
-                                <span className="text-sm font-medium">Duplicate</span>
+                                <span className="text-sm font-medium">{tActions("duplicate")}</span>
                             </a>
                         </div>
 
@@ -243,11 +223,11 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                         <div className="flex flex-col gap-2">
                             <a className="flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
                                 <span className="material-symbols-outlined text-xl text-pop-secondary">auto_awesome</span>
-                                <span className="text-sm font-medium">Rewrite with AI</span>
+                                <span className="text-sm font-medium">{tActions("rewriteAI")}</span>
                             </a>
                             <a className="flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
                                 <span className="material-symbols-outlined text-xl text-pop-secondary">mail</span>
-                                <span className="text-sm font-medium">Generate AI Cover Letter</span>
+                                <span className="text-sm font-medium">{tActions("coverLetter")}</span>
                             </a>
                         </div>
                     </div>

@@ -50,20 +50,228 @@
     },
     "cvBuilder": {
         "title": "CV Oluşturucu",
-        "personalInfo": "Kişisel Bilgiler",
-        "experience": "İş Deneyimi",
-        "education": "Eğitim",
-        "skills": "Yetenekler",
-        "projects": "Projeler",
-        "certificates": "Sertifikalar",
-        "languages": "Diller",
-        "socialMedia": "Sosyal Medya",
-        "interests": "İlgi Alanları",
-        "addExperience": "Deneyim Ekle",
-        "addEducation": "Eğitim Ekle",
-        "addSkill": "Yetenek Ekle",
-        "downloadPDF": "PDF İndir",
-        "preview": "Önizleme"
+        "sections": {
+            "personalInfo": "Kişisel Bilgiler",
+            "experience": "İş Deneyimi",
+            "education": "Eğitim",
+            "skills": "Yetenekler",
+            "projects": "Projeler",
+            "certificates": "Sertifikalar",
+            "languages": "Diller",
+            "socialMedia": "Sosyal Medya",
+            "interests": "İlgi Alanları"
+        },
+        "navigation": {
+            "previous": "Önceki",
+            "next": "Sonraki Bölüm",
+            "edit": "Düzenle",
+            "ats": "ATS"
+        },
+        "actions": {
+            "download": "İndir",
+            "save": "Kaydet",
+            "duplicate": "Kopyala",
+            "rewriteAI": "Yapay Zeka ile Yeniden Yaz",
+            "coverLetter": "Yapay Zeka Ön Yazı Oluştur",
+            "addNew": "Yeni ekle",
+            "update": "Güncelle",
+            "cancel": "İptal",
+            "delete": "Sil",
+            "reorder": "Yeniden Sırala",
+            "style": "Stil"
+        },
+        "personalInfo": {
+            "title": "Kişisel Bilgiler",
+            "firstName": "Ad",
+            "lastName": "Soyad",
+            "email": "E-posta",
+            "phone": "Telefon",
+            "location": "Konum",
+            "jobTitle": "Profesyonel Ünvan",
+            "summary": "Profesyonel Özet",
+            "placeholders": {
+                "firstName": "Ahmet",
+                "lastName": "Yılmaz",
+                "email": "ahmet.yilmaz@example.com",
+                "phone": "+90 555 123 4567",
+                "location": "İstanbul, Türkiye",
+                "jobTitle": "Yazılım Geliştirici",
+                "summary": "5+ yıl deneyime sahip yazılım geliştirici..."
+            }
+        },
+        "experience": {
+            "title": "İş Deneyimi",
+            "company": "Şirket",
+            "position": "Pozisyon",
+            "location": "Konum",
+            "startDate": "Başlangıç Tarihi",
+            "endDate": "Bitiş Tarihi",
+            "current": "Halen burada çalışıyorum",
+            "description": "Açıklama",
+            "add": "Deneyim Ekle",
+            "update": "Deneyim Güncelle",
+            "deleteConfirm": "Bu deneyimi silmek istediğinizden emin misiniz?",
+            "placeholders": {
+                "company": "Google",
+                "position": "Kıdemli Yazılım Mühendisi",
+                "location": "San Francisco, CA",
+                "description": "Yeni özelliklerin geliştirilmesine öncülük ettim..."
+            }
+        },
+        "education": {
+            "title": "Eğitim",
+            "institution": "Kurum",
+            "degree": "Derece",
+            "field": "Alan",
+            "location": "Konum",
+            "startDate": "Başlangıç Tarihi",
+            "endDate": "Bitiş Tarihi",
+            "current": "Halen burada okuyorum",
+            "gpa": "Not Ortalaması",
+            "description": "Açıklama",
+            "add": "Eğitim Ekle",
+            "update": "Eğitim Güncelle",
+            "deleteConfirm": "Bu eğitimi silmek istediğinizden emin misiniz?",
+            "placeholders": {
+                "institution": "Boğaziçi Üniversitesi",
+                "degree": "Lisans",
+                "field": "Bilgisayar Mühendisliği",
+                "location": "İstanbul, Türkiye",
+                "gpa": "3.5",
+                "description": "İlgili dersler..."
+            }
+        },
+        "skills": {
+            "title": "Yetenekler ve Uzmanlıklar",
+            "name": "Yetenek Adı",
+            "category": "Kategori",
+            "proficiency": "Yeterlilik Seviyesi",
+            "levels": {
+                "beginner": "Başlangıç",
+                "intermediate": "Orta",
+                "advanced": "İleri",
+                "expert": "Uzman"
+            },
+            "add": "Yetenek Ekle",
+            "update": "Yetenek Güncelle",
+            "deleteConfirm": "Bu yeteneği silmek istediğinizden emin misiniz?",
+            "placeholders": {
+                "name": "React",
+                "category": "Frontend"
+            }
+        },
+        "projects": {
+            "title": "Projeler",
+            "name": "Proje Adı",
+            "description": "Açıklama",
+            "technologies": "Teknolojiler",
+            "techPlaceholder": "React, Node.js, MongoDB...",
+            "techAdd": "Ekle",
+            "startDate": "Başlangıç Tarihi",
+            "endDate": "Bitiş Tarihi",
+            "current": "Halen üzerinde çalışıyorum",
+            "url": "Proje URL'si",
+            "github": "GitHub URL'si",
+            "add": "Proje Ekle",
+            "update": "Proje Güncelle",
+            "deleteConfirm": "Bu projeyi silmek istediğinizden emin misiniz?",
+            "atLeastOneTech": "En az bir teknoloji gereklidir",
+            "placeholders": {
+                "name": "E-Ticaret Platformu",
+                "description": "Tam yığın e-ticaret platformu geliştirdim...",
+                "url": "https://projem.com",
+                "github": "https://github.com/kullaniciadi/repo"
+            }
+        },
+        "certificates": {
+            "title": "Sertifikalar ve Lisanslar",
+            "name": "Sertifika Adı",
+            "issuer": "Veren Kuruluş",
+            "issueDate": "Verilme Tarihi",
+            "expirationDate": "Son Kullanma Tarihi",
+            "credentialId": "Kimlik Numarası",
+            "url": "Kimlik URL'si",
+            "add": "Sertifika Ekle",
+            "update": "Sertifika Güncelle",
+            "deleteConfirm": "Bu sertifikayı silmek istediğinizden emin misiniz?",
+            "placeholders": {
+                "name": "AWS Sertifikalı Çözüm Mimarı",
+                "issuer": "Amazon Web Services",
+                "credentialId": "ABC123XYZ",
+                "url": "https://www.credly.com/badges/..."
+            }
+        },
+        "languages": {
+            "title": "Diller",
+            "name": "Dil",
+            "proficiency": "Yeterlilik",
+            "levels": {
+                "elementary": "Başlangıç",
+                "limited": "Sınırlı Çalışma",
+                "professional": "Profesyonel Çalışma",
+                "native": "Anadil / İki Dilli"
+            },
+            "add": "Dil Ekle",
+            "update": "Dil Güncelle",
+            "deleteConfirm": "Bu dili silmek istediğinizden emin misiniz?",
+            "placeholders": {
+                "name": "İngilizce"
+            }
+        },
+        "socialMedia": {
+            "title": "Sosyal Medya Bağlantıları",
+            "platform": "Platform",
+            "url": "Profil URL'si",
+            "add": "Sosyal Medya Ekle",
+            "update": "Sosyal Medya Güncelle",
+            "deleteConfirm": "Bu sosyal medya bağlantısını silmek istediğinizden emin misiniz?",
+            "placeholders": {
+                "platform": "LinkedIn",
+                "url": "https://linkedin.com/in/adiniz"
+            }
+        },
+        "interests": {
+            "title": "İlgi Alanları ve Hobiler",
+            "name": "İlgi Alanı",
+            "add": "İlgi Alanı Ekle",
+            "update": "İlgi Alanı Güncelle",
+            "deleteConfirm": "Bu ilgi alanını silmek istediğinizden emin misiniz?",
+            "placeholders": {
+                "name": "Fotoğrafçılık, Seyahat, Okuma..."
+            }
+        },
+        "preview": {
+            "professionalSummary": "Profesyonel Özet",
+            "workExperience": "İş Deneyimi",
+            "education": "Eğitim",
+            "skills": "Yetenekler",
+            "projects": "Projeler",
+            "certificates": "Sertifikalar ve Lisanslar",
+            "languages": "Diller",
+            "socialMedia": "Sosyal Medya",
+            "interests": "İlgi Alanları",
+            "present": "Şu an",
+            "gpa": "Not Ortalaması",
+            "issued": "Verildi",
+            "expires": "Son kullanma",
+            "emptyState": {
+                "title": "Özgeçmişinizi doldurmaya başlayın",
+                "subtitle": "Değişiklikleriniz burada gerçek zamanlı olarak görünecek"
+            }
+        },
+        "validation": {
+            "required": "Bu alan zorunludur",
+            "email": "Geçersiz e-posta adresi",
+            "url": "Geçersiz URL",
+            "endDateBeforeStart": "Bitiş tarihi başlangıç tarihinden önce olamaz",
+            "expirationBeforeIssue": "Son kullanma tarihi verilme tarihinden önce olamaz",
+            "endDateRequired": "Halen çalışmıyorsanız/okumuyorsanız bitiş tarihi gereklidir",
+            "atLeastOneTechnology": "En az bir teknoloji ekleyin"
+        },
+        "atsScore": {
+            "score": "Puan",
+            "label": "ATS Puanı"
+        }
     },
     "landing": {
         "hero": {

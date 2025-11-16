@@ -2,6 +2,7 @@
 
 import { useForm, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useCVStore, type SocialMedia } from "@/stores/cv-store";
 import { socialMediaSchema, type SocialMediaInput } from "@/lib/schemas/cv-schemas";
 import { useState } from "react";
@@ -11,6 +12,9 @@ export function SocialMediaForm() {
     const { socialMedia, addSocialMedia, updateSocialMedia, removeSocialMedia } = useCVStore();
     const [editingId, setEditingId] = useState<string | null>(null);
     const [isAdding, setIsAdding] = useState(false);
+    const t = useTranslations("cvBuilder.socialMedia");
+    const tActions = useTranslations("cvBuilder.actions");
+    const tVal = useTranslations("cvBuilder.validation");
 
     const resolver = zodResolver(socialMediaSchema) as Resolver<SocialMediaInput, any>;
 
@@ -57,7 +61,7 @@ export function SocialMediaForm() {
     };
 
     const handleDelete = (id: string) => {
-        if (confirm("Are you sure you want to delete this social media link?")) {
+        if (confirm(t("deleteConfirm"))) {
             removeSocialMedia(id);
         }
     };
@@ -79,13 +83,13 @@ export function SocialMediaForm() {
         <div>
             {/* Header with Add New Button */}
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-[#111418] dark:text-white">Social Media</h2>
+                <h2 className="text-2xl font-bold text-[#111418] dark:text-white">{t("title")}</h2>
                 <button
                     onClick={() => setIsAdding(true)}
                     className="flex items-center gap-2 rounded-full border border-primary text-primary px-4 py-2 text-sm font-medium hover:bg-primary/10"
                 >
                     <span className="material-symbols-outlined text-base">add</span>
-                    Add new
+                    {tActions("addNew")}
                 </button>
             </div>
 
@@ -95,13 +99,13 @@ export function SocialMediaForm() {
                     <div className="flex w-full flex-wrap items-end gap-4">
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Platform *
+                                {t("platform")} *
                             </p>
                             <input
                                 type="text"
                                 {...register("platform")}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="LinkedIn"
+                                placeholder={t("placeholders.platform")}
                             />
                             {errors.platform && (
                                 <p className="mt-1 text-sm text-red-600">{errors.platform.message}</p>
@@ -109,13 +113,13 @@ export function SocialMediaForm() {
                         </label>
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Profile URL *
+                                {t("url")} *
                             </p>
                             <input
                                 type="url"
                                 {...register("url")}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="https://linkedin.com/in/yourname"
+                                placeholder={t("placeholders.url")}
                             />
                             {errors.url && (
                                 <p className="mt-1 text-sm text-red-600">{errors.url.message}</p>
@@ -128,14 +132,14 @@ export function SocialMediaForm() {
                             type="submit"
                             className="rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90"
                         >
-                            {editingId ? "Update" : "Add"} Social Media
+                            {editingId ? tActions("update") : tActions("addNew")} {t("platform")}
                         </button>
                         <button
                             type="button"
                             onClick={handleCancel}
                             className="rounded-full px-6 py-3 text-sm font-bold text-[#617289] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                         >
-                            Cancel
+                            {tActions("cancel")}
                         </button>
                     </div>
                 </form>

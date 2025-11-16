@@ -2,6 +2,7 @@
 
 import { useForm, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useCVStore, type Certificate } from "@/stores/cv-store";
 import { certificateSchema, type CertificateInput } from "@/lib/schemas/cv-schemas";
 import { useState } from "react";
@@ -11,6 +12,9 @@ export function CertificatesForm() {
     const { certificates, addCertificate, updateCertificate, removeCertificate } = useCVStore();
     const [editingId, setEditingId] = useState<string | null>(null);
     const [isAdding, setIsAdding] = useState(false);
+    const t = useTranslations("cvBuilder.certificates");
+    const tActions = useTranslations("cvBuilder.actions");
+    const tVal = useTranslations("cvBuilder.validation");
 
     const resolver = zodResolver(certificateSchema) as Resolver<CertificateInput, any>;
 
@@ -61,7 +65,7 @@ export function CertificatesForm() {
     };
 
     const handleDelete = (id: string) => {
-        if (confirm("Are you sure you want to delete this certificate?")) {
+        if (confirm(t("deleteConfirm"))) {
             removeCertificate(id);
         }
     };
@@ -70,13 +74,13 @@ export function CertificatesForm() {
         <div>
             {/* Header with Add New Button */}
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-[#111418] dark:text-white">Certificates</h2>
+                <h2 className="text-2xl font-bold text-[#111418] dark:text-white">{t("title")}</h2>
                 <button
                     onClick={() => setIsAdding(true)}
                     className="flex items-center gap-2 rounded-full border border-primary text-primary px-4 py-2 text-sm font-medium hover:bg-primary/10"
                 >
                     <span className="material-symbols-outlined text-base">add</span>
-                    Add new
+                    {tActions("addNew")}
                 </button>
             </div>
 
@@ -86,13 +90,13 @@ export function CertificatesForm() {
                     <div className="flex w-full flex-wrap items-end gap-4">
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Certificate Name *
+                                {t("name")} *
                             </p>
                             <input
                                 type="text"
                                 {...register("name")}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="AWS Certified Solutions Architect"
+                                placeholder={t("placeholders.name")}
                             />
                             {errors.name && (
                                 <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
@@ -103,13 +107,13 @@ export function CertificatesForm() {
                     <div className="flex w-full flex-wrap items-end gap-4">
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Issuing Organization *
+                                {t("issuer")} *
                             </p>
                             <input
                                 type="text"
                                 {...register("issuer")}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="Amazon Web Services"
+                                placeholder={t("placeholders.issuer")}
                             />
                             {errors.issuer && (
                                 <p className="mt-1 text-sm text-red-600">{errors.issuer.message}</p>
@@ -120,7 +124,7 @@ export function CertificatesForm() {
                     <div className="flex w-full flex-wrap items-end gap-4">
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Issue Date *
+                                {t("issueDate")} *
                             </p>
                             <input
                                 type="month"
@@ -133,7 +137,7 @@ export function CertificatesForm() {
                         </label>
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Expiration Date (Optional)
+                                {t("expirationDate")} (Optional)
                             </p>
                             <input
                                 type="month"
@@ -149,13 +153,13 @@ export function CertificatesForm() {
                     <div className="flex w-full flex-wrap items-end gap-4">
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Credential ID (Optional)
+                                {t("credentialId")} (Optional)
                             </p>
                             <input
                                 type="text"
                                 {...register("credentialId")}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="ABC123XYZ"
+                                placeholder={t("placeholders.credentialId")}
                             />
                             {errors.credentialId && (
                                 <p className="mt-1 text-sm text-red-600">{errors.credentialId.message}</p>
@@ -163,13 +167,13 @@ export function CertificatesForm() {
                         </label>
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Credential URL (Optional)
+                                {t("url")} (Optional)
                             </p>
                             <input
                                 type="url"
                                 {...register("url")}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="https://www.credly.com/badges/..."
+                                placeholder={t("placeholders.url")}
                             />
                             {errors.url && (
                                 <p className="mt-1 text-sm text-red-600">{errors.url.message}</p>
@@ -182,14 +186,14 @@ export function CertificatesForm() {
                             type="submit"
                             className="rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90"
                         >
-                            {editingId ? "Update" : "Add"} Certificate
+                            {editingId ? tActions("update") : tActions("addNew")} {t("name")}
                         </button>
                         <button
                             type="button"
                             onClick={handleCancel}
                             className="rounded-full px-6 py-3 text-sm font-bold text-[#617289] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                         >
-                            Cancel
+                            {tActions("cancel")}
                         </button>
                     </div>
                 </form>
@@ -210,8 +214,8 @@ export function CertificatesForm() {
                                     </h3>
                                     <p className="text-primary font-medium">{cert.issuer}</p>
                                     <p className="text-sm text-[#617289] dark:text-gray-400 mt-1">
-                                        Issued: {cert.issueDate}
-                                        {cert.expirationDate && ` • Expires: ${cert.expirationDate}`}
+                                        {t("issueDate")}: {cert.issueDate}
+                                        {cert.expirationDate && ` • ${t("expirationDate")}: ${cert.expirationDate}`}
                                     </p>
                                     {cert.credentialId && (
                                         <p className="text-xs text-[#617289] dark:text-gray-400 mt-1">

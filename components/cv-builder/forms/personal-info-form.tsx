@@ -5,10 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCVStore } from "@/stores/cv-store";
 import { personalInfoSchema, type PersonalInfoInput } from "@/lib/schemas/cv-schemas";
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 export function PersonalInfoForm() {
     const { personalInfo, updatePersonalInfo } = useCVStore();
     const isInitialMount = useRef(true);
+    const t = useTranslations("cvBuilder.personalInfo");
+    const tVal = useTranslations("cvBuilder.validation");
 
     const {
         register,
@@ -51,13 +54,13 @@ export function PersonalInfoForm() {
                 <div className="flex w-full flex-wrap items-end gap-4">
                     <label className="flex flex-col min-w-40 flex-1">
                         <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                            First Name *
+                            {t("firstName")} *
                         </p>
                         <input
                             type="text"
                             {...register("firstName")}
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder="John"
+                            placeholder={t("placeholders.firstName")}
                         />
                         {errors.firstName && (
                             <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
@@ -66,13 +69,13 @@ export function PersonalInfoForm() {
 
                     <label className="flex flex-col min-w-40 flex-1">
                         <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                            Last Name *
+                            {t("lastName")} *
                         </p>
                         <input
                             type="text"
                             {...register("lastName")}
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder="Doe"
+                            placeholder={t("placeholders.lastName")}
                         />
                         {errors.lastName && (
                             <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
@@ -84,13 +87,13 @@ export function PersonalInfoForm() {
                 <div className="flex w-full flex-wrap items-end gap-4">
                     <label className="flex flex-col min-w-40 flex-1">
                         <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                            Professional Title *
+                            {t("jobTitle")} *
                         </p>
                         <input
                             type="text"
                             {...register("title")}
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder="Senior Software Engineer"
+                            placeholder={t("placeholders.jobTitle")}
                         />
                         {errors.title && (
                             <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
@@ -102,13 +105,13 @@ export function PersonalInfoForm() {
                 <div className="flex w-full flex-wrap items-end gap-4">
                     <label className="flex flex-col min-w-40 flex-1">
                         <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                            Email *
+                            {t("email")} *
                         </p>
                         <input
                             type="email"
                             {...register("email")}
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder="john.doe@example.com"
+                            placeholder={t("placeholders.email")}
                         />
                         {errors.email && (
                             <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -117,13 +120,13 @@ export function PersonalInfoForm() {
 
                     <label className="flex flex-col min-w-40 flex-1">
                         <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                            Phone *
+                            {t("phone")} *
                         </p>
                         <input
                             type="tel"
                             {...register("phone")}
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder="+1 234 567 8900"
+                            placeholder={t("placeholders.phone")}
                         />
                         {errors.phone && (
                             <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
@@ -135,13 +138,13 @@ export function PersonalInfoForm() {
                 <div className="flex w-full flex-wrap items-end gap-4">
                     <label className="flex flex-col min-w-40 flex-1">
                         <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                            Location *
+                            {t("location")} *
                         </p>
                         <input
                             type="text"
                             {...register("location")}
                             className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder="New York, NY, USA"
+                            placeholder={t("placeholders.location")}
                         />
                         {errors.location && (
                             <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
@@ -152,16 +155,16 @@ export function PersonalInfoForm() {
                 {/* Summary */}
                 <label className="flex flex-col w-full flex-1">
                     <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                        Professional Summary
+                        {t("summary")}
                     </p>
                     <textarea
                         {...register("summary")}
                         rows={5}
                         className="form-textarea w-full resize-none rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                        placeholder="A brief overview of your professional background, skills, and career objectives..."
+                        placeholder={t("placeholders.summary")}
                     />
                     <p className="mt-1 text-sm text-[#617289] dark:text-gray-400">
-                        {formData.summary?.length || 0}/500 characters
+                        {formData.summary?.length || 0}/500
                     </p>
                     {errors.summary && (
                         <p className="mt-1 text-sm text-red-600">{errors.summary.message}</p>

@@ -50,20 +50,228 @@
     },
     "cvBuilder": {
         "title": "CV Builder",
-        "personalInfo": "Personal Information",
-        "experience": "Work Experience",
-        "education": "Education",
-        "skills": "Skills",
-        "projects": "Projects",
-        "certificates": "Certificates",
-        "languages": "Languages",
-        "socialMedia": "Social Media",
-        "interests": "Interests",
-        "addExperience": "Add Experience",
-        "addEducation": "Add Education",
-        "addSkill": "Add Skill",
-        "downloadPDF": "Download PDF",
-        "preview": "Preview"
+        "sections": {
+            "personalInfo": "Personal Info",
+            "experience": "Experience",
+            "education": "Education",
+            "skills": "Skills",
+            "projects": "Projects",
+            "certificates": "Certificates",
+            "languages": "Languages",
+            "socialMedia": "Social Media",
+            "interests": "Interests"
+        },
+        "navigation": {
+            "previous": "Previous",
+            "next": "Next Section",
+            "edit": "Edit",
+            "ats": "ATS"
+        },
+        "actions": {
+            "download": "Download",
+            "save": "Save",
+            "duplicate": "Duplicate",
+            "rewriteAI": "Rewrite with AI",
+            "coverLetter": "Generate AI Cover Letter",
+            "addNew": "Add new",
+            "update": "Update",
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "reorder": "Reorder",
+            "style": "Style"
+        },
+        "personalInfo": {
+            "title": "Personal Information",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "email": "Email",
+            "phone": "Phone",
+            "location": "Location",
+            "jobTitle": "Professional Title",
+            "summary": "Professional Summary",
+            "placeholders": {
+                "firstName": "John",
+                "lastName": "Doe",
+                "email": "john.doe@example.com",
+                "phone": "+1 234 567 8900",
+                "location": "New York, USA",
+                "jobTitle": "Software Engineer",
+                "summary": "Experienced software engineer with 5+ years..."
+            }
+        },
+        "experience": {
+            "title": "Work Experience",
+            "company": "Company",
+            "position": "Position",
+            "location": "Location",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "current": "I currently work here",
+            "description": "Description",
+            "add": "Add Experience",
+            "update": "Update Experience",
+            "deleteConfirm": "Are you sure you want to delete this experience?",
+            "placeholders": {
+                "company": "Google",
+                "position": "Senior Software Engineer",
+                "location": "San Francisco, CA",
+                "description": "Led development of new features..."
+            }
+        },
+        "education": {
+            "title": "Education",
+            "institution": "Institution",
+            "degree": "Degree",
+            "field": "Field of Study",
+            "location": "Location",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "current": "I currently study here",
+            "gpa": "GPA",
+            "description": "Description",
+            "add": "Add Education",
+            "update": "Update Education",
+            "deleteConfirm": "Are you sure you want to delete this education?",
+            "placeholders": {
+                "institution": "Stanford University",
+                "degree": "Bachelor of Science",
+                "field": "Computer Science",
+                "location": "Stanford, CA",
+                "gpa": "3.8",
+                "description": "Relevant coursework..."
+            }
+        },
+        "skills": {
+            "title": "Skills & Expertise",
+            "name": "Skill Name",
+            "category": "Category",
+            "proficiency": "Proficiency Level",
+            "levels": {
+                "beginner": "Beginner",
+                "intermediate": "Intermediate",
+                "advanced": "Advanced",
+                "expert": "Expert"
+            },
+            "add": "Add Skill",
+            "update": "Update Skill",
+            "deleteConfirm": "Are you sure you want to delete this skill?",
+            "placeholders": {
+                "name": "React",
+                "category": "Frontend"
+            }
+        },
+        "projects": {
+            "title": "Projects",
+            "name": "Project Name",
+            "description": "Description",
+            "technologies": "Technologies",
+            "techPlaceholder": "React, Node.js, MongoDB...",
+            "techAdd": "Add",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "current": "Currently working on this",
+            "url": "Project URL",
+            "github": "GitHub URL",
+            "add": "Add Project",
+            "update": "Update Project",
+            "deleteConfirm": "Are you sure you want to delete this project?",
+            "atLeastOneTech": "At least one technology is required",
+            "placeholders": {
+                "name": "E-Commerce Platform",
+                "description": "Built a full-stack e-commerce platform...",
+                "url": "https://myproject.com",
+                "github": "https://github.com/username/repo"
+            }
+        },
+        "certificates": {
+            "title": "Certificates & Licenses",
+            "name": "Certificate Name",
+            "issuer": "Issuing Organization",
+            "issueDate": "Issue Date",
+            "expirationDate": "Expiration Date",
+            "credentialId": "Credential ID",
+            "url": "Credential URL",
+            "add": "Add Certificate",
+            "update": "Update Certificate",
+            "deleteConfirm": "Are you sure you want to delete this certificate?",
+            "placeholders": {
+                "name": "AWS Certified Solutions Architect",
+                "issuer": "Amazon Web Services",
+                "credentialId": "ABC123XYZ",
+                "url": "https://www.credly.com/badges/..."
+            }
+        },
+        "languages": {
+            "title": "Languages",
+            "name": "Language",
+            "proficiency": "Proficiency",
+            "levels": {
+                "elementary": "Elementary",
+                "limited": "Limited Working",
+                "professional": "Professional Working",
+                "native": "Native / Bilingual"
+            },
+            "add": "Add Language",
+            "update": "Update Language",
+            "deleteConfirm": "Are you sure you want to delete this language?",
+            "placeholders": {
+                "name": "English"
+            }
+        },
+        "socialMedia": {
+            "title": "Social Media Links",
+            "platform": "Platform",
+            "url": "Profile URL",
+            "add": "Add Social Media",
+            "update": "Update Social Media",
+            "deleteConfirm": "Are you sure you want to delete this social media link?",
+            "placeholders": {
+                "platform": "LinkedIn",
+                "url": "https://linkedin.com/in/yourname"
+            }
+        },
+        "interests": {
+            "title": "Interests & Hobbies",
+            "name": "Interest",
+            "add": "Add Interest",
+            "update": "Update Interest",
+            "deleteConfirm": "Are you sure you want to delete this interest?",
+            "placeholders": {
+                "name": "Photography, Traveling, Reading..."
+            }
+        },
+        "preview": {
+            "professionalSummary": "Professional Summary",
+            "workExperience": "Work Experience",
+            "education": "Education",
+            "skills": "Skills",
+            "projects": "Projects",
+            "certificates": "Certificates & Licenses",
+            "languages": "Languages",
+            "socialMedia": "Social Media",
+            "interests": "Interests",
+            "present": "Present",
+            "gpa": "GPA",
+            "issued": "Issued",
+            "expires": "Expires",
+            "emptyState": {
+                "title": "Start filling out your resume",
+                "subtitle": "Your changes will appear here in real-time"
+            }
+        },
+        "validation": {
+            "required": "This field is required",
+            "email": "Invalid email address",
+            "url": "Invalid URL",
+            "endDateBeforeStart": "End date cannot be before start date",
+            "expirationBeforeIssue": "Expiration date cannot be before issue date",
+            "endDateRequired": "End date is required unless currently working/studying",
+            "atLeastOneTechnology": "Add at least one technology"
+        },
+        "atsScore": {
+            "score": "Score",
+            "label": "ATS Score"
+        }
     },
     "landing": {
         "hero": {

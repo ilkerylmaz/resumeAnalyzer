@@ -2,6 +2,7 @@
 
 import { useForm, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useCVStore, type Project } from "@/stores/cv-store";
 import { projectSchema, type ProjectInput } from "@/lib/schemas/cv-schemas";
 import { useState } from "react";
@@ -13,6 +14,9 @@ export function ProjectsForm() {
     const [isAdding, setIsAdding] = useState(false);
     const [techInput, setTechInput] = useState("");
     const [technologies, setTechnologies] = useState<string[]>([]);
+    const t = useTranslations("cvBuilder.projects");
+    const tActions = useTranslations("cvBuilder.actions");
+    const tVal = useTranslations("cvBuilder.validation");
 
     const resolver = zodResolver(projectSchema) as Resolver<ProjectInput, any>;
 
@@ -73,7 +77,7 @@ export function ProjectsForm() {
     };
 
     const handleDelete = (id: string) => {
-        if (confirm("Are you sure you want to delete this project?")) {
+        if (confirm(tActions("deleteConfirm"))) {
             removeProject(id);
         }
     };
@@ -93,13 +97,13 @@ export function ProjectsForm() {
         <div>
             {/* Header with Add New Button */}
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-[#111418] dark:text-white">Projects</h2>
+                <h2 className="text-2xl font-bold text-[#111418] dark:text-white">{t("title")}</h2>
                 <button
                     onClick={() => setIsAdding(true)}
                     className="flex items-center gap-2 rounded-full border border-primary text-primary px-4 py-2 text-sm font-medium hover:bg-primary/10"
                 >
                     <span className="material-symbols-outlined text-base">add</span>
-                    Add new
+                    {tActions("addNew")}
                 </button>
             </div>
 
@@ -109,13 +113,13 @@ export function ProjectsForm() {
                     <div className="flex w-full flex-wrap items-end gap-4">
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Project Name *
+                                {t("name")} *
                             </p>
                             <input
                                 type="text"
                                 {...register("name")}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="E-Commerce Platform"
+                                placeholder={t("placeholders.name")}
                             />
                             {errors.name && (
                                 <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
@@ -125,13 +129,13 @@ export function ProjectsForm() {
 
                     <label className="flex flex-col w-full flex-1">
                         <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                            Description *
+                            {t("description")} *
                         </p>
                         <textarea
                             {...register("description")}
                             rows={4}
                             className="form-textarea w-full resize-none rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder="Built a full-stack e-commerce platform with real-time inventory management..."
+                            placeholder={t("placeholders.description")}
                         />
                         {errors.description && (
                             <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
@@ -141,7 +145,7 @@ export function ProjectsForm() {
                     {/* Technologies Tag Input */}
                     <div>
                         <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                            Technologies * (Press Enter or click Add)
+                            {t("technologies")} * (Press Enter or click {t("techAdd")})
                         </p>
                         <div className="flex gap-2 mb-2">
                             <input
@@ -155,14 +159,14 @@ export function ProjectsForm() {
                                     }
                                 }}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="React, Node.js, MongoDB..."
+                                placeholder={t("techPlaceholder")}
                             />
                             <button
                                 type="button"
                                 onClick={addTechnology}
                                 className="rounded-full border border-primary text-primary px-4 py-2 text-sm font-medium hover:bg-primary/10"
                             >
-                                Add
+                                {t("techAdd")}
                             </button>
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -185,14 +189,14 @@ export function ProjectsForm() {
                             ))}
                         </div>
                         {technologies.length === 0 && (
-                            <p className="mt-1 text-sm text-red-600">At least one technology is required</p>
+                            <p className="mt-1 text-sm text-red-600">{t("atLeastOneTech")}</p>
                         )}
                     </div>
 
                     <div className="flex w-full flex-wrap items-end gap-4">
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Start Date *
+                                {t("startDate")} *
                             </p>
                             <input
                                 type="month"
@@ -205,7 +209,7 @@ export function ProjectsForm() {
                         </label>
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                End Date {!isCurrent && "*"}
+                                {t("endDate")} {!isCurrent && "*"}
                             </p>
                             <input
                                 type="month"
@@ -232,20 +236,20 @@ export function ProjectsForm() {
                             className="w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600"
                         />
                         <label className="ml-2 text-sm text-[#111418] dark:text-gray-300">
-                            Currently working on this
+                            {t("current")}
                         </label>
                     </div>
 
                     <div className="flex w-full flex-wrap items-end gap-4">
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                Project URL (Optional)
+                                {t("url")} (Optional)
                             </p>
                             <input
                                 type="url"
                                 {...register("url")}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="https://myproject.com"
+                                placeholder={t("placeholders.url")}
                             />
                             {errors.url && (
                                 <p className="mt-1 text-sm text-red-600">{errors.url.message}</p>
@@ -253,13 +257,13 @@ export function ProjectsForm() {
                         </label>
                         <label className="flex flex-col min-w-40 flex-1">
                             <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
-                                GitHub URL (Optional)
+                                {t("github")} (Optional)
                             </p>
                             <input
                                 type="url"
                                 {...register("github")}
                                 className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder="https://github.com/username/repo"
+                                placeholder={t("placeholders.github")}
                             />
                             {errors.github && (
                                 <p className="mt-1 text-sm text-red-600">{errors.github.message}</p>
@@ -272,14 +276,14 @@ export function ProjectsForm() {
                             type="submit"
                             className="rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90"
                         >
-                            {editingId ? "Update" : "Add"} Project
+                            {editingId ? tActions("update") : tActions("addNew")} {t("title").slice(0, -1)}
                         </button>
                         <button
                             type="button"
                             onClick={handleCancel}
                             className="rounded-full px-6 py-3 text-sm font-bold text-[#617289] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                         >
-                            Cancel
+                            {tActions("cancel")}
                         </button>
                     </div>
                 </form>
@@ -299,7 +303,7 @@ export function ProjectsForm() {
                                         {project.name}
                                     </h3>
                                     <p className="text-sm text-[#617289] dark:text-gray-400 mt-1">
-                                        {project.startDate} - {project.current ? "Present" : project.endDate}
+                                        {project.startDate} - {project.current ? t("current") : project.endDate}
                                     </p>
                                     <p className="text-sm text-[#111418] dark:text-gray-300 mt-2">
                                         {project.description}
