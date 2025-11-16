@@ -248,8 +248,9 @@
   - ✅ Languages schema
   - ✅ Social media schema
   - ✅ Interests schema
-- ✅ Build PersonalInfoForm component (complete with real-time preview + auto-save)
+- ✅ Build PersonalInfoForm component (complete with real-time preview + auto-save, includes summary field)
 - ✅ Build ExperienceForm component (multi-entry with add/edit/delete)
+- ❌ Summary Form (REMOVED - already in Personal Info)
 - ⬜ Build EducationForm component (multi-entry)
 - ⬜ Build SkillsForm component (multi-entry)
 - ⬜ Build ProjectsForm component (multi-entry)

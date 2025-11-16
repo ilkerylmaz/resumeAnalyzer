@@ -17,7 +17,6 @@ interface Section {
 
 const sections: Section[] = [
     { id: "personal", label: "Personal Info" },
-    { id: "summary", label: "Summary" },
     { id: "experience", label: "Experience" },
     { id: "education", label: "Education" },
     { id: "skills", label: "Skills" },
@@ -45,8 +44,6 @@ export function CVBuilder({ locale }: CVBuilderProps) {
         switch (activeSection) {
             case "personal":
                 return <PersonalInfoForm />;
-            case "summary":
-                return <div className="text-[#617289] dark:text-gray-400">Summary Form (Coming soon)</div>;
             case "experience":
                 return <ExperienceForm />;
             case "education":
@@ -64,8 +61,6 @@ export function CVBuilder({ locale }: CVBuilderProps) {
         switch (activeSection) {
             case "personal":
                 return "Personal Information";
-            case "summary":
-                return "Professional Summary";
             case "experience":
                 return "Work Experience";
             case "education":

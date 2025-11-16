@@ -59,14 +59,12 @@
 ### Phase 5: CV Builder Forms (Week 3-4) - Continuing
 **Current Status:** 40% Complete - Personal Info ✅, Experience ✅, Need 7 more forms
 
-**Next Priority Tasks:**
-1. **Build Summary Form**
-   - Simple textarea for professional summary
-   - Character counter (500 max)
-   - Real-time preview update
-   - Pattern: Similar to PersonalInfoForm (single section, no multi-entry)
+**Decision Update (Nov 16, 2025):**
+- ❌ **Summary Form Removed**: Summary already exists in Personal Info form, no need for separate section
+- 📝 **Remaining Work**: 6 forms left (Education, Skills, Projects, Certificates, Languages, Social Media, Interests)
 
-2. **Build Education Form**
+**Next Priority Tasks:**
+1. **Build Education Form**
    - Multi-entry like ExperienceForm
    - Fields: institution, degree, field, dates, current checkbox, GPA
    - Add/edit/delete functionality
