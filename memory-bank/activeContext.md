@@ -6,6 +6,13 @@
 ---
 
 ## Recent Changes
+- ✅ **Internationalization (i18n) COMPLETED** - Full Turkish/English Translation Support (Nov 16, 2025)
+  - Landing page fully translated (hero, features, how-it-works, testimonials, CTA, footer)
+  - Dashboard fully translated (welcome, resumes section, jobs section, empty states)
+  - 60+ translation keys added to messages/en.json and messages/tr.json
+  - All hardcoded English strings replaced with t() calls
+  - Both pages fully functional in EN and TR locales
+  - Committed and pushed to GitHub (2 commits total)
 - ✅ **Phase 5 COMPLETED** - All 9 CV Builder Forms Finished (Nov 16, 2025)
   - All form components created: Personal Info, Experience, Education, Skills, Projects, Certificates, Languages, Social Media, Interests
   - Date validation added: End date cannot be before start date (Experience, Education, Projects, Certificates)

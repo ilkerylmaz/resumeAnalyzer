@@ -167,7 +167,7 @@
 - Integrated auth with i18n middleware
 - Added translation keys for auth pages
 
-### Phase 3: Multi-Language Setup (Week 2) - 🔄 PARTIALLY COMPLETE (85%)
+### Phase 3: Multi-Language Setup (Week 2) - ✅ COMPLETED (100%)
 - ✅ Install and configure next-intl (4.5.3)
 - ✅ Create translation files (`messages/en.json`, `messages/tr.json`)
 - ✅ Setup middleware for locale detection
@@ -177,24 +177,30 @@
 - ✅ Translate auth UI strings (login, signup, verify-email)
 - ✅ Translate dashboard UI strings
 - ✅ Add landing page translation keys to JSON files
-- ⬜ Apply translations to ALL UI components (DEFERRED)
+- ✅ Translate landing page (hero, features, how-it-works, testimonials, CTA, footer)
+- ✅ Translate dashboard (welcome, resumes, jobs, empty states)
+- ✅ Apply translations to all user-facing UI components
 - ✅ Test language switching functionality (EN ↔ TR works)
 
 **Phase 3 Status Notes:**
 - ✅ **Infrastructure Complete:** next-intl fully configured and working
 - ✅ **Language Switcher:** Modern toggle-style switcher (EN | TR) in navbar
-- ✅ **Translation Keys:** All keys prepared in en.json and tr.json
-- ⚠️ **DEFERRED:** Full UI translation coverage postponed until design is finalized
-- 📝 **Rationale:** Applying translations to every component now would require constant updates as design evolves. Will complete full translation pass after Phase 12 (Polish & Design) is done.
-- ✅ **Core Functionality:** Language switching mechanism works perfectly, can be tested on auth pages
+- ✅ **Translation Keys:** All keys prepared and applied
+- ✅ **Full Coverage:** Landing page and Dashboard fully bilingual
+- ✅ **Core Functionality:** Language switching works perfectly across all pages
 
 **Phase 3 Changelog:**
 - Created `components/language-switcher.tsx` with toggle design
 - Added language switcher to navbar (between navigation and auth buttons)
 - Extended en.json with: landing.hero, landing.features, landing.howItWorks, landing.testimonials, landing.footer
 - Extended tr.json with Turkish translations for all landing page sections
-- Updated landing page hero section to use `t("landing.hero.*")`
-- Tested language switching: URL changes correctly (/en ↔ /tr), maintains current page
+- Extended dashboard section in both en.json and tr.json (11 keys total)
+- Updated landing page (app/[locale]/page.tsx) - all hardcoded strings replaced with t() calls
+- Updated dashboard (app/[locale]/dashboard/page.tsx) - all hardcoded strings replaced with t() calls
+- Split hero and features titles into parts for gradient highlighting (titlePart1, titleHighlight, titlePart2)
+- Added 60+ translation keys across landing and dashboard sections
+- Committed and pushed to GitHub (2 commits)
+- Tested language switching: Both pages display correctly in EN and TR
 
 ### Phase 4: Dashboard (Week 2) - ✅ COMPLETED (100%)
 - ✅ Create enhanced dashboard layout (Stitch design integrated)
@@ -713,6 +719,44 @@
 ---
 
 ## 📝 Change Log
+
+### November 16, 2025 - Phase 3 COMPLETED (i18n - Landing & Dashboard)
+- **COMPLETED:** Full internationalization for Landing page and Dashboard
+- **Translation Coverage:**
+  - ✅ Landing Page (app/[locale]/page.tsx):
+    - Hero section: title (split into 3 parts for gradient), subtitle, 2 CTA buttons
+    - Features section: title, subtitle, 3 feature cards (title + description each)
+    - How It Works section: title, subtitle, 3 steps (number, title, description each)
+    - Testimonials section: title, subtitle, 3 user testimonials (name, role, text each)
+    - Final CTA section: title, subtitle, button
+    - Footer: copyright, 3 links (terms, privacy, contact)
+  - ✅ Dashboard (app/[locale]/dashboard/page.tsx):
+    - Welcome message with dynamic {name} parameter
+    - Page subtitle
+    - My Resumes section: header, "Add New Resume" button
+    - Empty state: title, description, "Create Your First Resume" button
+    - Recommended Jobs section: title, subtitle
+    - Jobs empty state: "No job matches yet", "Upload a resume first"
+- **Translation Keys Added:**
+  - messages/en.json: 60+ keys (landing.*, dashboard.*)
+  - messages/tr.json: Complete Turkish translations matching EN structure
+- **Implementation Details:**
+  - All hardcoded English strings replaced with t() calls
+  - Title highlighting preserved using split keys (titlePart1, titleHighlight, titlePart2)
+  - Dynamic content preserved (userName in dashboard welcome)
+  - Zero TypeScript/ESLint errors
+- **Git Commits:**
+  - Commit 1: `feat(i18n): Add Turkish/English translations for landing page and dashboard`
+  - Files changed: 4 (page.tsx, dashboard/page.tsx, en.json, tr.json)
+  - Lines: +178/-154
+  - Pushed to GitHub successfully
+- **Testing:**
+  - ✅ /en/: All content displays in English
+  - ✅ /tr/: All content displays in Turkish
+  - ✅ /en/dashboard: Dashboard in English with dynamic username
+  - ✅ /tr/dashboard: Dashboard in Turkish with dynamic username
+  - ✅ Language switcher works on both pages
+- **User Feedback:** Process completed successfully
 
 ### November 16, 2025 - Phase 5 COMPLETED (CV Builder - All Forms)
 - **COMPLETED:** All 9 CV Builder forms with full validation
