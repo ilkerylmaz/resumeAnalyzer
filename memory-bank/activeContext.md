@@ -94,6 +94,69 @@
 
 ---
 
+### 🔜 TODO: Manual Configuration Tasks (Supabase Dashboard)
+
+**Auth Settings:**
+- [ ] Configure email verification template (Supabase Dashboard → Authentication → Email Templates)
+  - Customize "Confirm signup" template (add branding, TR/EN text)
+  - Customize "Reset password" template
+  - Set email sender name to "CareerPop"
+- [ ] Configure redirect URLs (Supabase Dashboard → Authentication → URL Configuration)
+  - Site URL: `http://localhost:3000` (development)
+  - Add redirect URLs:
+    - `http://localhost:3000/**`
+    - `http://localhost:3000/auth/callback`
+    - `http://localhost:3000/dashboard`
+    - (Add production URLs after Vercel deployment)
+- [ ] Configure password requirements (Supabase Dashboard → Authentication → Policies)
+  - Minimum password length: 8 characters (or 10 for stronger security)
+
+**Storage Bucket:**
+- [x] Create `cv-uploads` bucket (DONE - Created in Supabase Dashboard)
+- [ ] Configure bucket settings:
+  - Max file size: 5MB
+  - Allowed MIME types: `application/pdf`
+  - Public: false (private bucket)
+- [ ] Add RLS policies for bucket (run SQL in Supabase SQL Editor):
+  ```sql
+  -- Users can upload to their own folder
+  CREATE POLICY "Users can upload own CVs"
+    ON storage.objects FOR INSERT
+    WITH CHECK (
+      bucket_id = 'cv-uploads' 
+      AND auth.uid()::text = (storage.foldername(name))[1]
+      AND (storage.metadata(name)->>'mimetype')::text = 'application/pdf'
+    );
+
+  -- Users can view their own uploads
+  CREATE POLICY "Users can view own CV uploads"
+    ON storage.objects FOR SELECT
+    USING (
+      bucket_id = 'cv-uploads'
+      AND auth.uid()::text = (storage.foldername(name))[1]
+    );
+
+  -- Users can delete their own uploads
+  CREATE POLICY "Users can delete own CV uploads"
+    ON storage.objects FOR DELETE
+    USING (
+      bucket_id = 'cv-uploads'
+      AND auth.uid()::text = (storage.foldername(name))[1]
+    );
+  ```
+
+**RLS Testing:**
+- [ ] Create 2 test user accounts (different emails)
+- [ ] User A: Create a CV → verify it saves to database
+- [ ] User B: Try to view User A's CV → should fail (RLS working)
+- [ ] User B: Create own CV → should only see their own data
+- [ ] Anonymous user: View jobs table → should see active jobs only
+- [ ] Run verification queries from `supabase/RLS_VERIFICATION.md`
+
+**Timeline:** Complete before starting Phase 7 (Save & Auto-Save), as these are prerequisites for database integration.
+
+---
+
 ### Phase 6: CV Builder - Preview & Templates (Week 4) - NEXT PRIORITY
 **Goal:** Create multiple CV templates and template switcher
 
