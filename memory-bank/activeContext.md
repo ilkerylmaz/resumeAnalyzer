@@ -71,6 +71,22 @@
 
 ## Next Immediate Steps
 
+### ⚠️ DEFERRED: CV Builder Layout Fix (Navigation Buttons)
+**Issue:** Previous/Next section buttons currently require scrolling the entire page body to access, which causes the fixed Global Navbar to scroll out of view.
+
+**Required Fix:**
+- Make main page container non-scrollable (`h-screen overflow-hidden`)
+- Move Previous/Next buttons to fixed position at bottom of Form panel (Column 2)
+- Use `absolute bottom-0` positioning inside form panel
+- Add `pb-32` padding to form content to prevent overlap
+- Change all columns from `h-screen` to `h-full`
+
+**Reason for Deferral:** Layout change requires careful testing. Will address after current priority tasks.
+
+**Priority:** Medium (UX improvement, not blocking functionality)
+
+---
+
 ### Phase 6: CV Builder - Preview & Templates (Week 4) - NEXT PRIORITY
 **Goal:** Create multiple CV templates and template switcher
 
