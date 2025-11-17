@@ -211,9 +211,11 @@
 - ✅ Build empty state (no CVs yet)
 - ✅ Create CVCard component (for CV list)
 - ✅ Implement "Create CV" button → navigate to /[locale]/cv/create
-- ⬜ Fetch user's CVs from database (blocked: needs DB migration - Phase 5+)
-- ✅ Display CV list with edit/delete actions (prepared in CVCard)
-- ⬜ Implement "Set as Primary" toggle (prepared in CVCard)
+- ✅ Fetch user's CVs from database (fetchUserResumes function)
+- ✅ Display CV list with edit/delete actions (CVCard with real data)
+- ⬜ Implement "Set as Primary" toggle (prepared in CVCard, not yet functional)
+- ⬜ Implement Delete CV action (button ready, handler not implemented)
+- ⬜ Implement Download PDF action (button ready, handler not implemented)
 - ✅ Create JobCard component
 - ✅ Build JobMatchList empty state (placeholder)
 
@@ -443,19 +445,72 @@
 **Timeline:** 1-2 days after Phase 7 completion  
 **Priority:** Post-MVP feature
 
-### Phase 7: CV Builder - Save & Auto-Save (Week 4) - NOT STARTED
-- ⬜ Create database helper functions:
-  - ⬜ `saveResume()`
-  - ⬜ `savePersonalDetails()`
-  - ⬜ `saveExperience()`
-  - ⬜ `saveEducation()`
-  - ⬜ (etc. for all sections)
-- ⬜ Implement useAutoSave hook
-- ⬜ Add debouncing (2 seconds)
-- ⬜ Show save status indicator ("Saving...", "Saved")
-- ⬜ Handle save errors gracefully
-- ⬜ Add manual "Save Now" button (optional)
-- ⬜ Test auto-save during form editing
+### Phase 7: CV Builder - Save Logic & UX (Week 4) - ✅ COMPLETED (100%)
+- ✅ Create database helper functions:
+  - ✅ `saveResume()` - Main function that orchestrates all saves
+  - ✅ `fetchResume()` - Fetches complete CV from database
+  - ✅ `fetchUserResumes()` - Fetches all CVs for dashboard
+  - ✅ `savePersonalDetails()` - Upserts personal info
+  - ✅ `saveExperience()` - Batch delete+insert
+  - ✅ `saveEducation()` - Batch delete+insert
+  - ✅ `saveSkills()` - Batch delete+insert
+  - ✅ `saveProjects()` - Batch delete+insert
+  - ✅ `saveCertificates()` - Batch delete+insert
+  - ✅ `saveLanguages()` - Batch delete+insert
+  - ✅ `saveSocialMedia()` - Batch delete+insert
+  - ✅ `saveInterests()` - Batch delete+insert
+- ❌ Auto-save removed (user requested manual save only)
+- ✅ Manual save implementation
+  - ✅ Save button with 3 states (idle, saving, saved)
+  - ✅ Visual feedback (spinner → checkmark with green background)
+  - ✅ Disabled when no changes or while saving
+  - ✅ Auto-reset after 3 seconds
+- ✅ Save status feedback
+  - ✅ Button shows "Kaydet" → "Kaydediliyor..." → "Kaydedildi!"
+  - ✅ Icon changes: save → spinning → checkmark
+  - ✅ Background color changes to green on success
+  - ✅ Toast notification for create mode
+- ✅ CV Title input
+  - ✅ Top of right sidebar
+  - ✅ Always "Untitled Resume" (English only)
+  - ✅ Normal input style
+  - ✅ Updates Zustand store
+- ✅ Unsaved changes warning
+  - ✅ Browser beforeunload event
+  - ✅ Only triggers when hasUnsavedChanges = true
+- ✅ Create vs Edit flow
+  - ✅ Create: /cv/create route, blank form, INSERT on save
+  - ✅ Edit: /cv/edit/[id] route, fetch from DB, UPDATE on save
+  - ✅ Create mode: clearCV() + redirect to dashboard after save
+  - ✅ Edit mode: stay on page, no redirect
+- ✅ UX Enhancements (Phase 7.5)
+  - ✅ Toast notifications (sonner library)
+  - ✅ UnsavedDraftModal component
+  - ✅ CreateCVButton with localStorage detection
+  - ✅ clearCV() Zustand action
+  - ✅ Always-on persist for crash protection
+  - ✅ Professional workflow (Google Docs style)
+- ✅ Dashboard integration
+  - ✅ fetchUserResumes() displays all saved CVs
+  - ✅ CVCard shows title, date, primary badge
+  - ✅ Empty state when no CVs
+  - ✅ Grid layout (responsive)
+- ✅ Database fixes
+  - ✅ Fixed resume_id column name mismatch
+  - ✅ All CRUD operations working
+- ✅ Translation keys
+  - ✅ Save success toast message (EN/TR)
+  - ✅ Unsaved draft modal (5 keys, EN/TR)
+  - ✅ Save button states (EN/TR)
+- ✅ Error handling
+  - ✅ Section save errors logged separately
+  - ✅ Auth errors handled
+  - ✅ Network errors gracefully handled
+- ✅ Testing
+  - ✅ Zero TypeScript errors
+  - ✅ Create flow tested
+  - ✅ Edit flow tested
+  - ✅ Dashboard display tested
 
 ### Phase 8: PDF Export (Week 4-5) - NOT STARTED
 - ⬜ Install react-to-print
@@ -758,10 +813,10 @@
 
 ## 📊 Progress Statistics
 
-### Overall Completion: ~45%
+### Overall Completion: ~50%
 - ✅ Planning & Documentation: 100%
 - ✅ Development Setup: 100% (Phase 1 complete)
-- 🔄 Core Features: 55% (Auth ✅, Dashboard ✅, CV Builder ✅ 100%)
+- 🔄 Core Features: 65% (Auth ✅, Dashboard ✅, CV Builder ✅, Save Logic ✅, PDF Export ⬜)
 - ⬜ Testing: 0%
 - ⬜ Deployment: 0%
 
@@ -799,15 +854,17 @@
 - [ ] Auth working (login/signup)
 - [x] Can navigate between pages
 
-### Milestone 2: CV Builder Functional ⬜
+### Milestone 2: CV Builder Functional ✅
 **Target:** End of Week 4  
-**Status:** Not Started  
+**Status:** 90% Complete (PDF export pending)  
 **Completion Criteria:**
-- [ ] All form sections complete
-- [ ] Real-time preview working
-- [ ] Auto-save implemented
-- [ ] PDF export working
-- [ ] Can create and save CV
+- [x] All form sections complete
+- [x] Real-time preview working
+- [x] Manual save implemented (no auto-save per user request)
+- [ ] PDF export working (NEXT: Phase 8)
+- [x] Can create and save CV
+- [x] Can edit existing CV
+- [x] CVs display in dashboard
 
 ### Milestone 3: AI Features Working ⬜
 **Target:** End of Week 6  
