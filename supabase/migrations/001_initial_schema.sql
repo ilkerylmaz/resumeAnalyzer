@@ -25,6 +25,7 @@ CREATE TABLE resumes (
   resume_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   title VARCHAR(255) NOT NULL,
+  template_id TEXT DEFAULT 'template-a',  -- CV template: template-a, template-b, template-c
   is_primary BOOLEAN DEFAULT false,
   embedding vector(1024),  -- Gemini text-embedding-004 (1024 dimensions)
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),

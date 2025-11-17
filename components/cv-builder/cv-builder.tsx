@@ -14,9 +14,13 @@ import { CVPreview } from "./cv-preview";
 import { TemplateSelector } from "./template-selector";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { saveResume } from "@/lib/actions/resume-actions";
+import { useState, useEffect } from "react";
 
 interface CVBuilderProps {
     locale: string;
+    resumeId?: string;
+    initialData?: Partial<typeof useCVStore extends (...args: any) => infer R ? R : never>;
 }
 
 interface Section {
@@ -36,14 +40,94 @@ const sections: Section[] = [
     { id: "interests", labelKey: "interests" },
 ];
 
-export function CVBuilder({ locale }: CVBuilderProps) {
-    const { activeSection, setActiveSection } = useCVStore();
+export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
+    const cvStore = useCVStore();
+    const {
+        activeSection,
+        setActiveSection,
+        resumeTitle,
+        setResumeTitle,
+        hasUnsavedChanges,
+        saveStatus,
+        setSaveStatus,
+        setHasUnsavedChanges,
+        setResumeId,
+        loadCV,
+    } = cvStore;
+
     const t = useTranslations("cvBuilder");
     const tSections = useTranslations("cvBuilder.sections");
     const tNav = useTranslations("cvBuilder.navigation");
     const tActions = useTranslations("cvBuilder.actions");
 
     const currentIndex = sections.findIndex((s) => s.id === activeSection);
+
+    // Load initial data if editing existing resume
+    useEffect(() => {
+        if (resumeId && initialData) {
+            loadCV(initialData);
+            setResumeId(resumeId);
+            setHasUnsavedChanges(false);
+        }
+    }, [resumeId, initialData, loadCV, setResumeId, setHasUnsavedChanges]);
+
+    // Save handler
+    const handleSave = async () => {
+        setSaveStatus("saving");
+
+        try {
+            const result = await saveResume({
+                resumeId: cvStore.resumeId,
+                resumeTitle: cvStore.resumeTitle,
+                templateId: cvStore.templateId,
+                isPrimary: cvStore.isPrimary,
+                personalInfo: cvStore.personalInfo,
+                experiences: cvStore.experiences,
+                education: cvStore.education,
+                skills: cvStore.skills,
+                projects: cvStore.projects,
+                certificates: cvStore.certificates,
+                languages: cvStore.languages,
+                socialMedia: cvStore.socialMedia,
+                interests: cvStore.interests,
+            });
+
+            if (result.success && result.resumeId) {
+                setResumeId(result.resumeId);
+                setHasUnsavedChanges(false);
+                setSaveStatus("saved");
+
+                // Reset status after 3 seconds
+                setTimeout(() => {
+                    setSaveStatus("idle");
+                }, 3000);
+            } else {
+                setSaveStatus("error");
+                setTimeout(() => {
+                    setSaveStatus("idle");
+                }, 3000);
+            }
+        } catch (error) {
+            console.error("Save error:", error);
+            setSaveStatus("error");
+            setTimeout(() => {
+                setSaveStatus("idle");
+            }, 3000);
+        }
+    };
+
+    // Unsaved changes warning
+    useEffect(() => {
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            if (hasUnsavedChanges) {
+                e.preventDefault();
+                e.returnValue = "";
+            }
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+        return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    }, [hasUnsavedChanges]);
 
     const handleNext = () => {
         if (currentIndex < sections.length - 1) {
@@ -201,6 +285,45 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                 {/* Right Sidebar - Actions - Column 4 (Narrow, Fixed Height) */}
                 <div className="flex w-56 h-screen flex-col border-l border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark p-6 overflow-y-auto">
                     <div className="flex flex-col gap-4">
+                        {/* CV Title Input */}
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="cv-title" className="text-xs font-medium text-[#617289] dark:text-gray-400">
+                                Resume Title
+                            </label>
+                            <input
+                                id="cv-title"
+                                type="text"
+                                value={resumeTitle}
+                                onChange={(e) => setResumeTitle(e.target.value)}
+                                className="w-full rounded-lg border border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm text-[#111418] dark:text-white placeholder:text-[#617289] dark:placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                                placeholder="Untitled Resume"
+                            />
+                        </div>
+
+                        {/* Save Status Indicator */}
+                        {saveStatus !== "idle" && (
+                            <div className="flex items-center gap-2 text-xs">
+                                {saveStatus === "saving" && (
+                                    <>
+                                        <span className="material-symbols-outlined text-sm text-primary animate-spin">progress_activity</span>
+                                        <span className="text-[#617289] dark:text-gray-400">{tActions("saving")}</span>
+                                    </>
+                                )}
+                                {saveStatus === "saved" && (
+                                    <>
+                                        <span className="material-symbols-outlined text-sm text-green-600">check_circle</span>
+                                        <span className="text-green-600">{tActions("saved")}</span>
+                                    </>
+                                )}
+                                {saveStatus === "error" && (
+                                    <>
+                                        <span className="material-symbols-outlined text-sm text-red-600">error</span>
+                                        <span className="text-red-600">{tActions("saveError")}</span>
+                                    </>
+                                )}
+                            </div>
+                        )}
+
                         {/* Download Button */}
                         <button className="w-full rounded-full bg-primary px-4 py-3 text-base font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90">
                             {tActions("download")}
@@ -208,10 +331,14 @@ export function CVBuilder({ locale }: CVBuilderProps) {
 
                         {/* Save/Duplicate Actions */}
                         <div className="flex flex-col gap-2 pt-4">
-                            <a className="flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+                            <button
+                                onClick={handleSave}
+                                className="flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={!hasUnsavedChanges || saveStatus === "saving"}
+                            >
                                 <span className="material-symbols-outlined text-xl text-[#617289] dark:text-gray-400">save</span>
                                 <span className="text-sm font-medium">{tActions("save")}</span>
-                            </a>
+                            </button>
                             <a className="flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
                                 <span className="material-symbols-outlined text-xl text-[#617289] dark:text-gray-400">content_copy</span>
                                 <span className="text-sm font-medium">{tActions("duplicate")}</span>

@@ -76,6 +76,9 @@
         "actions": {
             "download": "Download",
             "save": "Save",
+            "saving": "Saving...",
+            "saved": "Saved",
+            "saveError": "Save failed",
             "duplicate": "Duplicate",
             "rewriteAI": "Rewrite with AI",
             "coverLetter": "Generate AI Cover Letter",

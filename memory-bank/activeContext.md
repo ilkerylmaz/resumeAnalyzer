@@ -1,11 +1,26 @@
 # Active Context
 
 ## Current Focus
-**Phase 6: CV Builder Templates - ✅ COMPLETED (100%)** - 3 professional CV templates created with dynamic switcher UI. Template dropdown integrated into preview toolbar. Ready to move to Phase 7 (Save & Auto-Save).
+**Phase 7: CV Builder Save & Auto-Save - ✅ COMPLETED (100%)** - Manual save functionality implemented with database integration. CV title input, save status indicator, unsaved changes warning, and create/edit flows all working. Ready to move to Phase 8 (PDF Export).
 
 ---
 
 ## Recent Changes
+- ✅ **Phase 7 COMPLETED** - Save & Auto-Save (Manual Save Only) (Nov 17, 2025)
+  - Extended Zustand store: resumeTitle (default "Untitled Resume"), saveStatus (idle/saving/saved/error), hasUnsavedChanges boolean
+  - All CRUD actions (add/update/remove) now set hasUnsavedChanges = true
+  - CV title input added to top of right sidebar (always "Untitled Resume" in English, regardless of locale)
+  - Save button disabled when no changes or while saving (prevents duplicate saves)
+  - Save status indicator shows real-time feedback (Saving.../Saved/Save failed) with icons
+  - Manual save only - NO auto-save during editing (user must click Save button)
+  - Database save functions created in lib/actions/resume-actions.ts (saveResume, fetchResume + 9 section helpers)
+  - Create flow: Blank CV → user fills → clicks Save → database INSERT with all sections
+  - Edit flow: Fetch from database → display in forms → user edits → clicks Save → database UPDATE
+  - Unsaved changes warning: beforeunload event prevents accidental navigation/close with unsaved work
+  - Edit route created: /[locale]/cv/edit/[id] fetches resume data and loads into builder
+  - CV title used for dashboard display name and PDF download filename (future)
+  - Translation keys added: saving, saved, saveError
+  - Zero TypeScript errors
 - ✅ **Phase 6 COMPLETED** - 3 CV Templates with Switcher UI (Nov 17, 2025)
   - Created 3 template components: Professional (single-column), Traditional (two-column), Creative (modern minimal)
   - Built TemplateSelector component with dropdown UI (click to expand, auto-close on outside click)

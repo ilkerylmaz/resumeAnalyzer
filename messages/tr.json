@@ -76,6 +76,9 @@
         "actions": {
             "download": "İndir",
             "save": "Kaydet",
+            "saving": "Kaydediliyor...",
+            "saved": "Kaydedildi",
+            "saveError": "Kaydetme başarısız",
             "duplicate": "Kopyala",
             "rewriteAI": "Yapay Zeka ile Yeniden Yaz",
             "coverLetter": "Yapay Zeka Ön Yazı Oluştur",

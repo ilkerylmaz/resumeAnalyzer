@@ -1,5 +1,112 @@
 # System Patterns
 
+## ⚠️ CRITICAL DATABASE RULES (MUST FOLLOW)
+
+**Rule 1: NEVER modify database schema without user approval**
+- Database schema is defined in `supabase/migrations/001_initial_schema.sql`
+- This file is the SOURCE OF TRUTH for all table structures
+- If code needs a column that doesn't exist: ASK USER FIRST before adding to migration
+- Example: "We need `template_id` column in `resumes` table. Should I add it?"
+
+**Rule 2: Code must adapt to database, NOT vice versa**
+- Always read migration file FIRST before writing database code
+- Match exact column names from migration (e.g., `fullname` not `first_name`)
+- Match exact data types (e.g., `NUMERIC(3,2)` for GPA, not VARCHAR)
+- If mismatch exists: fix the CODE to match database schema
+
+**Rule 3: Database schema reference table**
+```
+resumes:
+  - resume_id (UUID, PK)
+  - user_id (UUID, FK → auth.users)
+  - title (VARCHAR 255)
+  - template_id (TEXT, DEFAULT 'template-a')  ← ADDED: Nov 17, 2025
+  - is_primary (BOOLEAN)
+  - embedding (vector 1024)
+  - created_at, updated_at (TIMESTAMP)
+
+resume_personal_details:
+  - id (UUID, PK)
+  - resume_id (UUID, FK → resumes)
+  - fullname (VARCHAR 255) ← NOT first_name + last_name
+  - email, phone, age, location, summary
+
+resume_experience:
+  - id, resume_id
+  - title (position name)
+  - company_name (NOT just "company")
+  - start_date, end_date, location
+  - is_current, employment_type
+  - job_description, achievements
+  - display_order
+
+resume_education:
+  - id, resume_id
+  - degree, school_name
+  - start_date, end_date, field_of_study
+  - is_current, location
+  - gpa (NUMERIC 3,2)
+  - honors, display_order
+
+resume_projects:
+  - id, resume_id
+  - project_name (NOT "name")
+  - description, technologies_used (TEXT, comma-separated)
+  - project_link, demo_url
+  - start_date, end_date, is_current
+  - display_order
+
+resume_certificates:
+  - id, resume_id
+  - certificate_name, issuing_organization
+  - issue_date, expiration_date, does_not_expire
+  - credential_id, credential_url
+  - display_order
+
+resume_skills:
+  - id, resume_id
+  - skill_name (NOT "name")
+  - category, proficiency_level
+  - display_order
+
+resume_languages:
+  - id, resume_id
+  - language_name (NOT "language")
+  - proficiency (NOT "proficiency_level")
+  - Values: native, fluent, intermediate, basic (NOT elementary/limited/professional)
+  - display_order
+
+resume_social_media:
+  - id, resume_id
+  - platform_name, url, username
+  - display_order
+
+resume_interests:
+  - id, resume_id
+  - interest_name (NOT "name")
+  - display_order
+```
+
+**Rule 4: When writing server actions (`lib/actions/*`)**
+```typescript
+// ✅ CORRECT: Match database column names exactly
+await supabase.from("resume_skills").insert({
+  resume_id: id,
+  skill_name: skill.name,  // DB column is "skill_name"
+  category: skill.category,
+  proficiency_level: skill.proficiency
+});
+
+// ❌ WRONG: Using code's property names
+await supabase.from("resume_skills").insert({
+  resume_id: id,
+  name: skill.name,  // DB has "skill_name" not "name"
+  category: skill.category
+});
+```
+
+---
+
 ## Architecture Overview
 
 ### High-Level Architecture

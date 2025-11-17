@@ -29,7 +29,7 @@ export const experienceSchema = z.object({
         return true;
     },
     {
-        message: "End date is required unless currently working",
+        message: "Halen çalışmıyorsanız bitiş tarihi gereklidir",
         path: ["endDate"],
     }
 ).refine(
@@ -40,7 +40,7 @@ export const experienceSchema = z.object({
         return true;
     },
     {
-        message: "End date cannot be before start date",
+        message: "Bitiş tarihi başlangıç tarihinden önce olamaz",
         path: ["endDate"],
     }
 );
@@ -65,7 +65,7 @@ export const educationSchema = z.object({
         return true;
     },
     {
-        message: "End date is required unless currently studying",
+        message: "Halen okumuyorsanız bitiş tarihi gereklidir",
         path: ["endDate"],
     }
 ).refine(
@@ -76,7 +76,7 @@ export const educationSchema = z.object({
         return true;
     },
     {
-        message: "End date cannot be before start date",
+        message: "Bitiş tarihi başlangıç tarihinden önce olamaz",
         path: ["endDate"],
     }
 );
@@ -111,7 +111,7 @@ export const projectSchema = z.object({
         return true;
     },
     {
-        message: "End date is required unless currently working on this",
+        message: "Halen üzerinde çalışmıyorsanız bitiş tarihi gereklidir",
         path: ["endDate"],
     }
 ).refine(
@@ -122,7 +122,7 @@ export const projectSchema = z.object({
         return true;
     },
     {
-        message: "End date cannot be before start date",
+        message: "Bitiş tarihi başlangıç tarihinden önce olamaz",
         path: ["endDate"],
     }
 );
@@ -144,7 +144,7 @@ export const certificateSchema = z.object({
         return true;
     },
     {
-        message: "Expiration date cannot be before issue date",
+        message: "Son kullanma tarihi veriliş tarihinden önce olamaz",
         path: ["expirationDate"],
     }
 );
