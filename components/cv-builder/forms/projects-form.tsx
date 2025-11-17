@@ -45,6 +45,13 @@ export function ProjectsForm() {
     const isCurrent = watch("current");
 
     const onSubmit = (data: ProjectInput) => {
+        if (technologies.length === 0) {
+            // Scroll to technologies section
+            const techSection = document.getElementById("tech-input-section");
+            techSection?.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
+
         const projectData = { ...data, technologies };
 
         if (editingId) {
@@ -84,13 +91,17 @@ export function ProjectsForm() {
 
     const addTechnology = () => {
         if (techInput.trim() && !technologies.includes(techInput.trim())) {
-            setTechnologies([...technologies, techInput.trim()]);
+            const newTechs = [...technologies, techInput.trim()];
+            setTechnologies(newTechs);
+            setValue("technologies", newTechs); // ✅ Form'a bildir
             setTechInput("");
         }
     };
 
     const removeTechnology = (tech: string) => {
-        setTechnologies(technologies.filter((t) => t !== tech));
+        const newTechs = technologies.filter((t) => t !== tech);
+        setTechnologies(newTechs);
+        setValue("technologies", newTechs); // ✅ Form'a bildir
     };
 
     return (
@@ -143,7 +154,7 @@ export function ProjectsForm() {
                     </label>
 
                     {/* Technologies Tag Input */}
-                    <div>
+                    <div id="tech-input-section">
                         <p className="text-base font-medium leading-normal pb-2 text-[#111418] dark:text-gray-300">
                             {t("technologies")} * (Press Enter or click {t("techAdd")})
                         </p>
@@ -189,7 +200,9 @@ export function ProjectsForm() {
                             ))}
                         </div>
                         {technologies.length === 0 && (
-                            <p className="mt-1 text-sm text-red-600">{t("atLeastOneTech")}</p>
+                            <p className="mt-2 text-sm text-red-600 font-medium animate-pulse">
+                                ⚠️ {t("atLeastOneTech")}
+                            </p>
                         )}
                     </div>
 
