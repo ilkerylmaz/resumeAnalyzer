@@ -225,7 +225,7 @@ export function EducationForm() {
                             type="submit"
                             className="rounded-full bg-primary px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90"
                         >
-                            {editingId ? tActions("update") : tActions("addNew")} {t("title").slice(0, -1)}
+                            {editingId ? tActions("update") : tActions("addNew")}
                         </button>
                         <button
                             type="button"
