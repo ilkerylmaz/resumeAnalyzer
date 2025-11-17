@@ -287,7 +287,15 @@
         "atsScore": {
             "score": "Puan",
             "label": "ATS Puanı"
-        }
+        },
+        "saveSuccess": "CV kaydedildi! Dashboard'a yönlendiriliyorsunuz..."
+    },
+    "unsavedDraftModal": {
+        "title": "Kaydedilmemiş Taslak Bulundu",
+        "description": "Daha önce başladığınız ancak kaydetmediğiniz bir CV taslağı var. Ne yapmak istersiniz?",
+        "continueDraft": "Taslağa Devam Et",
+        "createNew": "Yeni CV Oluştur (Taslağı Sil)",
+        "cancel": "İptal"
     },
     "landing": {
         "hero": {

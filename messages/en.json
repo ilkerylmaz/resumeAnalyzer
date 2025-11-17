@@ -287,7 +287,15 @@
         "atsScore": {
             "score": "Score",
             "label": "ATS Score"
-        }
+        },
+        "saveSuccess": "CV saved! Redirecting to dashboard..."
+    },
+    "unsavedDraftModal": {
+        "title": "Unsaved Draft Found",
+        "description": "You have an unsaved resume draft. What would you like to do?",
+        "continueDraft": "Continue Draft",
+        "createNew": "Create New (Clear Draft)",
+        "cancel": "Cancel"
     },
     "landing": {
         "hero": {

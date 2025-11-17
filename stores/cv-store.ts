@@ -153,6 +153,7 @@ export interface CVState {
 
     loadCV: (data: Partial<CVState>) => void;
     resetCV: () => void;
+    clearCV: () => void;
 }
 
 const initialPersonalInfo: PersonalInfo = {
@@ -352,6 +353,14 @@ export const useCVStore = create<CVState>()(
 
                 loadCV: (data) => set((state) => ({ ...state, ...data })),
                 resetCV: () => set(initialState),
+                clearCV: () => {
+                    // Clear store and persist
+                    set(initialState);
+                    // Force clear localStorage
+                    if (typeof window !== "undefined") {
+                        localStorage.removeItem("cv-storage");
+                    }
+                },
             }),
             {
                 name: "cv-storage",

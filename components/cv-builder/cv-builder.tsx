@@ -16,6 +16,8 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { saveResume } from "@/lib/actions/resume-actions";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { toast, Toaster } from "sonner";
 
 interface CVBuilderProps {
     locale: string;
@@ -41,6 +43,7 @@ const sections: Section[] = [
 ];
 
 export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
+    const router = useRouter();
     const cvStore = useCVStore();
     const {
         activeSection,
@@ -53,6 +56,7 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
         setHasUnsavedChanges,
         setResumeId,
         loadCV,
+        clearCV,
     } = cvStore;
 
     const t = useTranslations("cvBuilder");
@@ -61,6 +65,7 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
     const tActions = useTranslations("cvBuilder.actions");
 
     const currentIndex = sections.findIndex((s) => s.id === activeSection);
+    const isCreateMode = !resumeId;
 
     // Load initial data if editing existing resume
     useEffect(() => {
@@ -71,7 +76,7 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
         }
     }, [resumeId, initialData, loadCV, setResumeId, setHasUnsavedChanges]);
 
-    // Save handler
+    // Save handler with enhanced UX
     const handleSave = async () => {
         setSaveStatus("saving");
 
@@ -97,10 +102,21 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
                 setHasUnsavedChanges(false);
                 setSaveStatus("saved");
 
-                // Reset status after 3 seconds
-                setTimeout(() => {
-                    setSaveStatus("idle");
-                }, 3000);
+                // Create mode: Clear + Redirect + Toast
+                if (isCreateMode) {
+                    toast.success(t("saveSuccess"));
+
+                    // Wait 1 second to show success state, then redirect
+                    setTimeout(() => {
+                        clearCV(); // Clear localStorage
+                        router.push(`/${locale}/dashboard`);
+                    }, 1000);
+                } else {
+                    // Edit mode: Stay on page
+                    setTimeout(() => {
+                        setSaveStatus("idle");
+                    }, 3000);
+                }
             } else {
                 setSaveStatus("error");
                 setTimeout(() => {
@@ -168,6 +184,9 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
 
     return (
         <div className="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark">
+            {/* Toaster for notifications */}
+            <Toaster position="top-center" richColors />
+
             <div className="flex h-full min-h-screen w-full grow flex-row">
                 {/* Left Sidebar - Column 1 (Narrow) */}
                 <div className="flex h-full min-h-screen w-16 flex-col items-center border-r border-[#E9ECEF] dark:border-gray-700 bg-white dark:bg-background-dark p-3">
@@ -333,11 +352,31 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
                         <div className="flex flex-col gap-2 pt-4">
                             <button
                                 onClick={handleSave}
-                                className="flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className={cn(
+                                    "flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed",
+                                    saveStatus === "saved"
+                                        ? "bg-green-100 dark:bg-green-900/30 hover:bg-green-100 dark:hover:bg-green-900/30"
+                                        : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                                )}
                                 disabled={!hasUnsavedChanges || saveStatus === "saving"}
                             >
-                                <span className="material-symbols-outlined text-xl text-[#617289] dark:text-gray-400">save</span>
-                                <span className="text-sm font-medium">{tActions("save")}</span>
+                                {saveStatus === "saving" && (
+                                    <span className="material-symbols-outlined text-xl text-primary animate-spin">progress_activity</span>
+                                )}
+                                {saveStatus === "saved" && (
+                                    <span className="material-symbols-outlined text-xl text-green-600 dark:text-green-400">check_circle</span>
+                                )}
+                                {(saveStatus === "idle" || saveStatus === "error") && (
+                                    <span className="material-symbols-outlined text-xl text-[#617289] dark:text-gray-400">save</span>
+                                )}
+                                <span className={cn(
+                                    "text-sm font-medium",
+                                    saveStatus === "saved" && "text-green-600 dark:text-green-400"
+                                )}>
+                                    {saveStatus === "saving" && tActions("saving")}
+                                    {saveStatus === "saved" && tActions("saved")}
+                                    {(saveStatus === "idle" || saveStatus === "error") && tActions("save")}
+                                </span>
                             </button>
                             <a className="flex items-center gap-3 rounded p-3 text-[#111418] dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
                                 <span className="material-symbols-outlined text-xl text-[#617289] dark:text-gray-400">content_copy</span>

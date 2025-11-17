@@ -1,8 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
 import { Navbar } from "@/components/navbar";
+import { CreateCVButton } from "@/components/create-cv-button";
 
 export default async function DashboardPage({
     params,
@@ -53,10 +53,7 @@ export default async function DashboardPage({
                                     <h2 className="text-slate-900 dark:text-slate-50 text-xl font-bold tracking-tight">
                                         {t("myResumes")}
                                     </h2>
-                                    <Link
-                                        href={`/${locale}/cv/create`}
-                                        className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-slate-50 gap-2 text-sm font-bold tracking-wide hover:bg-primary/90 transition-colors"
-                                    >
+                                    <CreateCVButton locale={locale} variant="secondary">
                                         <svg
                                             className="w-5 h-5"
                                             fill="none"
@@ -71,7 +68,7 @@ export default async function DashboardPage({
                                             />
                                         </svg>
                                         <span className="truncate">{t("addNewResume")}</span>
-                                    </Link>
+                                    </CreateCVButton>
                                 </div>
 
                                 {/* Empty State - No CVs Yet */}
@@ -95,10 +92,7 @@ export default async function DashboardPage({
                                     <p className="text-slate-600 dark:text-slate-400 text-sm text-center mb-6 max-w-sm">
                                         {t("emptyState.description")}
                                     </p>
-                                    <Link
-                                        href={`/${locale}/cv/create`}
-                                        className="flex items-center justify-center gap-2 rounded-lg h-10 px-6 bg-primary text-slate-50 text-sm font-bold hover:bg-primary/90 transition-colors"
-                                    >
+                                    <CreateCVButton locale={locale} variant="primary">
                                         <svg
                                             className="w-5 h-5"
                                             fill="none"
@@ -113,7 +107,7 @@ export default async function DashboardPage({
                                             />
                                         </svg>
                                         {t("createFirstResume")}
-                                    </Link>
+                                    </CreateCVButton>
                                 </div>
 
                                 {/* Resume Cards Grid - Hidden until we have data */}
