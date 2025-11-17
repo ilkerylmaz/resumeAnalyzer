@@ -1,11 +1,21 @@
 # Active Context
 
 ## Current Focus
-**Phase 5: CV Builder Development - ✅ COMPLETED (100%)** - All 9 forms built with professional 4-column layout, real-time preview, date validation, and whitespace preservation. Ready to move to Phase 6 (Templates) or Phase 7 (Save & Auto-Save).
+**Phase 6: CV Builder Templates - ✅ COMPLETED (100%)** - 3 professional CV templates created with dynamic switcher UI. Template dropdown integrated into preview toolbar. Ready to move to Phase 7 (Save & Auto-Save).
 
 ---
 
 ## Recent Changes
+- ✅ **Phase 6 COMPLETED** - 3 CV Templates with Switcher UI (Nov 17, 2025)
+  - Created 3 template components: Professional (single-column), Traditional (two-column), Creative (modern minimal)
+  - Built TemplateSelector component with dropdown UI (click to expand, auto-close on outside click)
+  - Integrated template switcher next to Style button in preview toolbar
+  - Template selection persists in Zustand store (localStorage)
+  - All templates share same primary color (#2b7cee) and data structure
+  - Traditional template sidebar width optimized (w-56 vs w-64)
+  - Removed standalone toolbar from cv-preview.tsx (switcher moved to main toolbar)
+  - Translation keys added for template names (Professional, Traditional, Creative)
+  - Zero TypeScript/lint errors
 - ✅ **Internationalization (i18n) COMPLETED** - Full Turkish/English Translation Support (Nov 16, 2025)
   - Landing page fully translated (hero, features, how-it-works, testimonials, CTA, footer)
   - Dashboard fully translated (welcome, resumes section, jobs section, empty states)
@@ -157,8 +167,41 @@
 
 ---
 
-### Phase 6: CV Builder - Preview & Templates (Week 4) - NEXT PRIORITY
-**Goal:** Create multiple CV templates and template switcher
+### Phase 6.5: Style Customization Panel (Future Feature) - DEFERRED
+**Goal:** Add visual customization options for CV templates
+
+**Planned Features:**
+1. **Style Button Functionality**
+   - Click "Style" button → opens small panel (similar to template dropdown)
+   - Panel positioned below button (or modal)
+   - Customization options:
+     - **Primary Color Picker:** Change CV accent color (currently #2b7cee)
+     - **Font Family Selector:** Choose from 3-5 professional fonts
+     - **Font Size Controls:** Adjust base text size (10pt, 11pt, 12pt)
+     - **Margin Adjustments:** Top, Right, Bottom, Left margins (in mm or px)
+     - **Spacing Controls:** Line height, section spacing
+   - Preview updates in real-time as user adjusts settings
+   - Settings stored in Zustand + persist to localStorage
+   - "Reset to Default" button to restore original settings
+
+2. **Technical Implementation Plan**
+   - Create `StyleCustomizer` component (similar to TemplateSelector)
+   - Extend Zustand store with `styleSettings` object
+   - Use CSS variables for dynamic theming
+   - Template components read style settings from store
+   - Color picker: Use `react-colorful` or native input[type="color"]
+   - Font preview: Real-time font family switching
+
+**Priority:** Post-Phase 7 (after Save & Auto-Save implemented)
+
+**Timeline:** 1-2 days implementation
+
+**Status:** Design finalized, implementation deferred
+
+---
+
+### Phase 7: CV Builder - Save & Auto-Save (Week 4) - NEXT PRIORITY
+**Goal:** Connect forms to database with auto-save
 
 **Tasks:**
 1. **Create Template System**

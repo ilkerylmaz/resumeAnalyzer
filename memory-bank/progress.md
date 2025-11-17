@@ -325,15 +325,55 @@
 
 **User Feedback:** "tasarim cok guzel oldu" ✨
 
-### Phase 6: CV Builder - Preview & Templates (Week 4) - NOT STARTED
-- ⬜ Create TemplateA component (modern two-column)
-- ⬜ Create TemplateB component (classic single-column)
-- ⬜ Create template registry system
-- ⬜ Build CVPreview wrapper component
-- ⬜ Implement template switcher
-- ⬜ Connect Zustand state to preview (real-time updates)
-- ⬜ Add print-specific CSS classes
-- ⬜ Test preview rendering for both templates
+### Phase 6: CV Builder - Preview & Templates (Week 4) - ✅ COMPLETED (100%)
+- ✅ Create TemplateProfessional component (single-column, current default)
+- ✅ Create TemplateTraditional component (two-column with sidebar)
+- ✅ Create TemplateCreative component (modern minimal design)
+- ✅ Create template registry system (map of ID → component)
+- ✅ Build CVPreview wrapper component (simplified, no standalone toolbar)
+- ✅ Implement TemplateSelector component (dropdown UI next to Style button)
+- ✅ Connect Zustand state to preview (templateId persisted in localStorage)
+- ✅ Add translation keys (Professional, Traditional, Creative in EN/TR)
+- ✅ Optimize Traditional template sidebar width (w-56 instead of w-64)
+- ✅ Test all 3 templates with real CV data
+
+**Phase 6 Completion Summary:**
+- ✅ **3 Templates Created:**
+  - Professional (template-a): Single-column layout, all sections stacked vertically
+  - Traditional (template-b): Two-column layout (w-56 sidebar + main content)
+  - Creative (template-c): Modern minimal with colored header, 1/3 + 2/3 grid
+- ✅ **Template Switcher:**
+  - Dropdown button in preview toolbar (next to Style button)
+  - Click to expand, shows 3 template options
+  - Active template highlighted with primary color
+  - Auto-close on outside click (useRef + useEffect)
+  - Template selection persists across page refreshes (Zustand persist)
+- ✅ **Technical Quality:**
+  - All templates share same data structure and color scheme (#2b7cee)
+  - Component composition: each template reads from Zustand store
+  - Translation support for template names (en.json, tr.json)
+  - Zero TypeScript/lint errors
+  - Material Symbols icons used consistently
+- ✅ **Git Commits:**
+  - Commit 1: `feat: add 3 CV templates with switcher UI`
+  - Files: 6 created (3 templates, 1 selector, 2 translation files updated)
+  - Commit 2: `refactor: move template switcher to main toolbar`
+  - Files: 3 modified (cv-preview.tsx, cv-builder.tsx, template-selector.tsx)
+
+### Phase 6.5: Style Customization Panel (Future Feature) - DEFERRED
+**Planned Features:**
+- Style button opens customization panel
+- Color picker for CV accent color
+- Font family selector (3-5 professional fonts)
+- Font size controls (10pt, 11pt, 12pt)
+- Margin adjustments (top, right, bottom, left)
+- Spacing controls (line height, section spacing)
+- Real-time preview updates
+- Settings persist in Zustand + localStorage
+- Reset to defaults button
+
+**Timeline:** 1-2 days after Phase 7 completion  
+**Priority:** Post-MVP feature
 
 ### Phase 7: CV Builder - Save & Auto-Save (Week 4) - NOT STARTED
 - ⬜ Create database helper functions:
@@ -823,6 +863,53 @@
   - ✅ /tr/dashboard: Dashboard in Turkish with dynamic username
   - ✅ Language switcher works on both pages
 - **User Feedback:** Process completed successfully
+
+### November 17, 2025 - Phase 6 COMPLETED (CV Templates & Switcher)
+- **COMPLETED:** 3 professional CV template components
+- **COMPLETED:** Template Components:
+  - ✅ TemplateProfessional (template-a): Single-column layout
+    - All 9 sections stacked vertically
+    - Primary color borders (#2b7cee)
+    - Professional typography with Space Grotesk
+    - A4 size (min-h-[1122px])
+  - ✅ TemplateTraditional (template-b): Two-column layout
+    - Left sidebar (w-56): Contact, Skills, Languages, Social Media, Interests
+    - Right main content: Header, Summary, Experience, Education, Projects, Certificates
+    - Gray sidebar background (bg-gray-50)
+    - Border between columns
+  - ✅ TemplateCreative (template-c): Modern minimal design
+    - Colored header section (bg-primary, white text)
+    - Grid layout (1/3 sidebar + 2/3 main content)
+    - Left border accents (border-l-2 border-primary/20)
+    - Uppercase section headings with letter-spacing
+    - Professional/creative hybrid style
+- **COMPLETED:** Template Switcher UI:
+  - ✅ TemplateSelector component created
+  - ✅ Dropdown button (Material icon: description + expand_more/expand_less)
+  - ✅ Positioned next to Style button in preview toolbar
+  - ✅ Compact dropdown (w-40) with 3 options
+  - ✅ Active template highlighted (bg-primary/10, text-primary)
+  - ✅ Click outside to close (useRef + useEffect)
+  - ✅ Smooth transitions (hover states)
+- **COMPLETED:** Integration:
+  - ✅ CVPreview simplified (removed standalone toolbar)
+  - ✅ Template registry pattern (map of ID → component)
+  - ✅ Dynamic component rendering based on templateId
+  - ✅ Zustand store integration (templateId state + setTemplateId action)
+  - ✅ localStorage persistence (template selection survives refresh)
+- **COMPLETED:** Translation Support:
+  - ✅ messages/en.json: templates.label, templates.professional, templates.traditional, templates.creative
+  - ✅ messages/tr.json: Şablon, Profesyonel, Geleneksel, Yaratıcı
+  - ✅ Added preview.contact key for Traditional template
+- **OPTIMIZED:** Traditional template sidebar width reduced (w-64 → w-56)
+- **GIT COMMITS:**
+  - Commit 1: `feat: add 3 CV templates with switcher UI`
+  - Commit 2: `refactor: move template switcher to main toolbar`
+  - Files: 6 created, 3 modified
+  - Lines: +800/-50
+- **TESTED:** All 3 templates render correctly with real CV data
+- **STATUS:** Phase 6 100% complete! Ready for Phase 7 (Save & Auto-Save)
+- **FUTURE FEATURE DOCUMENTED:** Style customization panel planned (color picker, fonts, margins, spacing)
 
 ### November 16, 2025 - Phase 5 COMPLETED (CV Builder - All Forms)
 - **COMPLETED:** All 9 CV Builder forms with full validation
