@@ -14,7 +14,7 @@ export function TemplateTraditional() {
             {/* A4 Size Preview - Two Column Layout */}
             <div className="flex min-h-[1122px]">
                 {/* LEFT SIDEBAR */}
-                <div className="w-64 bg-gray-50 p-6 border-r border-gray-200">
+                <div className="w-56 bg-gray-50 p-6 border-r border-gray-200">
                     {/* Contact Info */}
                     <div className="mb-6">
                         <h2 className="text-sm font-bold text-gray-900 mb-3 border-b border-primary pb-1">

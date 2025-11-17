@@ -11,6 +11,7 @@ import { LanguagesForm } from "./forms/languages-form";
 import { SocialMediaForm } from "./forms/social-media-form";
 import { InterestsForm } from "./forms/interests-form";
 import { CVPreview } from "./cv-preview";
+import { TemplateSelector } from "./template-selector";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -167,6 +168,7 @@ export function CVBuilder({ locale }: CVBuilderProps) {
                                 <span className="material-symbols-outlined text-sm">style</span>
                                 {tActions("style")}
                             </button>
+                            <TemplateSelector />
                         </div>
 
                         {/* ATS Score Indicator - Compact */}
