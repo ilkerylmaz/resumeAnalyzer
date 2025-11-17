@@ -2,311 +2,50 @@
 
 import { useCVStore } from "@/stores/cv-store";
 import { useTranslations } from "next-intl";
+import { TemplateProfessional } from "./templates/template-professional";
+import { TemplateTraditional } from "./templates/template-traditional";
+import { TemplateCreative } from "./templates/template-creative";
 
 export function CVPreview() {
-    const { personalInfo, experiences, education, skills, projects, certificates, languages, socialMedia, interests } = useCVStore();
-    const tPreview = useTranslations("cvBuilder.preview");
-    const tLang = useTranslations("cvBuilder.languages");
+    const { templateId, setTemplateId } = useCVStore();
+    const tTemplates = useTranslations("cvBuilder.templates");
+
+    const templates = [
+        { id: "template-a", name: tTemplates("professional"), component: TemplateProfessional },
+        { id: "template-b", name: tTemplates("traditional"), component: TemplateTraditional },
+        { id: "template-c", name: tTemplates("creative"), component: TemplateCreative },
+    ];
+
+    const CurrentTemplate = templates.find((t) => t.id === templateId)?.component || TemplateProfessional;
 
     return (
-        <div className="max-w-3xl mx-auto bg-white shadow-2xl overflow-hidden min-h-[1122px]">
-            {/* A4 Size Preview - Scaled down content */}
-            <div className="p-8">
-                {/* Header */}
-                <div className="mb-6">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-1">
-                        {personalInfo.firstName || "First Name"} {personalInfo.lastName || "Last Name"}
-                    </h1>
-                    <p className="text-lg text-primary font-medium mb-3">
-                        {personalInfo.title || "Professional Title"}
-                    </p>
-                    <div className="flex flex-wrap gap-3 text-xs text-gray-600">
-                        <span>📧 {personalInfo.email || "email@example.com"}</span>
-                        <span>📱 {personalInfo.phone || "+1 234 567 8900"}</span>
-                        <span>📍 {personalInfo.location || "City, Country"}</span>
-                    </div>
-                </div>
-
-                {/* Summary */}
-                {personalInfo.summary && (
-                    <div className="mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2 border-b-2 border-primary pb-1">
-                            {tPreview("professionalSummary")}
-                        </h2>
-                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm whitespace-pre-wrap">
-                            {personalInfo.summary}
-                        </p>
-                    </div>
-                )}
-
-                {/* Experience */}
-                {experiences.length > 0 && (
-                    <div className="mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            {tPreview("workExperience")}
-                        </h2>
-                        <div className="space-y-3">
-                            {experiences.map((exp) => (
-                                <div key={exp.id}>
-                                    <div className="flex justify-between items-start mb-0.5">
-                                        <div>
-                                            <h3 className="font-bold text-gray-900 dark:text-white text-sm">
-                                                {exp.position}
-                                            </h3>
-                                            <p className="text-primary font-medium text-sm">{exp.company}</p>
-                                        </div>
-                                        <span className="text-xs text-gray-600 dark:text-gray-400">
-                                            {exp.startDate} - {exp.current ? tPreview("present") : exp.endDate}
-                                        </span>
-                                    </div>
-                                    {exp.location && (
-                                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-                                            📍 {exp.location}
-                                        </p>
-                                    )}
-                                    {exp.description && (
-                                        <p className="text-gray-700 dark:text-gray-300 text-xs leading-relaxed whitespace-pre-wrap">
-                                            {exp.description}
-                                        </p>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Education */}
-                {education.length > 0 && (
-                    <div className="mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            {tPreview("education")}
-                        </h2>
-                        <div className="space-y-3">
-                            {education.map((edu) => (
-                                <div key={edu.id}>
-                                    <div className="flex justify-between items-start mb-0.5">
-                                        <div>
-                                            <h3 className="font-bold text-gray-900 dark:text-white text-sm">
-                                                {edu.degree} in {edu.field}
-                                            </h3>
-                                            <p className="text-primary font-medium text-sm">{edu.institution}</p>
-                                        </div>
-                                        <span className="text-xs text-gray-600 dark:text-gray-400">
-                                            {edu.startDate} - {edu.current ? tPreview("present") : edu.endDate}
-                                        </span>
-                                    </div>
-                                    {edu.gpa && (
-                                        <p className="text-xs text-gray-600 dark:text-gray-400">
-                                            {tPreview("gpa")}: {edu.gpa}
-                                        </p>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Skills */}
-                {skills.length > 0 && (
-                    <div className="mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            {tPreview("skills")}
-                        </h2>
-                        {/* Group by category */}
-                        {Object.entries(
-                            skills.reduce((acc, skill) => {
-                                if (!acc[skill.category]) {
-                                    acc[skill.category] = [];
-                                }
-                                acc[skill.category].push(skill);
-                                return acc;
-                            }, {} as Record<string, typeof skills>)
-                        ).map(([category, categorySkills]) => (
-                            <div key={category} className="mb-3">
-                                <h3 className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
-                                    {category}
-                                </h3>
-                                <div className="flex flex-wrap gap-1.5">
-                                    {categorySkills.map((skill) => (
-                                        <span
-                                            key={skill.id}
-                                            className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium"
-                                        >
-                                            {skill.name}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
+        <div className="h-full flex flex-col">
+            {/* Template Switcher Toolbar */}
+            <div className="bg-white border-b px-4 py-3 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium text-gray-600">{tTemplates("label")}:</span>
+                    <div className="flex gap-1">
+                        {templates.map((template) => (
+                            <button
+                                key={template.id}
+                                onClick={() => setTemplateId(template.id)}
+                                className={`px-3 py-1.5 text-xs font-medium rounded transition-colors ${templateId === template.id
+                                    ? "bg-primary text-white"
+                                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                    }`}
+                            >
+                                {template.name}
+                            </button>
                         ))}
                     </div>
-                )}
+                </div>
+            </div>
 
-                {/* Projects */}
-                {projects.length > 0 && (
-                    <div className="mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            {tPreview("projects")}
-                        </h2>
-                        <div className="space-y-3">
-                            {projects.map((project) => (
-                                <div key={project.id}>
-                                    <div className="flex justify-between items-start mb-0.5">
-                                        <h3 className="font-bold text-gray-900 dark:text-white text-sm">
-                                            {project.name}
-                                        </h3>
-                                        <span className="text-xs text-gray-600 dark:text-gray-400">
-                                            {project.startDate} - {project.current ? tPreview("present") : project.endDate}
-                                        </span>
-                                    </div>
-                                    <p className="text-gray-700 dark:text-gray-300 text-xs leading-relaxed mb-1 whitespace-pre-wrap">
-                                        {project.description}
-                                    </p>
-                                    <div className="flex flex-wrap gap-1 mb-1">
-                                        {project.technologies.map((tech) => (
-                                            <span
-                                                key={tech}
-                                                className="px-1.5 py-0.5 bg-gray-100 text-gray-700 rounded text-xs"
-                                            >
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
-                                    {(project.url || project.github) && (
-                                        <div className="flex gap-2 text-xs">
-                                            {project.url && (
-                                                <a
-                                                    href={project.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-primary hover:underline"
-                                                >
-                                                    🔗 Demo
-                                                </a>
-                                            )}
-                                            {project.github && (
-                                                <a
-                                                    href={project.github}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-primary hover:underline"
-                                                >
-                                                    💻 Code
-                                                </a>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Certificates */}
-                {certificates.length > 0 && (
-                    <div className="mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            {tPreview("certificates")}
-                        </h2>
-                        <div className="space-y-2">
-                            {certificates.map((cert) => (
-                                <div key={cert.id}>
-                                    <h3 className="font-bold text-gray-900 dark:text-white text-sm">
-                                        {cert.name}
-                                    </h3>
-                                    <p className="text-primary text-xs">{cert.issuer}</p>
-                                    <p className="text-xs text-gray-600 dark:text-gray-400">
-                                        {tPreview("issued")}: {cert.issueDate}
-                                        {cert.expirationDate && ` • ${tPreview("expires")}: ${cert.expirationDate}`}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Languages */}
-                {languages.length > 0 && (
-                    <div className="mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            {tPreview("languages")}
-                        </h2>
-                        <div className="flex flex-wrap gap-2">
-                            {languages.map((lang) => (
-                                <div key={lang.id} className="text-sm">
-                                    <span className="font-medium text-gray-900 dark:text-white">{lang.name}</span>
-                                    <span className="text-xs text-gray-600 dark:text-gray-400">
-                                        {" "}({lang.proficiency === "elementary" ? tLang("levels.elementary") :
-                                            lang.proficiency === "limited" ? tLang("levels.limited") :
-                                                lang.proficiency === "professional" ? tLang("levels.professional") : tLang("levels.native")})
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Social Media */}
-                {socialMedia.length > 0 && (
-                    <div className="mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            {tPreview("socialMedia")}
-                        </h2>
-                        <div className="flex flex-wrap gap-2 text-xs">
-                            {socialMedia.map((social) => (
-                                <a
-                                    key={social.id}
-                                    href={social.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-primary hover:underline"
-                                >
-                                    {social.platform}
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Interests */}
-                {interests.length > 0 && (
-                    <div className="mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3 border-b-2 border-primary pb-1">
-                            {tPreview("interests")}
-                        </h2>
-                        <div className="flex flex-wrap gap-1.5">
-                            {interests.map((interest) => (
-                                <span
-                                    key={interest.id}
-                                    className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs"
-                                >
-                                    {interest.name}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Empty State */}
-                {!personalInfo.firstName && experiences.length === 0 && education.length === 0 && (
-                    <div className="text-center py-16 text-gray-400">
-                        <svg
-                            className="w-16 h-16 mx-auto mb-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={1.5}
-                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                            />
-                        </svg>
-                        <p className="text-lg">{tPreview("emptyState.title")}</p>
-                        <p className="text-sm mt-1">{tPreview("emptyState.subtitle")}</p>
-                    </div>
-                )}
+            {/* Template Preview */}
+            <div className="flex-1 overflow-auto p-6 bg-gray-100">
+                <CurrentTemplate />
             </div>
         </div>
     );
 }
+

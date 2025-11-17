@@ -260,10 +260,17 @@
             "gpa": "Not Ortalaması",
             "issued": "Verildi",
             "expires": "Son kullanma",
+            "contact": "İletişim",
             "emptyState": {
                 "title": "Özgeçmişinizi doldurmaya başlayın",
                 "subtitle": "Değişiklikleriniz burada gerçek zamanlı olarak görünecek"
             }
+        },
+        "templates": {
+            "label": "Şablon",
+            "professional": "Profesyonel",
+            "traditional": "Geleneksel",
+            "creative": "Yaratıcı"
         },
         "validation": {
             "required": "Bu alan zorunludur",

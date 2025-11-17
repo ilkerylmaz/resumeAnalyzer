@@ -260,10 +260,17 @@
             "gpa": "GPA",
             "issued": "Issued",
             "expires": "Expires",
+            "contact": "Contact",
             "emptyState": {
                 "title": "Start filling out your resume",
                 "subtitle": "Your changes will appear here in real-time"
             }
+        },
+        "templates": {
+            "label": "Template",
+            "professional": "Professional",
+            "traditional": "Traditional",
+            "creative": "Creative"
         },
         "validation": {
             "required": "This field is required",
