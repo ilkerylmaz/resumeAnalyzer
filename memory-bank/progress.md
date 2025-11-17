@@ -832,6 +832,52 @@
 
 ## 📝 Change Log
 
+### November 17, 2025 - Dashboard CV Display & Database Fixes
+- **COMPLETED:** Dashboard now displays saved CVs from database
+- **New Database Function:**
+  - `fetchUserResumes()`: Fetches all resumes for current user
+    - Returns: resume_id, title, template_id, is_primary, created_at, updated_at
+    - Ordered by updated_at DESC (newest first)
+    - Handles auth errors gracefully
+- **Dashboard Updates:**
+  - ✅ Dynamic CV card grid (3 columns on desktop, responsive)
+  - ✅ Shows empty state when no CVs exist
+  - ✅ Each CV card displays:
+    - CV title
+    - Last edited date (locale-formatted)
+    - Primary badge (if is_primary = true)
+    - Edit button (links to /cv/edit/[id])
+    - Download button (placeholder, ready for PDF export)
+    - Delete button (placeholder, ready for delete action)
+  - ✅ CVCard component integrated with real data
+- **Database Column Name Fixes:**
+  - Fixed `fetchResume()` function: `.eq("id", resumeId)` → `.eq("resume_id", resumeId)`
+  - Fixed return statement: `resume.id` → `resume.resume_id`
+  - Issue: Column mismatch was preventing CV loading in edit mode
+  - Root cause: Database schema uses `resume_id` as primary key, not `id`
+- **UI Cleanup:**
+  - ✅ Removed redundant save status indicator from CV Builder (lines 323-343)
+  - ✅ All save feedback now consolidated in Save button itself
+  - ✅ Cleaner UI with no duplicate status displays
+- **Git Commit:**
+  - Commit: `feat(dashboard): display saved CVs from database and fix resume_id column name`
+  - Files changed: 4 (dashboard/page.tsx, cv-builder.tsx, resume-actions.ts, progress.md)
+  - Lines: +170/-55
+  - Zero TypeScript/lint errors
+- **Testing Notes:**
+  - ✅ CVs now visible in dashboard after saving
+  - ✅ Last edited date displays correctly in user's locale
+  - ✅ Primary badge shows for primary CV
+  - ✅ Edit button navigates to correct route
+  - ✅ Empty state works when no CVs exist
+- **User Issue Resolved:**
+  - Problem: "kaydedilmiş cvler dashboard'da görüntülenemiyor"
+  - Root causes:
+    1. Dashboard had no fetch logic (showing static empty state)
+    2. Database column name mismatch in fetchResume()
+  - Solution: Added fetchUserResumes() + fixed column names
+  - Status: ✅ FIXED - CVs now display correctly
+
 ### November 17, 2025 - Phase 7 UX Improvements (Save Flow Redesign)
 - **COMPLETED:** Comprehensive UX improvements for CV save and create flow
 - **New Components:**
