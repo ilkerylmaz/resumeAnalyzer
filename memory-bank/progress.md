@@ -832,7 +832,80 @@
 
 ## 📝 Change Log
 
-### November 16, 2025 - Database Migration Created & RLS Configured
+### November 17, 2025 - Phase 7 UX Improvements (Save Flow Redesign)
+- **COMPLETED:** Comprehensive UX improvements for CV save and create flow
+- **New Components:**
+  - `UnsavedDraftModal`: Professional modal with warning icon
+    - Shows when clicking "Create New CV" with unsaved localStorage data
+    - Three options: "Continue Draft" (primary), "Create New (Clear Draft)" (danger), "Cancel"
+    - Prevents accidental data loss from unfinished CVs
+    - Auto-close on Escape key or backdrop click
+    - Prevents body scroll when open
+  - `CreateCVButton`: Smart button component with localStorage detection
+    - Checks for unsaved draft before navigation
+    - Triggers modal if draft exists, navigates directly if clean
+    - Used in both header button and empty state CTA
+    - Supports two variants: primary and secondary
+- **Save Button Visual Feedback (Phase 7.5):**
+  - **Default State:** Gray "Kaydet" icon + text, disabled when no changes
+  - **Saving State:** Blue spinning icon + "Kaydediliyor..." text
+  - **Success State:** Green checkmark + "Kaydedildi!" text + green background (200ms transition)
+  - **Auto-reset:** Success state visible for 3 seconds, then resets to default
+  - All states animate smoothly with transitions
+- **Create Mode Workflow:**
+  - User fills CV form → clicks Save
+  - Save button shows "Kaydediliyor..." with spinner
+  - On success: Button shows "Kaydedildi!" with green checkmark for 1 second
+  - Toast notification: "CV kaydedildi! Dashboard'a yönlendiriliyorsunuz..."
+  - clearCV() called → localStorage completely cleared
+  - router.push() → redirect to dashboard
+  - Result: Clean slate for next CV, no old data persists
+- **Edit Mode Workflow:**
+  - User edits existing CV → clicks Save
+  - Save button shows "Kaydediliyor..." with spinner
+  - On success: Button shows "Kaydedildi!" with green checkmark
+  - NO redirect, NO localStorage clear
+  - User stays on page to continue editing
+  - Success state auto-hides after 3 seconds
+- **Persist Strategy: Always-On (Crash Protection):**
+  - localStorage persist enabled in BOTH create and edit modes
+  - Rationale: Browser crashes, accidental tab closes, power outages
+  - Manual clearCV() action for intentional data clearing (not automatic)
+  - Zustand persist runs continuously to protect user work
+- **Unsaved Draft Detection:**
+  - Dashboard's "Create New CV" buttons check localStorage on mount
+  - Detection logic: Checks for resumeId, personalInfo.firstName, or any section with items
+  - If draft found: Shows UnsavedDraftModal before navigation
+  - If clean: Navigates directly to /cv/create
+- **New Zustand Actions:**
+  - `clearCV()`: Resets store to initialState + manually clears localStorage
+  - Used after successful save in create mode
+  - Ensures next "Create New CV" starts with blank form
+- **New Dependencies:**
+  - `sonner` (1.7.3): Modern toast notification library
+  - Lightweight, beautiful, accessible
+  - Position: top-center, richColors variant
+- **Translation Keys Added:**
+  - `cvBuilder.saveSuccess`: "CV saved! Redirecting to dashboard..." (EN), "CV kaydedildi! Dashboard'a yönlendiriliyorsunuz..." (TR)
+  - `unsavedDraftModal.title`: "Unsaved Draft Found" (EN), "Kaydedilmemiş Taslak Bulundu" (TR)
+  - `unsavedDraftModal.description`: Explains draft situation
+  - `unsavedDraftModal.continueDraft`: "Continue Draft" (EN), "Taslağa Devam Et" (TR)
+  - `unsavedDraftModal.createNew`: "Create New (Clear Draft)" (EN), "Yeni CV Oluştur (Taslağı Sil)" (TR)
+  - `unsavedDraftModal.cancel`: "Cancel" (EN), "İptal" (TR)
+- **Git Commit:**
+  - Commit: `feat: implement comprehensive UX improvements for CV save/create flow`
+  - Files changed: 9 (3 new, 6 modified)
+  - Lines: +291/-21
+  - Zero TypeScript/lint errors
+- **User Feedback Addressed:**
+  - ✅ Save button state feedback (Kaydediliyor... → Kaydedildi! with color change)
+  - ✅ Create mode auto-clear + redirect to dashboard
+  - ✅ Toast notification with redirect message
+  - ✅ Unsaved draft protection (modal before navigation)
+  - ✅ Always-on persist for crash protection
+  - ✅ Professional UX matching Google Docs, Figma, Notion standards
+
+### November 17, 2025 - Database Migration Created & RLS Configured
 - **COMPLETED:** Full database schema migration with Row-Level Security
 - **Migration File:** `supabase/migrations/001_initial_schema.sql`
 - **Tables Created:** 11 total

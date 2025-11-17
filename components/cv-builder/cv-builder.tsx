@@ -319,30 +319,6 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
                             />
                         </div>
 
-                        {/* Save Status Indicator */}
-                        {saveStatus !== "idle" && (
-                            <div className="flex items-center gap-2 text-xs">
-                                {saveStatus === "saving" && (
-                                    <>
-                                        <span className="material-symbols-outlined text-sm text-primary animate-spin">progress_activity</span>
-                                        <span className="text-[#617289] dark:text-gray-400">{tActions("saving")}</span>
-                                    </>
-                                )}
-                                {saveStatus === "saved" && (
-                                    <>
-                                        <span className="material-symbols-outlined text-sm text-green-600">check_circle</span>
-                                        <span className="text-green-600">{tActions("saved")}</span>
-                                    </>
-                                )}
-                                {saveStatus === "error" && (
-                                    <>
-                                        <span className="material-symbols-outlined text-sm text-red-600">error</span>
-                                        <span className="text-red-600">{tActions("saveError")}</span>
-                                    </>
-                                )}
-                            </div>
-                        )}
-
                         {/* Download Button */}
                         <button className="w-full rounded-full bg-primary px-4 py-3 text-base font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90">
                             {tActions("download")}

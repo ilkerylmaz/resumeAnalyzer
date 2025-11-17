@@ -160,7 +160,7 @@ export async function fetchResume(resumeId: string): Promise<Partial<CVState> | 
         const { data: resume, error: resumeError } = await supabase
             .from("resumes")
             .select("*")
-            .eq("id", resumeId)
+            .eq("resume_id", resumeId)
             .single();
 
         if (resumeError || !resume) {
@@ -192,7 +192,7 @@ export async function fetchResume(resumeId: string): Promise<Partial<CVState> | 
         ]);
 
         return {
-            resumeId: resume.id,
+            resumeId: resume.resume_id,
             resumeTitle: resume.title,
             templateId: resume.template_id,
             isPrimary: resume.is_primary,
@@ -782,4 +782,41 @@ async function fetchInterests(resumeId: string) {
             name: interest.interest_name,
         })) || []
     );
+}
+
+/**
+ * Fetch all resumes for the current user
+ */
+export async function fetchUserResumes() {
+    try {
+        const supabase = await createClient();
+
+        // Get current user
+        const {
+            data: { user },
+            error: authError,
+        } = await supabase.auth.getUser();
+
+        if (authError || !user) {
+            console.error("User not authenticated");
+            return [];
+        }
+
+        // Fetch user's resumes
+        const { data: resumes, error: resumesError } = await supabase
+            .from("resumes")
+            .select("resume_id, title, template_id, is_primary, created_at, updated_at")
+            .eq("user_id", user.id)
+            .order("updated_at", { ascending: false });
+
+        if (resumesError) {
+            console.error("Error fetching resumes:", resumesError);
+            return [];
+        }
+
+        return resumes || [];
+    } catch (error) {
+        console.error("Error fetching user resumes:", error);
+        return [];
+    }
 }
