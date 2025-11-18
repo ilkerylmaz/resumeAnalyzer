@@ -8,7 +8,7 @@ export function LanguageSwitcher() {
     const pathname = usePathname();
     const currentLocale = params.locale as string;
 
-    // Remove current locale from pathname to get the base path
+
     const pathnameWithoutLocale = pathname.replace(`/${currentLocale}`, "") || "/";
 
     const languages = [
@@ -23,8 +23,8 @@ export function LanguageSwitcher() {
                     key={lang.code}
                     href={`/${lang.code}${pathnameWithoutLocale}`}
                     className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${currentLocale === lang.code
-                            ? "bg-white dark:bg-gray-700 text-primary shadow-sm"
-                            : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                        ? "bg-white dark:bg-gray-700 text-primary shadow-sm"
+                        : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                         }`}
                 >
                     {lang.label}
