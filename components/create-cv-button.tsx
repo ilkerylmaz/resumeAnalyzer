@@ -18,7 +18,7 @@ export function CreateCVButton({ locale, variant = "primary", children }: Create
     const [showModal, setShowModal] = useState(false);
     const [hasUnsavedDraft, setHasUnsavedDraft] = useState(false);
 
-
+    // Check if there's unsaved data in localStorage
     useEffect(() => {
         const checkDraft = () => {
             if (typeof window === "undefined") return;
