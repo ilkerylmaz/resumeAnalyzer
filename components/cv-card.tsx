@@ -10,7 +10,7 @@ interface CVCardProps {
 }
 
 export function CVCard({ id, title, lastEdited, atsScore, isPrimary, locale }: CVCardProps) {
-    // Determine score color
+
     const getScoreColor = (score?: number) => {
         if (!score) return "text-slate-500";
         if (score >= 90) return "text-primary";
