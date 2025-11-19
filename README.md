@@ -1,6 +1,6 @@
 # AI-Powered CV Builder & Job Matcher
 
-A Next.js application that helps job seekers create ATS-optimized CVs and matches them with relevant job listings using AI-powered semantic search
+A Next.js application that helps job seekers create ATS-optimized CVs and matches them with relevant job listings using AI-powered semantic search.
 
 ## Features
 
