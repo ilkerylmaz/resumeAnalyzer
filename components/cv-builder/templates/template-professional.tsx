@@ -16,15 +16,15 @@ export function TemplateProfessional() {
                 {/* Header */}
                 <div className="mb-6">
                     <h1 className="text-3xl font-bold text-gray-900 mb-1">
-                        {personalInfo.firstName || "First Name"} {personalInfo.lastName || "Last Name"}
+                        {personalInfo.firstName} {personalInfo.lastName}
                     </h1>
                     <p className="text-lg text-primary font-medium mb-3">
-                        {personalInfo.title || "Professional Title"}
+                        {personalInfo.title}
                     </p>
                     <div className="flex flex-wrap gap-3 text-xs text-gray-600">
-                        <span>📧 {personalInfo.email || "email@example.com"}</span>
-                        <span>📱 {personalInfo.phone || "+1 234 567 8900"}</span>
-                        <span>📍 {personalInfo.location || "City, Country"}</span>
+                        {personalInfo.email && <span>📧 {personalInfo.email}</span>}
+                        {personalInfo.phone && <span>📱 {personalInfo.phone}</span>}
+                        {personalInfo.location && <span>📍 {personalInfo.location}</span>}
                     </div>
                 </div>
 

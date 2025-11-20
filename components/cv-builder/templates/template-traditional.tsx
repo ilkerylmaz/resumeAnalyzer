@@ -21,18 +21,24 @@ export function TemplateTraditional() {
                             {tPreview("contact")}
                         </h2>
                         <div className="space-y-2 text-xs text-gray-700">
-                            <div className="flex items-start gap-2">
-                                <span className="text-primary">📧</span>
-                                <span className="break-all">{personalInfo.email || "email@example.com"}</span>
-                            </div>
-                            <div className="flex items-start gap-2">
-                                <span className="text-primary">📱</span>
-                                <span>{personalInfo.phone || "+1 234 567 8900"}</span>
-                            </div>
-                            <div className="flex items-start gap-2">
-                                <span className="text-primary">📍</span>
-                                <span>{personalInfo.location || "City, Country"}</span>
-                            </div>
+                            {personalInfo.email && (
+                                <div className="flex items-start gap-2">
+                                    <span className="text-primary">📧</span>
+                                    <span className="break-all">{personalInfo.email}</span>
+                                </div>
+                            )}
+                            {personalInfo.phone && (
+                                <div className="flex items-start gap-2">
+                                    <span className="text-primary">📱</span>
+                                    <span>{personalInfo.phone}</span>
+                                </div>
+                            )}
+                            {personalInfo.location && (
+                                <div className="flex items-start gap-2">
+                                    <span className="text-primary">📍</span>
+                                    <span>{personalInfo.location}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -141,10 +147,10 @@ export function TemplateTraditional() {
                     {/* Header */}
                     <div className="mb-6">
                         <h1 className="text-3xl font-bold text-gray-900 mb-1">
-                            {personalInfo.firstName || "First Name"} {personalInfo.lastName || "Last Name"}
+                            {personalInfo.firstName} {personalInfo.lastName}
                         </h1>
                         <p className="text-lg text-primary font-medium mb-2">
-                            {personalInfo.title || "Professional Title"}
+                            {personalInfo.title}
                         </p>
                     </div>
 
