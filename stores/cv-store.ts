@@ -167,7 +167,7 @@ const initialPersonalInfo: PersonalInfo = {
 };
 
 const initialState = {
-    resumeId: undefined,  // ✅ CRITICAL: Must be undefined for new CV creation
+    resumeId: undefined,
     resumeTitle: "Untitled Resume",
     templateId: "template-a",
     isPrimary: false,

@@ -4,7 +4,14 @@ import { z } from "zod";
 export const personalInfoSchema = z.object({
     firstName: z.string().min(1, "First name is required").max(50),
     lastName: z.string().min(1, "Last name is required").max(50),
-    email: z.string().email("Invalid email address"),
+    email: z
+        .string()
+        .min(1, "Email is required")
+        .email("Invalid email format. Please enter a valid email address")
+        .regex(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            "Invalid email format. Example: user@example.com"
+        ),
     phone: z.string().min(1, "Phone number is required").max(20),
     location: z.string().min(1, "Location is required").max(100),
     title: z.string().min(1, "Professional title is required").max(100),

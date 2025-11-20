@@ -18,14 +18,19 @@ export function PersonalInfoForm() {
         handleSubmit,
         formState: { errors },
         watch,
+        trigger,
     } = useForm<PersonalInfoInput>({
         resolver: zodResolver(personalInfoSchema),
         defaultValues: personalInfo,
-        mode: "onBlur",
+        mode: "onChange", // Validate on every change
+        reValidateMode: "onChange", // Re-validate on every change
     });
 
     // Watch all fields for real-time updates
     const formData = watch();
+    
+    // Track if there are validation errors
+    const hasErrors = Object.keys(errors).length > 0;
 
     // Update store on any change (with debounce to prevent infinite loop)
     useEffect(() => {
@@ -35,12 +40,15 @@ export function PersonalInfoForm() {
         }
 
         const timeoutId = setTimeout(() => {
-            updatePersonalInfo(formData);
+            // Only update if there are no errors
+            if (!hasErrors) {
+                updatePersonalInfo(formData);
+            }
         }, 300); // 300ms debounce
 
         return () => clearTimeout(timeoutId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [JSON.stringify(formData)]);
+    }, [JSON.stringify(formData), hasErrors]);
 
     const onSubmit = (data: PersonalInfoInput) => {
         updatePersonalInfo(data);
@@ -110,7 +118,11 @@ export function PersonalInfoForm() {
                         <input
                             type="email"
                             {...register("email")}
-                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
+                            className={`form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 border bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal ${
+                                errors.email
+                                    ? "border-red-500 focus:ring-red-500/50"
+                                    : "border-[#dbe0e6] dark:border-gray-600 focus:ring-primary/50"
+                            }`}
                             placeholder={t("placeholders.email")}
                         />
                         {errors.email && (
