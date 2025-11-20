@@ -28,7 +28,7 @@ export function PersonalInfoForm() {
 
     // Watch all fields for real-time updates
     const formData = watch();
-    
+
     // Track if there are validation errors
     const hasErrors = Object.keys(errors).length > 0;
 
@@ -67,8 +67,7 @@ export function PersonalInfoForm() {
                         <input
                             type="text"
                             {...register("firstName")}
-                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder={t("placeholders.firstName")}
+                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                         />
                         {errors.firstName && (
                             <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
@@ -82,8 +81,7 @@ export function PersonalInfoForm() {
                         <input
                             type="text"
                             {...register("lastName")}
-                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder={t("placeholders.lastName")}
+                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                         />
                         {errors.lastName && (
                             <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
@@ -100,8 +98,7 @@ export function PersonalInfoForm() {
                         <input
                             type="text"
                             {...register("title")}
-                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder={t("placeholders.jobTitle")}
+                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                         />
                         {errors.title && (
                             <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
@@ -118,12 +115,10 @@ export function PersonalInfoForm() {
                         <input
                             type="email"
                             {...register("email")}
-                            className={`form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 border bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal ${
-                                errors.email
-                                    ? "border-red-500 focus:ring-red-500/50"
-                                    : "border-[#dbe0e6] dark:border-gray-600 focus:ring-primary/50"
-                            }`}
-                            placeholder={t("placeholders.email")}
+                            className={`form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 border bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal ${errors.email
+                                ? "border-red-500 focus:ring-red-500/50"
+                                : "border-[#dbe0e6] dark:border-gray-600 focus:ring-primary/50"
+                                }`}
                         />
                         {errors.email && (
                             <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -137,8 +132,7 @@ export function PersonalInfoForm() {
                         <input
                             type="tel"
                             {...register("phone")}
-                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder={t("placeholders.phone")}
+                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                         />
                         {errors.phone && (
                             <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
@@ -155,8 +149,7 @@ export function PersonalInfoForm() {
                         <input
                             type="text"
                             {...register("location")}
-                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder={t("placeholders.location")}
+                            className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                         />
                         {errors.location && (
                             <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
@@ -172,8 +165,7 @@ export function PersonalInfoForm() {
                     <textarea
                         {...register("summary")}
                         rows={5}
-                        className="form-textarea w-full resize-none rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                        placeholder={t("placeholders.summary")}
+                        className="form-textarea w-full resize-none rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 p-[15px] text-base font-normal leading-normal"
                     />
                     <p className="mt-1 text-sm text-[#617289] dark:text-gray-400">
                         {formData.summary?.length || 0}/500

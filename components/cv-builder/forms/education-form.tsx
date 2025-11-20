@@ -101,8 +101,7 @@ export function EducationForm() {
                             <input
                                 type="text"
                                 {...register("institution")}
-                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder={t("placeholders.institution")}
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                             />
                             {errors.institution && (
                                 <p className="mt-1 text-sm text-red-600">{errors.institution.message}</p>
@@ -118,8 +117,7 @@ export function EducationForm() {
                             <input
                                 type="text"
                                 {...register("degree")}
-                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder={t("placeholders.degree")}
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                             />
                             {errors.degree && (
                                 <p className="mt-1 text-sm text-red-600">{errors.degree.message}</p>
@@ -132,8 +130,7 @@ export function EducationForm() {
                             <input
                                 type="text"
                                 {...register("field")}
-                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder={t("placeholders.field")}
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                             />
                             {errors.field && (
                                 <p className="mt-1 text-sm text-red-600">{errors.field.message}</p>
@@ -149,7 +146,7 @@ export function EducationForm() {
                             <input
                                 type="month"
                                 {...register("startDate")}
-                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                             />
                             {errors.startDate && (
                                 <p className="mt-1 text-sm text-red-600">{errors.startDate.message}</p>
@@ -163,7 +160,7 @@ export function EducationForm() {
                                 type="month"
                                 {...register("endDate")}
                                 disabled={isCurrent}
-                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal disabled:opacity-50"
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal disabled:opacity-50"
                             />
                             {errors.endDate && (
                                 <p className="mt-1 text-sm text-red-600">{errors.endDate.message}</p>
@@ -196,8 +193,7 @@ export function EducationForm() {
                             <input
                                 type="text"
                                 {...register("gpa")}
-                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder={t("placeholders.gpa")}
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                             />
                             {errors.gpa && (
                                 <p className="mt-1 text-sm text-red-600">{errors.gpa.message}</p>
@@ -212,8 +208,7 @@ export function EducationForm() {
                         <textarea
                             {...register("description")}
                             rows={4}
-                            className="form-textarea w-full resize-none rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                            placeholder={t("placeholders.description")}
+                            className="form-textarea w-full resize-none rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 p-[15px] text-base font-normal leading-normal"
                         />
                         {errors.description && (
                             <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>

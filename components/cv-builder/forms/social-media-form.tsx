@@ -104,8 +104,7 @@ export function SocialMediaForm() {
                             <input
                                 type="text"
                                 {...register("platform")}
-                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder={t("placeholders.platform")}
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                             />
                             {errors.platform && (
                                 <p className="mt-1 text-sm text-red-600">{errors.platform.message}</p>
@@ -118,8 +117,7 @@ export function SocialMediaForm() {
                             <input
                                 type="url"
                                 {...register("url")}
-                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 placeholder:text-[#617289] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal"
-                                placeholder={t("placeholders.url")}
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-600 bg-white dark:bg-gray-800 h-12 p-[15px] text-base font-normal leading-normal"
                             />
                             {errors.url && (
                                 <p className="mt-1 text-sm text-red-600">{errors.url.message}</p>
