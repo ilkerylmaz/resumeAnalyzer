@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { fetchJobs } from '@/lib/actions/job-actions'
 import { JobsClient } from '@/components/jobs/jobs-client'
+import { Navbar } from '@/components/navbar'
 
 export async function generateMetadata({
     params,
@@ -31,10 +32,13 @@ export default async function JobsPage({
     )
 
     return (
-        <JobsClient
-            initialJobs={result.jobs}
-            initialTotalCount={result.totalCount}
-            initialTotalPages={result.totalPages}
-        />
+        <>
+            <Navbar />
+            <JobsClient
+                initialJobs={result.jobs}
+                initialTotalCount={result.totalCount}
+                initialTotalPages={result.totalPages}
+            />
+        </>
     )
 }
