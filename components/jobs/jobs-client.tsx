@@ -10,12 +10,20 @@ interface JobsClientProps {
     initialJobs: JobResult[]
     initialTotalCount: number
     initialTotalPages: number
+    locations: string[]
+    employmentTypes: string[]
+    experienceLevels: string[]
+    salaryRange: { min: number; max: number }
 }
 
 export function JobsClient({
     initialJobs,
     initialTotalCount,
     initialTotalPages,
+    locations,
+    employmentTypes,
+    experienceLevels,
+    salaryRange,
 }: JobsClientProps) {
     const t = useTranslations('jobs')
     const locale = useLocale()
@@ -25,7 +33,7 @@ export function JobsClient({
     const [totalCount, setTotalCount] = useState(initialTotalCount)
     const [totalPages, setTotalPages] = useState(initialTotalPages)
     const [currentPage, setCurrentPage] = useState(1)
-    const [filters, setFilters] = useState<JobFilters>({ language: locale })
+    const [filters, setFilters] = useState<JobFilters>({})
 
     const loadJobs = async (newFilters?: JobFilters, page = 1) => {
         startTransition(async () => {
@@ -40,14 +48,14 @@ export function JobsClient({
         })
     }
 
-    const handleFilterChange = (newFilters: Partial<JobFilters>) => {
+    const handleApplyFilters = (newFilters: Partial<JobFilters>) => {
         const updatedFilters = { ...filters, ...newFilters }
         setFilters(updatedFilters)
         loadJobs(updatedFilters, 1)
     }
 
     const handleReset = () => {
-        const resetFilters = { language: locale }
+        const resetFilters = {}
         setFilters(resetFilters)
         loadJobs(resetFilters, 1)
     }
@@ -63,7 +71,14 @@ export function JobsClient({
 
     return (
         <div className="flex flex-1 w-full overflow-hidden">
-            <FilterPanel onFilterChange={handleFilterChange} onReset={handleReset} />
+            <FilterPanel
+                locations={locations}
+                employmentTypes={employmentTypes}
+                experienceLevels={experienceLevels}
+                salaryRange={salaryRange}
+                onApplyFilters={handleApplyFilters}
+                onReset={handleReset}
+            />
 
             <main className="flex-1 overflow-y-auto p-6 lg:p-10 bg-background-light dark:bg-background-dark">
                 <div className="max-w-4xl mx-auto">

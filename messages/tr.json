@@ -305,10 +305,12 @@
             "title": "Filtreler",
             "reset": "Sıfırla",
             "apply": "Filtreleri Uygula",
+            "hasChanges": "Sonuçları güncellemek için Uygula'ya tıklayın",
             "searchPlaceholder": "Anahtar kelime ara...",
             "location": {
                 "title": "Lokasyon",
                 "searchPlaceholder": "Şehir ara...",
+                "noResults": "Konum bulunamadı",
                 "istanbul": "Istanbul",
                 "ankara": "Ankara",
                 "izmir": "Izmir",

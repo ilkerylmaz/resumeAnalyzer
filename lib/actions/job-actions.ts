@@ -49,7 +49,7 @@ export async function fetchJobs(
     const offset = (page - 1) * limit
 
     try {
-        // Build base query
+        // Build base query - fetch more data for client-side filtering
         let query = supabase
             .from('jobs')
             .select('*', { count: 'exact' })
@@ -62,17 +62,10 @@ export async function fetchJobs(
 
         // Apply search filter
         if (filters.search && filters.search.trim()) {
+            const escapedSearch = filters.search.replace(/[%_]/g, '\\$&')
             query = query.or(
-                `job_title.ilike.%${filters.search}%,company_name.ilike.%${filters.search}%,job_description.ilike.%${filters.search}%`
+                `job_title.ilike.%${escapedSearch}%,company_name.ilike.%${escapedSearch}%,job_description.ilike.%${escapedSearch}%`
             )
-        }
-
-        // Apply location filter
-        if (filters.locations && filters.locations.length > 0) {
-            const locationConditions = filters.locations
-                .map((loc) => `location.ilike.%${loc}%`)
-                .join(',')
-            query = query.or(locationConditions)
         }
 
         // Apply employment type filter
@@ -93,10 +86,8 @@ export async function fetchJobs(
             query = query.lte('max_salary', filters.maxSalary)
         }
 
-        // Apply pagination and sorting
-        query = query
-            .order('created_at', { ascending: false })
-            .range(offset, offset + limit - 1)
+        // Fetch all matching data (we'll filter locations client-side)
+        query = query.order('created_at', { ascending: false })
 
         const { data, error, count } = await query
 
@@ -105,11 +96,25 @@ export async function fetchJobs(
             throw error
         }
 
-        const totalCount = count || 0
+        let filteredData = data || []
+
+        // Client-side location filtering
+        if (filters.locations && filters.locations.length > 0) {
+            const normalizedLocations = filters.locations.map((loc) =>
+                loc.replace('Istanbul', 'İstanbul').replace('Izmir', 'İzmir')
+            )
+            filteredData = filteredData.filter((job) =>
+                normalizedLocations.some((loc) => job.location.includes(loc))
+            )
+        }
+
+        // Apply pagination to filtered results
+        const totalCount = filteredData.length
         const totalPages = Math.ceil(totalCount / limit)
+        const paginatedData = filteredData.slice(offset, offset + limit)
 
         return {
-            jobs: data || [],
+            jobs: paginatedData,
             totalCount,
             page,
             totalPages,
@@ -122,5 +127,111 @@ export async function fetchJobs(
             page: 1,
             totalPages: 0,
         }
+    }
+}
+
+// Get unique locations from jobs table
+export async function getJobLocations(): Promise<string[]> {
+    const supabase = await createClient()
+
+    try {
+        const { data, error } = await supabase
+            .from('jobs')
+            .select('location')
+            .eq('is_active', true)
+
+        if (error) throw error
+
+        // Extract unique locations and sort
+        const locations = Array.from(new Set(data.map((job) => job.location)))
+            .filter(Boolean)
+            .sort((a, b) => a.localeCompare(b, 'tr'))
+
+        return locations
+    } catch (error) {
+        console.error('Error fetching job locations:', error)
+        return []
+    }
+}
+
+// Get salary range from jobs table
+export async function getSalaryRange(): Promise<{
+    min: number
+    max: number
+}> {
+    const supabase = await createClient()
+
+    try {
+        const { data, error } = await supabase
+            .from('jobs')
+            .select('min_salary, max_salary')
+            .eq('is_active', true)
+            .not('min_salary', 'is', null)
+            .not('max_salary', 'is', null)
+
+        if (error) throw error
+
+        if (!data || data.length === 0) {
+            return { min: 0, max: 100000 }
+        }
+
+        const minSalaries = data.map((job) => job.min_salary).filter((s) => s !== null)
+        const maxSalaries = data.map((job) => job.max_salary).filter((s) => s !== null)
+
+        return {
+            min: Math.min(...minSalaries),
+            max: Math.max(...maxSalaries),
+        }
+    } catch (error) {
+        console.error('Error fetching salary range:', error)
+        return { min: 0, max: 100000 }
+    }
+}
+
+// Get unique employment types from jobs table
+export async function getEmploymentTypes(): Promise<string[]> {
+    const supabase = await createClient()
+
+    try {
+        const { data, error } = await supabase
+            .from('jobs')
+            .select('employment_type')
+            .eq('is_active', true)
+
+        if (error) throw error
+
+        // Extract unique employment types
+        const types = Array.from(new Set(data.map((job) => job.employment_type)))
+            .filter(Boolean)
+            .sort()
+
+        return types
+    } catch (error) {
+        console.error('Error fetching employment types:', error)
+        return []
+    }
+}
+
+// Get unique experience levels from jobs table
+export async function getExperienceLevels(): Promise<string[]> {
+    const supabase = await createClient()
+
+    try {
+        const { data, error } = await supabase
+            .from('jobs')
+            .select('experience_level')
+            .eq('is_active', true)
+
+        if (error) throw error
+
+        // Extract unique experience levels
+        const levels = Array.from(new Set(data.map((job) => job.experience_level)))
+            .filter(Boolean)
+            .sort()
+
+        return levels
+    } catch (error) {
+        console.error('Error fetching experience levels:', error)
+        return []
     }
 }

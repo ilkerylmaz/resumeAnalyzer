@@ -305,10 +305,12 @@
             "title": "Filters",
             "reset": "Reset",
             "apply": "Apply Filters",
+            "hasChanges": "Click Apply to update results",
             "searchPlaceholder": "Keyword search...",
             "location": {
                 "title": "Location",
                 "searchPlaceholder": "Search city...",
+                "noResults": "No locations found",
                 "istanbul": "Istanbul",
                 "ankara": "Ankara",
                 "izmir": "Izmir",
