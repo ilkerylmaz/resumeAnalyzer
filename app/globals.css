@@ -167,3 +167,62 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Print Styles for PDF Export */
+@media print {
+
+  /* Remove page margins and set proper background */
+  @page {
+    margin: 0;
+    size: A4;
+  }
+
+  /* Hide non-printable elements */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Only show CV content */
+  #cv-print-area,
+  #cv-print-area * {
+    visibility: visible;
+  }
+
+  /* Remove shadows and transforms for print */
+  #cv-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
+    transform: none !important;
+    scale: 1 !important;
+  }
+
+  /* Force white background for print */
+  body {
+    background: white !important;
+  }
+
+  /* Ensure colors are preserved */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* Hide page breaks in wrong places */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid;
+  }
+
+  /* Prevent orphans and widows */
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+}

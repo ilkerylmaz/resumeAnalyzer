@@ -15,9 +15,10 @@ import { TemplateSelector } from "./template-selector";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { saveResume } from "@/lib/actions/resume-actions";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast, Toaster } from "sonner";
+import { useReactToPrint } from "react-to-print";
 
 interface CVBuilderProps {
     locale: string;
@@ -66,6 +67,16 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
 
     const currentIndex = sections.findIndex((s) => s.id === activeSection);
     const isCreateMode = !resumeId;
+    const cvPreviewRef = useRef<HTMLDivElement>(null);
+
+    // PDF Export Handler (react-to-print v3.x)
+    const handlePrint = useReactToPrint({
+        contentRef: cvPreviewRef,
+        documentTitle: resumeTitle || "Untitled Resume",
+        onAfterPrint: () => {
+            toast.success(tActions("downloadSuccess") || "PDF downloaded successfully!");
+        },
+    });
 
     // Load initial data if editing existing resume
     useEffect(() => {
@@ -296,7 +307,7 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
                     {/* CV Preview - Scrollable with Scaled Content */}
                     <div className="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark p-8">
                         <div className="scale-90 origin-top">
-                            <CVPreview />
+                            <CVPreview ref={cvPreviewRef} />
                         </div>
                     </div>
                 </div>
@@ -320,7 +331,10 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
                         </div>
 
                         {/* Download Button */}
-                        <button className="w-full rounded-full bg-primary px-4 py-3 text-base font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90">
+                        <button
+                            onClick={handlePrint}
+                            className="w-full rounded-full bg-primary px-4 py-3 text-base font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90 transition-colors"
+                        >
                             {tActions("download")}
                         </button>
 

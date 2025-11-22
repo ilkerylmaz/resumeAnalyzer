@@ -75,6 +75,7 @@
         },
         "actions": {
             "download": "Download",
+            "downloadSuccess": "PDF downloaded successfully!",
             "save": "Save",
             "saving": "Saving...",
             "saved": "Saved",

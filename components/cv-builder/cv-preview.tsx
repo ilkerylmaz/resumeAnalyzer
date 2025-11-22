@@ -1,11 +1,12 @@
 "use client";
 
+import { forwardRef } from "react";
 import { useCVStore } from "@/stores/cv-store";
 import { TemplateProfessional } from "./templates/template-professional";
 import { TemplateTraditional } from "./templates/template-traditional";
 import { TemplateCreative } from "./templates/template-creative";
 
-export function CVPreview() {
+export const CVPreview = forwardRef<HTMLDivElement>((props, ref) => {
     const { templateId } = useCVStore();
 
     const templates = [
@@ -16,5 +17,11 @@ export function CVPreview() {
 
     const CurrentTemplate = templates.find((t) => t.id === templateId)?.component || TemplateProfessional;
 
-    return <CurrentTemplate />;
-}
+    return (
+        <div ref={ref} className="print:shadow-none">
+            <CurrentTemplate />
+        </div>
+    );
+});
+
+CVPreview.displayName = "CVPreview";

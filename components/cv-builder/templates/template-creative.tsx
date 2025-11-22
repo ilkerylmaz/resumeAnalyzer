@@ -10,9 +10,9 @@ export function TemplateCreative() {
     const tLang = useTranslations("cvBuilder.languages");
 
     return (
-        <div className="max-w-3xl mx-auto bg-white shadow-2xl overflow-hidden min-h-[1122px]">
+        <div id="cv-print-area" className="max-w-3xl mx-auto bg-white shadow-2xl overflow-hidden min-h-[1122px] print:shadow-none print:min-h-0">
             {/* A4 Size Preview - Creative Minimal Layout */}
-            <div className="min-h-[1122px]">
+            <div className="min-h-[1122px] print:min-h-0">
                 {/* Header with Colored Background */}
                 <div className="bg-primary text-white p-8 mb-6">
                     <h1 className="text-4xl font-bold mb-2">

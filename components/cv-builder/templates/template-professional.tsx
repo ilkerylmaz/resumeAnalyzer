@@ -10,9 +10,9 @@ export function TemplateProfessional() {
     const tLang = useTranslations("cvBuilder.languages");
 
     return (
-        <div className="max-w-3xl mx-auto bg-white shadow-2xl overflow-hidden min-h-[1122px]">
+        <div id="cv-print-area" className="max-w-3xl mx-auto bg-white shadow-2xl overflow-hidden min-h-[1122px] print:shadow-none print:min-h-0">
             {/* A4 Size Preview - Single Column Layout */}
-            <div className="p-8">
+            <div className="p-8 print:p-12">
                 {/* Header */}
                 <div className="mb-6">
                     <h1 className="text-3xl font-bold text-gray-900 mb-1">

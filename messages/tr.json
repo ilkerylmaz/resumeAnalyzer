@@ -75,6 +75,7 @@
         },
         "actions": {
             "download": "İndir",
+            "downloadSuccess": "PDF başarıyla indirildi!",
             "save": "Kaydet",
             "saving": "Kaydediliyor...",
             "saved": "Kaydedildi",

@@ -51,7 +51,7 @@ export function NavbarClient({ user }: { user: User | null }) {
                     </svg>
                 </div>
                 <Link href={`/${locale}`}>
-                    <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">AI CV Pro</h2>
+                    <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">AI CV</h2>
                 </Link>
             </div>
             <div className="flex flex-1 justify-end items-center gap-8">

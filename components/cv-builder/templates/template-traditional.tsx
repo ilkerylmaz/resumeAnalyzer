@@ -10,9 +10,9 @@ export function TemplateTraditional() {
     const tLang = useTranslations("cvBuilder.languages");
 
     return (
-        <div className="max-w-3xl mx-auto bg-white shadow-2xl overflow-hidden min-h-[1122px]">
+        <div id="cv-print-area" className="max-w-3xl mx-auto bg-white shadow-2xl overflow-hidden min-h-[1122px] print:shadow-none print:min-h-0">
             {/* A4 Size Preview - Two Column Layout */}
-            <div className="flex min-h-[1122px]">
+            <div className="flex min-h-[1122px] print:min-h-0">
                 {/* LEFT SIDEBAR */}
                 <div className="w-56 bg-gray-50 p-6 border-r border-gray-200">
                     {/* Contact Info */}
