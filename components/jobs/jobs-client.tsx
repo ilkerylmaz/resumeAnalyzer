@@ -54,11 +54,15 @@ export function JobsClient({
 
     const handlePageChange = (page: number) => {
         loadJobs(filters, page)
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        // Scroll the main content area to top
+        const mainElement = document.querySelector('main')
+        if (mainElement) {
+            mainElement.scrollTo({ top: 0, behavior: 'smooth' })
+        }
     }
 
     return (
-        <div className="flex h-[calc(100vh-57px)] w-full">
+        <div className="flex flex-1 w-full overflow-hidden">
             <FilterPanel onFilterChange={handleFilterChange} onReset={handleReset} />
 
             <main className="flex-1 overflow-y-auto p-6 lg:p-10 bg-background-light dark:bg-background-dark">

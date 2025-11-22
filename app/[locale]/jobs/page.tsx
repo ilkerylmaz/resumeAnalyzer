@@ -32,13 +32,13 @@ export default async function JobsPage({
     )
 
     return (
-        <>
+        <div className="h-screen overflow-hidden flex flex-col">
             <Navbar />
             <JobsClient
                 initialJobs={result.jobs}
                 initialTotalCount={result.totalCount}
                 initialTotalPages={result.totalPages}
             />
-        </>
+        </div>
     )
 }
