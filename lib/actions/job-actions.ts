@@ -28,6 +28,7 @@ export interface JobResult {
     required_skills: string | null
     min_salary: number | null
     max_salary: number | null
+    salary_currency: string | null
     created_at: string
     language: string
 }

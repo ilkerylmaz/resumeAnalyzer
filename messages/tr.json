@@ -358,6 +358,23 @@
         "emptyState": {
             "title": "İlan bulunamadı",
             "description": "Filtrelerinizi veya arama terimlerinizi ayarlayın"
+        },
+        "detail": {
+            "backToJobs": "İlanlara Dön",
+            "applyNow": "Başvur",
+            "jobDescription": "İş Tanımı",
+            "requiredSkills": "Gerekli Yetenekler",
+            "overview": "Özet",
+            "experienceLevel": "Deneyim Seviyesi",
+            "employmentType": "Çalışma Şekli",
+            "location": "Konum",
+            "salaryFrequency": "Maaş Ödemesi",
+            "aboutCompany": "Şirket Hakkında",
+            "interestedTitle": "Bu pozisyonla ilgileniyor musunuz?",
+            "interestedText": "Başvurunuzu gönderin, en kısa sürede size dönüş yapalım.",
+            "postedToday": "Bugün yayınlandı",
+            "postedYesterday": "Dün yayınlandı",
+            "postedDaysAgo": "{days} gün önce yayınlandı"
         }
     },
     "landing": {

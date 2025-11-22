@@ -358,6 +358,23 @@
         "emptyState": {
             "title": "No jobs found",
             "description": "Try adjusting your filters or search terms"
+        },
+        "detail": {
+            "backToJobs": "Back to Jobs",
+            "applyNow": "Apply Now",
+            "jobDescription": "Job Description",
+            "requiredSkills": "Required Skills",
+            "overview": "Overview",
+            "experienceLevel": "Experience Level",
+            "employmentType": "Employment Type",
+            "location": "Location",
+            "salaryFrequency": "Salary Frequency",
+            "aboutCompany": "About Company",
+            "interestedTitle": "Interested in this position?",
+            "interestedText": "Submit your application and we'll get back to you soon.",
+            "postedToday": "Posted today",
+            "postedYesterday": "Posted yesterday",
+            "postedDaysAgo": "Posted {days} days ago"
         }
     },
     "landing": {

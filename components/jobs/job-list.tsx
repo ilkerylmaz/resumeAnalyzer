@@ -1,6 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import { JobResult } from '@/lib/actions/job-actions'
 
 interface JobListProps {
@@ -19,6 +20,20 @@ export function JobList({
     onPageChange,
 }: JobListProps) {
     const t = useTranslations('jobs')
+    const router = useRouter()
+
+    const getCurrencySymbol = (currency: string | null) => {
+        switch (currency) {
+            case 'TRY':
+                return '₺'
+            case 'USD':
+                return '$'
+            case 'EUR':
+                return '€'
+            default:
+                return '$'
+        }
+    }
 
     const getPostedTimeText = (createdAt: string) => {
         const now = new Date()
@@ -59,6 +74,7 @@ export function JobList({
             {jobs.map((job) => (
                 <div
                     key={job.job_id}
+                    onClick={() => router.push(`/jobs/${job.job_id}`)}
                     className="bg-white dark:bg-neutral-800/50 p-6 rounded-lg border border-transparent hover:border-primary transition-colors duration-300 flex flex-col sm:flex-row gap-6 cursor-pointer"
                 >
                     {/* Company Logo Placeholder */}
@@ -105,7 +121,7 @@ export function JobList({
                             {job.min_salary && job.max_salary && (
                                 <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-primary/10 text-primary px-2 py-1 rounded-full">
                                     <span className="material-symbols-outlined text-sm">payments</span>
-                                    ${job.min_salary}k - ${job.max_salary}k
+                                    {getCurrencySymbol(job.salary_currency)}{job.min_salary} - {getCurrencySymbol(job.salary_currency)}{job.max_salary}
                                 </span>
                             )}
                         </div>
@@ -143,8 +159,8 @@ export function JobList({
                                     key={pageNum}
                                     onClick={() => onPageChange(pageNum)}
                                     className={`flex items-center justify-center size-9 text-sm font-medium rounded-full transition-colors ${currentPage === pageNum
-                                            ? 'text-white bg-primary'
-                                            : 'text-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                                        ? 'text-white bg-primary'
+                                        : 'text-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700'
                                         }`}
                                 >
                                     {pageNum}
