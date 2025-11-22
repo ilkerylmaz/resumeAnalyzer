@@ -67,7 +67,7 @@ export function FilterPanel({ onFilterChange, onReset }: FilterPanelProps) {
     }
 
     return (
-        <aside className="w-80 flex-shrink-0 border-r border-neutral-200 dark:border-neutral-800 bg-white dark:bg-background-dark p-6 hidden lg:flex flex-col gap-6">
+        <aside className="w-80 h-full flex-shrink-0 border-r border-neutral-200 dark:border-neutral-800 bg-white dark:bg-background-dark p-6 hidden lg:flex flex-col gap-6 overflow-hidden">
             <div className="flex items-center justify-between">
                 <h3 className="text-lg font-bold">{t('title')}</h3>
                 <button

@@ -58,44 +58,42 @@ export function JobsClient({
     }
 
     return (
-        <div className="relative flex h-auto min-h-screen w-full flex-col">
-            <div className="flex flex-1">
-                <FilterPanel onFilterChange={handleFilterChange} onReset={handleReset} />
+        <div className="flex h-[calc(100vh-57px)] w-full">
+            <FilterPanel onFilterChange={handleFilterChange} onReset={handleReset} />
 
-                <main className="flex-1 p-6 lg:p-10 bg-background-light dark:bg-background-dark">
-                    <div className="max-w-4xl mx-auto">
-                        {/* Header */}
-                        <div className="flex flex-wrap justify-between gap-3 mb-8">
-                            <div className="flex flex-col gap-2">
-                                <h1 className="text-4xl font-black leading-tight tracking-[-0.033em]">
-                                    {t('pageTitle')}
-                                </h1>
-                                <p className="text-neutral-600 text-base font-normal leading-normal">
-                                    {t('showingJobs', { count: totalCount })}
-                                </p>
-                            </div>
+            <main className="flex-1 overflow-y-auto p-6 lg:p-10 bg-background-light dark:bg-background-dark">
+                <div className="max-w-4xl mx-auto">
+                    {/* Header */}
+                    <div className="flex flex-wrap justify-between gap-3 mb-8">
+                        <div className="flex flex-col gap-2">
+                            <h1 className="text-4xl font-black leading-tight tracking-[-0.033em]">
+                                {t('pageTitle')}
+                            </h1>
+                            <p className="text-neutral-600 text-base font-normal leading-normal">
+                                {t('showingJobs', { count: totalCount })}
+                            </p>
                         </div>
-
-                        {/* Loading State */}
-                        {isPending && (
-                            <div className="flex items-center justify-center py-12">
-                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-                            </div>
-                        )}
-
-                        {/* Job List */}
-                        {!isPending && (
-                            <JobList
-                                jobs={jobs}
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                totalCount={totalCount}
-                                onPageChange={handlePageChange}
-                            />
-                        )}
                     </div>
-                </main>
-            </div>
+
+                    {/* Loading State */}
+                    {isPending && (
+                        <div className="flex items-center justify-center py-12">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                        </div>
+                    )}
+
+                    {/* Job List */}
+                    {!isPending && (
+                        <JobList
+                            jobs={jobs}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            totalCount={totalCount}
+                            onPageChange={handlePageChange}
+                        />
+                    )}
+                </div>
+            </main>
         </div>
     )
 }
