@@ -298,6 +298,66 @@
         "createNew": "Yeni CV Oluştur (Taslağı Sil)",
         "cancel": "İptal"
     },
+    "jobs": {
+        "pageTitle": "İş İlanları",
+        "showingJobs": "{count} ilan gösteriliyor",
+        "filters": {
+            "title": "Filtreler",
+            "reset": "Sıfırla",
+            "apply": "Filtreleri Uygula",
+            "searchPlaceholder": "Anahtar kelime ara...",
+            "location": {
+                "title": "Lokasyon",
+                "searchPlaceholder": "Şehir ara...",
+                "istanbul": "Istanbul",
+                "ankara": "Ankara",
+                "izmir": "Izmir",
+                "bursa": "Bursa",
+                "antalya": "Antalya",
+                "adana": "Adana",
+                "konya": "Konya",
+                "gaziantep": "Gaziantep"
+            },
+            "workType": {
+                "title": "Çalışma Şekli",
+                "fullTime": "Tam zamanlı",
+                "partTime": "Yarı zamanlı",
+                "contract": "Sözleşmeli",
+                "internship": "Staj"
+            },
+            "industry": {
+                "title": "Sektör"
+            },
+            "positionLevel": {
+                "title": "Pozisyon Seviyesi",
+                "entry": "Giriş Seviyesi",
+                "mid": "Orta Seviye",
+                "senior": "Kıdemli",
+                "lead": "Yönetici"
+            },
+            "salaryRange": {
+                "title": "Maaş Aralığı",
+                "min": "50k₺",
+                "max": "150k₺+"
+            }
+        },
+        "card": {
+            "postedDaysAgo": "{days} gün önce yayınlandı",
+            "postedToday": "Bugün yayınlandı",
+            "postedYesterday": "Dün yayınlandı",
+            "remote": "Uzaktan",
+            "hybrid": "Hibrit",
+            "onsite": "Ofiste"
+        },
+        "pagination": {
+            "previous": "Önceki",
+            "next": "Sonraki"
+        },
+        "emptyState": {
+            "title": "İlan bulunamadı",
+            "description": "Filtrelerinizi veya arama terimlerinizi ayarlayın"
+        }
+    },
     "landing": {
         "hero": {
             "title": "Yapay Zeka Destekli CV ile Hayalinizdeki İşe Kavuşun",

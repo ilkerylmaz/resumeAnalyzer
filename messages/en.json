@@ -298,6 +298,66 @@
         "createNew": "Create New (Clear Draft)",
         "cancel": "Cancel"
     },
+    "jobs": {
+        "pageTitle": "Job Postings",
+        "showingJobs": "Showing {count} jobs",
+        "filters": {
+            "title": "Filters",
+            "reset": "Reset",
+            "apply": "Apply Filters",
+            "searchPlaceholder": "Keyword search...",
+            "location": {
+                "title": "Location",
+                "searchPlaceholder": "Search city...",
+                "istanbul": "Istanbul",
+                "ankara": "Ankara",
+                "izmir": "Izmir",
+                "bursa": "Bursa",
+                "antalya": "Antalya",
+                "adana": "Adana",
+                "konya": "Konya",
+                "gaziantep": "Gaziantep"
+            },
+            "workType": {
+                "title": "Work Type",
+                "fullTime": "Full-time",
+                "partTime": "Part-time",
+                "contract": "Contract",
+                "internship": "Internship"
+            },
+            "industry": {
+                "title": "Industry"
+            },
+            "positionLevel": {
+                "title": "Position Level",
+                "entry": "Entry Level",
+                "mid": "Mid Level",
+                "senior": "Senior Level",
+                "lead": "Lead / Manager"
+            },
+            "salaryRange": {
+                "title": "Salary Range",
+                "min": "$50k",
+                "max": "$150k+"
+            }
+        },
+        "card": {
+            "postedDaysAgo": "Posted {days} days ago",
+            "postedToday": "Posted today",
+            "postedYesterday": "Posted yesterday",
+            "remote": "Remote",
+            "hybrid": "Hybrid",
+            "onsite": "On-site"
+        },
+        "pagination": {
+            "previous": "Previous",
+            "next": "Next"
+        },
+        "emptyState": {
+            "title": "No jobs found",
+            "description": "Try adjusting your filters or search terms"
+        }
+    },
     "landing": {
         "hero": {
             "title": "Land Your Dream Job with an AI-Powered CV",

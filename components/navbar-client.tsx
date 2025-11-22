@@ -64,7 +64,7 @@ export function NavbarClient({ user }: { user: User | null }) {
                     </Link>
                     <Link
                         className="text-sm font-medium leading-normal text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-                        href="#"
+                        href={`/${locale}/jobs`}
                     >
                         Job Listings
                     </Link>
