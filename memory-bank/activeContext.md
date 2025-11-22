@@ -1,11 +1,31 @@
 # Active Context
 
 ## Current Focus
-**Phase 7: CV Builder Save & Auto-Save - ✅ COMPLETED (100%)** - Manual save functionality implemented with database integration. CV title input, save status indicator, unsaved changes warning, and create/edit flows all working. Ready to move to Phase 8 (PDF Export).
+**Phase 8: PDF Export - ✅ COMPLETED (100%)** - Client-side PDF export implemented with react-to-print. Users can download CVs in all 3 templates via browser print dialog. Ready to move to Phase 9 (Job Listings Page).
 
 ---
 
 ## Recent Changes
+- ✅ **Phase 8 COMPLETED** - PDF Export (Nov 22, 2025)
+  - Installed react-to-print v3.2.0 for client-side PDF generation
+  - Implemented PDF export handler using browser's native print dialog
+  - Converted CVPreview component to forwardRef for ref access
+  - Added comprehensive print-friendly CSS styles (@media print)
+  - Optimized all 3 templates (Professional, Traditional, Creative) for printing:
+    - Added id="cv-print-area" to template root divs
+    - Removed shadows in print mode (print:shadow-none)
+    - Applied proper A4 sizing (print:min-h-0)
+    - Preserved colors with print-color-adjust CSS property
+  - Download button now fully functional in CV Builder right sidebar
+  - Added downloadSuccess translation keys (EN/TR)
+  - Toast notification on successful PDF export
+  - Print CSS includes:
+    - @page margin: 0, size: A4
+    - Visibility controls to show only CV content
+    - Orphan/widow prevention for clean page breaks
+    - Color preservation (-webkit-print-color-adjust: exact)
+  - Zero TypeScript/lint errors
+  - Committed and pushed to GitHub (commit: f84a7db)
 - ✅ **Phase 7 COMPLETED** - Save & Auto-Save (Manual Save Only) (Nov 17, 2025)
   - Extended Zustand store: resumeTitle (default "Untitled Resume"), saveStatus (idle/saving/saved/error), hasUnsavedChanges boolean
   - All CRUD actions (add/update/remove) now set hasUnsavedChanges = true
