@@ -2,7 +2,7 @@
 
 A Next.js application that helps job seekers create ATS-optimized CVs and matches them with relevant job listings using AI-powered semantic search.
 
-## Features
+## Featuresm
 
 - 🎨 **Intuitive CV Builder** - Create professional CVs with real-time preview
 - 🤖 **AI-Powered** - Gemini API for CV parsing and intelligent matching
