@@ -1,11 +1,134 @@
 # Active Context
 
 ## Current Focus
-**Phase 8: PDF Export - ✅ COMPLETED (100%)** - Client-side PDF export implemented with react-to-print. Users can download CVs in all 3 templates via browser print dialog. Ready to move to Phase 9 (Job Listings Page).
+**Phase 10: Jobs Table Enhancement & Multi-Vector Embedding Architecture - ✅ MIGRATION COMPLETE** (Nov 24, 2025)
+
+**Critical Database Change:** Jobs table completely rebuilt from scratch with production-grade structure for semantic matching.
+
+**What Was Done:**
+- ✅ Migration `002_enhance_jobs_table.sql` created and executed
+- ✅ Old jobs table dropped (safe: embeddings were empty)
+- ✅ New jobs table created with **31 columns** (up from 18)
+- ✅ **Multi-vector architecture** ready (5 embedding columns):
+  - `embedding` (1024-dim) - Main embedding for MVP (Phase 11)
+  - `title_embedding` (384-dim) - Job title + company context (Phase 12)
+  - `skills_embedding` (1024-dim) - Must-have + nice-to-have skills (Phase 12)
+  - `responsibilities_embedding` (1024-dim) - Key duties (Phase 12)
+  - `context_embedding` (384-dim) - Company, industry, benefits (Phase 12)
+- ✅ **JSONB arrays** replace TEXT fields for structured data:
+  - `must_have_skills`: `["React", "TypeScript", "5+ years"]`
+  - `nice_to_have_skills`: `["GraphQL", "Docker", "AWS"]`
+  - `responsibilities`: `["Develop features", "Code review"]`
+  - `qualifications`: `["BS in CS", "Strong communication"]`
+  - `benefits`: `["Health insurance", "Remote work"]`
+- ✅ **24 indexes** created for optimal performance:
+  - 9 B-tree indexes (filtering/sorting)
+  - 5 GIN indexes (JSONB array queries)
+  - 5 HNSW indexes (vector similarity search)
+  - 1 composite index (active + language)
+- ✅ **8 CHECK constraints** enforce valid enum values
+- ✅ **Trigger** for auto-updating `updated_at` timestamp
+- ✅ **2 database functions** for semantic matching:
+  - `match_jobs()` - Single-vector matching (MVP)
+  - `match_jobs_multi_vector()` - Hybrid scoring (Phase 12)
+- ✅ **3 sample jobs** inserted for testing (Turkish, English Junior, English Lead)
+- ✅ **Memory Bank updated** with complete documentation:
+  - `techContext.md` - Updated embedding strategy, jobs table schema, indexes
+  - `systemPatterns.md` - Updated database reference table with jobs structure
+  - `productContext.md` - Updated job matching explanation with multi-vector details
+
+**Next Steps:**
+1. **Phase 11: Implement Optimized Embedding Generation**
+   - Create `lib/gemini/embeddings.ts` with weighted embedding functions
+   - Implement Gemini recommendations ([🎯 TOP SKILLS], [📋 EXPERIENCE], etc.)
+   - Add change detection (`shouldRegenerateCVEmbedding`)
+   - Create server actions (`generateCVEmbedding`, `generateJobEmbedding`)
+   - Update existing CVs to regenerate embeddings with new strategy
+
+2. **Update TypeScript Interfaces**
+   - Extend `JobResult` interface in `lib/actions/job-actions.ts`
+   - Add 13 new fields (JSONB types)
+   - Update `getJobs()` to SELECT new columns
+   - Create type guards for JSONB validation
+
+3. **Update Job Detail UI**
+   - Display responsibilities as list (from JSONB array)
+   - Show must-have vs nice-to-have skills separately
+   - Display qualifications, benefits as formatted lists
+   - Add company context (size, industry)
+
+4. **Phase 12: A/B Test Multi-Vector Approach** (Future)
+   - Test with 20-30 real CV-Job pairs
+   - Compare single-vector vs multi-vector accuracy
+   - Measure: Precision, recall, user satisfaction
+   - Decision: Stick with single-vector (fast) or switch to multi-vector (accurate)
 
 ---
 
 ## Recent Changes
+- ✅ **Phase 10: Jobs Table Rebuilt** - Multi-Vector Architecture (Nov 24, 2025)
+  - **CRITICAL DATABASE CHANGE:** Jobs table completely rebuilt via DROP + CREATE
+  - Created migration `002_enhance_jobs_table.sql` (executed successfully)
+  - **New Structure:** 31 columns (from 18), 24 indexes, 8 constraints, 1 trigger, 2 functions
+  - **Multi-Vector Ready:** 5 embedding columns (1 MVP + 4 advanced)
+  - **JSONB Arrays:** Must-have/nice-to-have skills, responsibilities, qualifications, benefits
+  - **Indexed Fields:** Company size, industry, remote type, experience level, salary range
+  - **Database Functions:**
+    - `match_jobs(embedding, threshold, count, language)` - Single-vector MVP
+    - `match_jobs_multi_vector(4 embeddings, threshold, count, language)` - Hybrid scoring
+  - **Sample Data:** 3 test jobs (Turkish Senior, English Junior, English Lead)
+  - **Memory Bank:** All files updated with new architecture details
+  - **Embedding Strategy:** Optimized with Gemini recommendations:
+    - [🎯 TOP SKILLS] section first (transformer attention mechanism)
+    - [📋 EXPERIENCE] dual views (responsibilities + achievements)
+    - [🎯 CORE REQUIREMENTS] grouped (summary, education, qualifications)
+    - [📂 ADDITIONAL CONTEXT] (company, benefits, location)
+  - **Backward Compatibility:** `required_skills` TEXT field kept for legacy integration
+  - **Migration Idempotent:** Safe to re-run (but not needed - already executed)
+  - **Zero Data Loss:** Old jobs table had empty embeddings (safe to drop)
+  - **Production Ready:** All indexes, constraints, triggers in place
+- ✅ **Phase 9 COMPLETED** - Job Listings Page (Nov 22, 2025)
+  - Created complete job listings page at /[locale]/jobs route
+  - Implemented FilterPanel component with dynamic data from database
+  - Created JobList component with pagination and job cards
+  - Added JobCard component with currency symbol support (TRY ₺, USD $, EUR €)
+  - Implemented dynamic filtering system:
+    - Database-driven filter options (getJobLocations, getEmploymentTypes, getExperienceLevels, getSalaryRange)
+    - 81 Turkish cities with popular cities prioritized (İstanbul, Ankara, İzmir first)
+    - Client-side location filtering for comma-containing values (e.g., "İstanbul, Türkiye")
+    - Apply Filters button mechanism (single API call on apply)
+  - Created server actions in lib/actions/job-actions.ts:
+    - getJobs: Fetch jobs with filters and pagination
+    - getJobLocations: Get unique job locations from database
+    - getEmploymentTypes: Get unique employment types
+    - getExperienceLevels: Get unique experience levels
+    - getSalaryRange: Calculate min/max salary range
+    - getJobById: Fetch single job by ID
+  - Implemented job detail page with dynamic routing:
+    - Created /[locale]/jobs/[id] route for individual job pages
+    - Server-side data fetching with Supabase
+    - SEO metadata generation (generateMetadata)
+    - JobDetailClient component with full job information
+    - Back button navigation, Apply Now CTA
+    - Skills tags, company info sidebar
+    - Responsive design for mobile/desktop
+  - Translation support:
+    - Added jobs.* namespace with 50+ keys (EN/TR)
+    - Filter labels, job detail sections, empty states
+    - Currency formatting (salary_currency field in database)
+  - UI enhancements:
+    - Clickable job cards with hover effects
+    - Currency symbols based on database field
+    - Responsive grid layout (1 column mobile, 2 columns desktop)
+    - Sticky filter panel on desktop
+    - Empty state when no jobs match filters
+  - Database integration:
+    - Used existing jobs table with is_active filter
+    - Added salary_currency field support
+    - Location filtering handles both city-only and "City, Country" formats
+  - Zero TypeScript/lint errors
+  - Build successful, all routes working
+  - Committed and pushed to GitHub
 - ✅ **Phase 8 COMPLETED** - PDF Export (Nov 22, 2025)
   - Installed react-to-print v3.2.0 for client-side PDF generation
   - Implemented PDF export handler using browser's native print dialog

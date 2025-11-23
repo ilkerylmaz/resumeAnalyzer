@@ -85,6 +85,38 @@ resume_interests:
   - id, resume_id
   - interest_name (NOT "name")
   - display_order
+
+jobs: ← REBUILT Nov 24, 2025 (Migration 002)
+  - job_id (UUID, PK)
+  - created_at, updated_at (TIMESTAMP, auto-updated via trigger)
+  - job_title, company_name, location (VARCHAR 255)
+  - language (VARCHAR 10: 'tr' or 'en')
+  - is_active (BOOLEAN, default true)
+  - job_summary (TEXT, 2-3 sentences)
+  - job_description (TEXT, full description)
+  - responsibilities (JSONB array: ["Task 1", "Task 2"])
+  - must_have_skills (JSONB array: ["React", "TypeScript"])
+  - nice_to_have_skills (JSONB array: ["GraphQL", "Docker"])
+  - qualifications (JSONB array: ["BS in CS", "3+ years"])
+  - required_education_level (VARCHAR 50: none/high-school/bachelor/master/phd)
+  - years_of_experience_min, years_of_experience_max (INTEGER)
+  - experience_level (VARCHAR 50: junior/mid/senior/lead/principal)
+  - min_salary, max_salary (NUMERIC 12,2)
+  - salary_currency (VARCHAR 10: TRY/USD/EUR/GBP)
+  - salary_frequency (VARCHAR 20: monthly/yearly/hourly/daily)
+  - employment_type (VARCHAR 50: full-time/part-time/contract/freelance/internship)
+  - remote_type (VARCHAR 50: remote/hybrid/on-site)
+  - company_size (VARCHAR 50: startup/small/medium/large/enterprise)
+  - industry (VARCHAR 100: tech/finance/healthcare/education/e-commerce)
+  - benefits (JSONB array: ["Health insurance", "Remote work"])
+  - application_url (VARCHAR 500)
+  - application_deadline, posted_date (DATE)
+  - required_skills (TEXT, legacy comma-separated)
+  - embedding (vector 1024, main embedding for MVP)
+  - title_embedding (vector 384, Phase 12)
+  - skills_embedding (vector 1024, Phase 12)
+  - responsibilities_embedding (vector 1024, Phase 12)
+  - context_embedding (vector 384, Phase 12)
 ```
 
 **Rule 4: When writing server actions (`lib/actions/*`)**
@@ -97,11 +129,31 @@ await supabase.from("resume_skills").insert({
   proficiency_level: skill.proficiency
 });
 
+// ✅ CORRECT: Jobs table with JSONB arrays
+await supabase.from("jobs").insert({
+  job_title: "Senior Developer",
+  company_name: "TechCorp",
+  must_have_skills: ["React", "TypeScript", "5+ years"], // JSONB array
+  nice_to_have_skills: ["GraphQL", "Docker"],            // JSONB array
+  responsibilities: ["Develop features", "Code review"], // JSONB array
+  benefits: ["Health insurance", "Remote work"],         // JSONB array
+  employment_type: "full-time",  // Must match CHECK constraint
+  remote_type: "hybrid",         // Must match CHECK constraint
+  language: "en"                 // Must be 'tr' or 'en'
+});
+
 // ❌ WRONG: Using code's property names
 await supabase.from("resume_skills").insert({
   resume_id: id,
   name: skill.name,  // DB has "skill_name" not "name"
   category: skill.category
+});
+
+// ❌ WRONG: Jobs table with TEXT instead of JSONB
+await supabase.from("jobs").insert({
+  job_title: "Senior Developer",
+  must_have_skills: "React, TypeScript, 5+ years", // ❌ Should be JSONB array!
+  remote_type: "office" // ❌ Invalid! Must be: remote/hybrid/on-site
 });
 ```
 
@@ -114,8 +166,8 @@ await supabase.from("resume_skills").insert({
 ┌─────────────────────────────────────────────────────────────┐
 │                         Frontend (Next.js)                   │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │  CV Builder  │  │  Dashboard   │  │ Auth Pages   │      │
-│  │  (4-Column   │  │  (Job Match) │  │              │      │
+│  │  CV Builder  │  │  Dashboard   │  │ Job Listings │      │
+│  │  (4-Column   │  │  (Job Match) │  │   (Phase 9)  │      │
 │  │   Layout)    │  │              │  │              │      │
 │  └──────────────┘  └──────────────┘  └──────────────┘      │
 │         ↓                  ↓                  ↓              │
@@ -125,10 +177,10 @@ await supabase.from("resume_skills").insert({
 └─────────────────────────────────────────────────────────────┘
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
-│                    Next.js API Routes                        │
+│                    Next.js Server Actions                    │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │ /api/cv/     │  │ /api/jobs/   │  │ /api/export/ │      │
-│  │   parse      │  │   match      │  │   pdf        │      │
+│  │ resume-      │  │ job-         │  │ (Future)     │      │
+│  │   actions.ts │  │   actions.ts │  │ cv/parse     │      │
 │  └──────────────┘  └──────────────┘  └──────────────┘      │
 └─────────────────────────────────────────────────────────────┘
         ↓                    ↓                    ↓

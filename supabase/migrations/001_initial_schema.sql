@@ -163,27 +163,112 @@ CREATE TABLE resume_interests (
 
 -- Job listings table
 CREATE TABLE jobs (
+  -- ============================================
+  -- PRIMARY KEY & METADATA
+  -- ============================================
   job_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+  
+  -- ============================================
+  -- BASIC JOB INFORMATION
+  -- ============================================
   job_title VARCHAR(255) NOT NULL,
   company_name VARCHAR(255) NOT NULL,
   location VARCHAR(255) NOT NULL,
-  posted_date DATE NOT NULL DEFAULT CURRENT_DATE,
-  application_deadline DATE,
-  job_description TEXT NOT NULL,
-  min_salary NUMERIC(10, 2),
-  max_salary NUMERIC(10, 2),
-  salary_currency VARCHAR(10),  -- USD, TRY, EUR
-  salary_frequency VARCHAR(20),  -- monthly, yearly, hourly
-  employment_type VARCHAR(50) NOT NULL,  -- full-time, part-time, contract
-  experience_level VARCHAR(50),  -- junior, mid, senior, lead
-  required_skills TEXT,  -- Comma-separated or JSON array
-  is_active BOOLEAN DEFAULT true,
-  embedding vector(1024),  -- Gemini embedding for semantic search
-  language VARCHAR(10) NOT NULL,  -- tr, en
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  language VARCHAR(10) NOT NULL, -- 'tr' or 'en'
+  is_active BOOLEAN DEFAULT true NOT NULL,
   
-  -- Max salary must be >= min salary (if both provided)
-  CHECK (max_salary IS NULL OR max_salary >= min_salary)
+  -- ============================================
+  -- JOB CONTENT (Structured for Semantic Matching)
+  -- ============================================
+  job_summary TEXT, -- 2-3 sentence overview (high priority for embedding)
+  job_description TEXT NOT NULL, -- Full description (fallback)
+  responsibilities JSONB, -- ["Develop features", "Code review"]
+  
+  -- ============================================
+  -- SKILLS (Must-Have vs Nice-to-Have Separation)
+  -- ============================================
+  must_have_skills JSONB, -- ["React", "TypeScript", "5+ years"]
+  nice_to_have_skills JSONB, -- ["GraphQL", "Docker", "AWS"]
+  
+  -- ============================================
+  -- REQUIREMENTS & QUALIFICATIONS
+  -- ============================================
+  qualifications JSONB, -- ["BS in CS", "Strong communication"]
+  required_education_level VARCHAR(50), -- none/high-school/bachelor/master/phd
+  years_of_experience_min INTEGER,
+  years_of_experience_max INTEGER,
+  experience_level VARCHAR(50), -- junior/mid/senior/lead/principal
+  
+  -- ============================================
+  -- SALARY INFORMATION
+  -- ============================================
+  min_salary NUMERIC(12, 2),
+  max_salary NUMERIC(12, 2),
+  salary_currency VARCHAR(10), -- TRY/USD/EUR/GBP
+  salary_frequency VARCHAR(20), -- monthly/yearly/hourly/daily
+  
+  -- ============================================
+  -- EMPLOYMENT DETAILS
+  -- ============================================
+  employment_type VARCHAR(50) NOT NULL, -- full-time/part-time/contract/freelance/internship
+  remote_type VARCHAR(50), -- remote/hybrid/on-site
+  
+  -- ============================================
+  -- COMPANY CONTEXT (Culture Fit)
+  -- ============================================
+  company_size VARCHAR(50), -- startup/small/medium/large/enterprise
+  industry VARCHAR(100), -- tech/finance/healthcare/education/e-commerce
+  benefits JSONB, -- ["Health insurance", "Remote work"]
+  
+  -- ============================================
+  -- APPLICATION INFO
+  -- ============================================
+  application_url VARCHAR(500),
+  application_deadline DATE,
+  posted_date DATE NOT NULL DEFAULT CURRENT_DATE,
+  
+  -- ============================================
+  -- LEGACY FIELD (Backward Compatibility)
+  -- ============================================
+  required_skills TEXT, -- Comma-separated (for old integration)
+  
+  -- ============================================
+  -- EMBEDDINGS (Multi-Vector Strategy)
+  -- ============================================
+  embedding vector(1024), -- Main embedding (MVP - Phase 11)
+  title_embedding vector(384), -- Job title + company (Phase 12)
+  skills_embedding vector(1024), -- Must-have + nice-to-have (Phase 12)
+  responsibilities_embedding vector(1024), -- Key duties (Phase 12)
+  context_embedding vector(384), -- Company, industry, benefits (Phase 12)
+  
+  -- ============================================
+  -- CONSTRAINTS
+  -- ============================================
+  CONSTRAINT check_salary_range 
+    CHECK (max_salary IS NULL OR max_salary >= min_salary),
+  
+  CONSTRAINT check_experience_years 
+    CHECK (years_of_experience_max IS NULL OR years_of_experience_max >= years_of_experience_min),
+  
+  CONSTRAINT check_language_valid 
+    CHECK (language IN ('tr', 'en')),
+  
+  CONSTRAINT check_remote_type_valid 
+    CHECK (remote_type IS NULL OR remote_type IN ('remote', 'hybrid', 'on-site')),
+  
+  CONSTRAINT check_company_size_valid 
+    CHECK (company_size IS NULL OR company_size IN ('startup', 'small', 'medium', 'large', 'enterprise')),
+  
+  CONSTRAINT check_education_level_valid 
+    CHECK (required_education_level IS NULL OR required_education_level IN ('none', 'high-school', 'bachelor', 'master', 'phd')),
+  
+  CONSTRAINT check_employment_type_valid 
+    CHECK (employment_type IN ('full-time', 'part-time', 'contract', 'freelance', 'internship')),
+  
+  CONSTRAINT check_experience_level_valid 
+    CHECK (experience_level IS NULL OR experience_level IN ('junior', 'mid', 'senior', 'lead', 'principal'))
 );
 
 -- Custom user data (extends Supabase auth.users)
@@ -206,19 +291,71 @@ CREATE INDEX idx_resumes_user_id ON resumes(user_id);
 CREATE INDEX idx_resumes_primary ON resumes(user_id, is_primary) 
 WHERE is_primary = true;
 
--- Vector similarity search for resumes (pgvector IVFFLAT index)
+-- Vector similarity search for resumes (HNSW - faster than IVFFlat)
 CREATE INDEX idx_resumes_embedding ON resumes 
-USING ivfflat (embedding vector_cosine_ops) 
-WITH (lists = 100);
+USING hnsw (embedding vector_cosine_ops);
 
--- Vector similarity search for jobs (pgvector IVFFLAT index)
-CREATE INDEX idx_jobs_embedding ON jobs 
-USING ivfflat (embedding vector_cosine_ops) 
-WITH (lists = 100);
+-- ============================================
+-- JOBS TABLE INDEXES (Multi-Vector + Filters)
+-- ============================================
 
--- Filter active jobs by language
+-- Filter active jobs by language (composite index)
 CREATE INDEX idx_jobs_active_language ON jobs(is_active, language) 
 WHERE is_active = true;
+
+-- Sort by posted date
+CREATE INDEX idx_jobs_posted_date ON jobs(posted_date DESC) 
+WHERE is_active = true;
+
+-- Filter by work preferences
+CREATE INDEX idx_jobs_remote_type ON jobs(remote_type) 
+WHERE is_active = true;
+
+CREATE INDEX idx_jobs_company_size ON jobs(company_size) 
+WHERE is_active = true;
+
+CREATE INDEX idx_jobs_industry ON jobs(industry) 
+WHERE is_active = true;
+
+-- Filter by experience
+CREATE INDEX idx_jobs_experience_level ON jobs(experience_level) 
+WHERE is_active = true;
+
+CREATE INDEX idx_jobs_experience_years ON jobs(years_of_experience_min, years_of_experience_max) 
+WHERE is_active = true;
+
+-- Filter by employment type
+CREATE INDEX idx_jobs_employment_type ON jobs(employment_type) 
+WHERE is_active = true;
+
+-- Filter by salary range
+CREATE INDEX idx_jobs_salary_range ON jobs(min_salary, max_salary) 
+WHERE is_active = true;
+
+-- GIN indexes for JSONB array queries (e.g., WHERE must_have_skills @> '["React"]')
+CREATE INDEX idx_jobs_must_have_skills ON jobs USING GIN (must_have_skills);
+CREATE INDEX idx_jobs_nice_to_have_skills ON jobs USING GIN (nice_to_have_skills);
+CREATE INDEX idx_jobs_responsibilities ON jobs USING GIN (responsibilities);
+CREATE INDEX idx_jobs_qualifications ON jobs USING GIN (qualifications);
+CREATE INDEX idx_jobs_benefits ON jobs USING GIN (benefits);
+
+-- HNSW vector indexes (faster approximate nearest neighbor than IVFFlat)
+-- Single-vector (MVP)
+CREATE INDEX idx_jobs_embedding ON jobs 
+USING hnsw (embedding vector_cosine_ops);
+
+-- Multi-vector (Phase 12)
+CREATE INDEX idx_jobs_title_embedding ON jobs 
+USING hnsw (title_embedding vector_cosine_ops);
+
+CREATE INDEX idx_jobs_skills_embedding ON jobs 
+USING hnsw (skills_embedding vector_cosine_ops);
+
+CREATE INDEX idx_jobs_responsibilities_embedding ON jobs 
+USING hnsw (responsibilities_embedding vector_cosine_ops);
+
+CREATE INDEX idx_jobs_context_embedding ON jobs 
+USING hnsw (context_embedding vector_cosine_ops);
 
 -- Speed up resume section queries
 CREATE INDEX idx_experience_resume ON resume_experience(resume_id);
@@ -368,11 +505,14 @@ CREATE POLICY "Users can insert own profile"
 -- HELPER FUNCTIONS
 -- ========================================
 
--- Function: Match jobs to user's CV using vector similarity
+-- ============================================
+-- FUNCTION: Single-Vector Job Matching (MVP - Phase 11)
+-- ============================================
 CREATE OR REPLACE FUNCTION match_jobs(
   query_embedding vector(1024),
   match_threshold float DEFAULT 0.5,
-  match_count int DEFAULT 20
+  match_count int DEFAULT 20,
+  user_language text DEFAULT 'en'
 )
 RETURNS TABLE (
   job_id uuid,
@@ -380,24 +520,143 @@ RETURNS TABLE (
   company_name text,
   location text,
   employment_type text,
+  remote_type text,
   experience_level text,
+  years_of_experience_min int,
+  years_of_experience_max int,
+  min_salary numeric,
+  max_salary numeric,
+  salary_currency text,
+  must_have_skills jsonb,
+  nice_to_have_skills jsonb,
+  job_summary text,
+  posted_date date,
+  application_url text,
   similarity float
 )
 LANGUAGE sql STABLE
 AS $$
   SELECT 
-    jobs.job_id,
-    jobs.job_title,
-    jobs.company_name,
-    jobs.location,
-    jobs.employment_type,
-    jobs.experience_level,
-    1 - (jobs.embedding <=> query_embedding) AS similarity
-  FROM jobs
+    j.job_id,
+    j.job_title,
+    j.company_name,
+    j.location,
+    j.employment_type,
+    j.remote_type,
+    j.experience_level,
+    j.years_of_experience_min,
+    j.years_of_experience_max,
+    j.min_salary,
+    j.max_salary,
+    j.salary_currency,
+    j.must_have_skills,
+    j.nice_to_have_skills,
+    j.job_summary,
+    j.posted_date,
+    j.application_url,
+    1 - (j.embedding <=> query_embedding) AS similarity
+  FROM jobs j
   WHERE 
-    jobs.is_active = true
-    AND 1 - (jobs.embedding <=> query_embedding) > match_threshold
-  ORDER BY jobs.embedding <=> query_embedding
+    j.is_active = true
+    AND j.language = user_language
+    AND 1 - (j.embedding <=> query_embedding) > match_threshold
+  ORDER BY j.embedding <=> query_embedding
+  LIMIT match_count;
+$$;
+
+-- ============================================
+-- FUNCTION: Multi-Vector Job Matching (Advanced - Phase 12)
+-- Hybrid scoring: 0.20*title + 0.35*skills + 0.30*responsibilities + 0.15*context
+-- ============================================
+CREATE OR REPLACE FUNCTION match_jobs_multi_vector(
+  cv_title_emb vector(384),
+  cv_skills_emb vector(1024),
+  cv_responsibilities_emb vector(1024),
+  cv_context_emb vector(384),
+  match_threshold float DEFAULT 0.5,
+  match_count int DEFAULT 20,
+  user_language text DEFAULT 'en'
+)
+RETURNS TABLE (
+  job_id uuid,
+  job_title text,
+  company_name text,
+  location text,
+  employment_type text,
+  remote_type text,
+  experience_level text,
+  years_of_experience_min int,
+  years_of_experience_max int,
+  min_salary numeric,
+  max_salary numeric,
+  salary_currency text,
+  must_have_skills jsonb,
+  nice_to_have_skills jsonb,
+  job_summary text,
+  posted_date date,
+  application_url text,
+  title_similarity float,
+  skills_similarity float,
+  responsibilities_similarity float,
+  context_similarity float,
+  weighted_score float
+)
+LANGUAGE sql STABLE
+AS $$
+  WITH scores AS (
+    SELECT 
+      j.job_id,
+      j.job_title,
+      j.company_name,
+      j.location,
+      j.employment_type,
+      j.remote_type,
+      j.experience_level,
+      j.years_of_experience_min,
+      j.years_of_experience_max,
+      j.min_salary,
+      j.max_salary,
+      j.salary_currency,
+      j.must_have_skills,
+      j.nice_to_have_skills,
+      j.job_summary,
+      j.posted_date,
+      j.application_url,
+      1 - (j.title_embedding <=> cv_title_emb) AS title_sim,
+      1 - (j.skills_embedding <=> cv_skills_emb) AS skills_sim,
+      1 - (j.responsibilities_embedding <=> cv_responsibilities_emb) AS resp_sim,
+      1 - (j.context_embedding <=> cv_context_emb) AS context_sim
+    FROM jobs j
+    WHERE 
+      j.is_active = true
+      AND j.language = user_language
+  )
+  SELECT 
+    job_id,
+    job_title,
+    company_name,
+    location,
+    employment_type,
+    remote_type,
+    experience_level,
+    years_of_experience_min,
+    years_of_experience_max,
+    min_salary,
+    max_salary,
+    salary_currency,
+    must_have_skills,
+    nice_to_have_skills,
+    job_summary,
+    posted_date,
+    application_url,
+    title_sim AS title_similarity,
+    skills_sim AS skills_similarity,
+    resp_sim AS responsibilities_similarity,
+    context_sim AS context_similarity,
+    (0.20 * title_sim + 0.35 * skills_sim + 0.30 * resp_sim + 0.15 * context_sim) AS weighted_score
+  FROM scores
+  WHERE (0.20 * title_sim + 0.35 * skills_sim + 0.30 * resp_sim + 0.15 * context_sim) > match_threshold
+  ORDER BY weighted_score DESC
   LIMIT match_count;
 $$;
 
@@ -419,6 +678,12 @@ CREATE TRIGGER update_resumes_updated_at
 -- Trigger: Auto-update updated_at on users table
 CREATE TRIGGER update_users_updated_at
   BEFORE UPDATE ON users
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- Trigger: Auto-update updated_at on jobs table
+CREATE TRIGGER update_jobs_updated_at
+  BEFORE UPDATE ON jobs
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 

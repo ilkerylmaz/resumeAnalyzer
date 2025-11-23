@@ -548,60 +548,117 @@
 - ✅ **UX:** Toast notification on success, no page reloads
 - ✅ **Git:** Committed (11 files changed, +106/-13 lines)
 
-### Phase 9: Job Listings Page (Week 5) - NOT STARTED
+### Phase 9: Job Listings Page (Week 5) - ✅ COMPLETED (100%)
 **Note:** This phase starts after CV Builder (Phases 5-8) is fully completed, including PDF Export.
 
-- ⬜ Create `/[locale]/jobs` route
-- ⬜ Build JobListings page component
-- ⬜ Implement job list UI:
-  - ⬜ Job cards with company, title, location, salary
-  - ⬜ Match score badge (visible only for logged-in users with CV)
-  - ⬜ Skill tags display
-  - ⬜ Save/bookmark functionality (for logged-in users)
-  - ⬜ Apply button/link
-- ⬜ Add search & filtering functionality:
-  - ⬜ Search by job title/company/keywords
-  - ⬜ Filter by location (city/country)
-  - ⬜ Filter by experience level (junior/mid/senior)
-  - ⬜ Filter by job type (full-time/part-time/remote)
-  - ⬜ Filter by match score (if user has CV, logged-in only)
-  - ⬜ Sort by: newest, match score, salary
-- ⬜ Implement pagination or infinite scroll
-- ⬜ Add job detail modal/drawer:
-  - ⬜ Full job description
-  - ⬜ Requirements & qualifications
-  - ⬜ Company information
-  - ⬜ Apply button/link
-  - ⬜ Similar jobs section
-  - ⬜ Share job link
-- ⬜ Public access (no login required to browse)
-- ⬜ Empty state when no jobs match filters
-- ⬜ Loading states for job fetching
-- ⬜ Error states (network failures, etc.)
-- ⬜ Mobile responsive design
-- ⬜ SEO optimization (meta tags, structured data)
-- ⬜ Test with sample job data (20-30 jobs minimum)
+- ✅ Create `/[locale]/jobs` route
+- ✅ Build JobListings page component
+- ✅ Implement job list UI:
+  - ✅ Job cards with company, title, location, salary
+  - ⬜ Match score badge (deferred - requires CV matching integration)
+  - ✅ Skill tags display (extracted from required_skills)
+  - ⬜ Save/bookmark functionality (deferred to Phase 12)
+  - ✅ Apply button/link (external link to job poster)
+- ✅ Add search & filtering functionality:
+  - ✅ Search by job title/company/keywords (database query)
+  - ✅ Filter by location (81 Turkish cities + database locations)
+  - ✅ Filter by experience level (database-driven options)
+  - ✅ Filter by employment type (database-driven options)
+  - ⬜ Filter by match score (deferred - requires CV matching)
+  - ✅ Sort by: newest (posted_date DESC)
+  - ⬜ Sort by: match score, salary (deferred)
+- ✅ Implement pagination (10 jobs per page with offset)
+- ✅ Add job detail page (full-page route, not modal):
+  - ✅ Full job description (HTML-safe with whitespace-pre-wrap)
+  - ✅ Requirements & qualifications (displayed in description)
+  - ✅ Company information (sidebar with location, type, experience)
+  - ✅ Apply button/link (external link)
+  - ⬜ Similar jobs section (deferred to Phase 12)
+  - ⬜ Share job link (deferred to post-MVP)
+- ✅ Public access (no login required to browse)
+- ✅ Empty state when no jobs match filters
+- ✅ Loading states for job fetching (React Suspense)
+- ⬜ Error states (deferred - will add in polish phase)
+- ✅ Mobile responsive design (tested on mobile viewport)
+- ✅ SEO optimization (generateMetadata for job detail pages)
+- ✅ Test with sample job data (database has active jobs)
 
-### Phase 10: CV Upload & Parsing (Week 5-6) - NOT STARTED
-- ⬜ Create Supabase Storage bucket (`cv-uploads`)
-- ⬜ Configure bucket settings (max 5MB, PDF only)
-- ⬜ Setup RLS for storage bucket
-- ⬜ Build file upload component
-  - ⬜ Drag & drop support
-  - ⬜ File type validation
-  - ⬜ File size validation
-- ⬜ Create `/api/cv/parse` route
-- ⬜ Implement PDF text extraction (pdf-parse)
-- ⬜ Create Gemini parsing prompt (structured JSON)
-- ⬜ Implement Gemini API call
-- ⬜ Add JSON validation (Zod)
-- ⬜ Handle parsing errors
-- ⬜ Pre-fill form with parsed data
-- ⬜ Test with various CV formats:
-  - ⬜ Single-page CV
-  - ⬜ Multi-page CV
-  - ⬜ Different layouts
-- ⬜ Cleanup uploaded file after parsing
+**Phase 9 Completion Summary:**
+- ✅ **Core Features:** Job listings, filtering, detail pages all working
+- ✅ **Dynamic Filtering:** Database-driven options (not hardcoded)
+- ✅ **Currency Support:** TRY ₺, USD $, EUR € symbols
+- ✅ **Turkish Market:** 81 cities with popular ones prioritized
+- ✅ **Apply Filters Button:** Single API call on apply (optimized)
+- ✅ **Job Detail Pages:** Dynamic routing with SEO metadata
+- ✅ **Translation:** Full EN/TR support for job listings
+- ✅ **Clickable Cards:** Navigate to /jobs/[id] on click
+- ✅ **Responsive Design:** Works on mobile, tablet, desktop
+- ✅ **Zero Errors:** No TypeScript or lint errors
+- ✅ **Build Success:** npm run build completed successfully
+- ✅ **Git Committed:** All changes pushed to GitHub
+
+**Deferred Features (Post-MVP):**
+- ⏳ Match score badge (requires CV matching integration - Phase 12)
+- ⏳ Save/bookmark jobs (user feature - Phase 12)
+- ⏳ Sort by match score/salary (Phase 12)
+- ⏳ Similar jobs section (Phase 12)
+- ⏳ Share job link (Phase 13+)
+- ⏳ Advanced error handling (Phase 13)
+
+### Phase 9: Job Listings Page (Week 5) - ✅ COMPLETED (100%)
+- ✅ Create `/[locale]/jobs` route
+- ✅ Build JobListings page component
+- ✅ Implement job list UI:
+  - ✅ Job cards with company, title, location, salary
+  - ⬜ Match score badge (deferred - requires CV matching integration)
+  - ✅ Skill tags display (extracted from required_skills)
+  - ⬜ Save/bookmark functionality (deferred to Phase 12)
+  - ✅ Apply button/link (external link to job poster)
+- ✅ Add search & filtering functionality:
+  - ✅ Search by job title/company/keywords (database query)
+  - ✅ Filter by location (81 Turkish cities + database locations)
+  - ✅ Filter by experience level (database-driven options)
+  - ✅ Filter by employment type (database-driven options)
+  - ⬜ Filter by match score (deferred - requires CV matching)
+  - ✅ Sort by: newest (posted_date DESC)
+  - ⬜ Sort by: match score, salary (deferred)
+- ✅ Implement pagination (10 jobs per page with offset)
+- ✅ Add job detail page (full-page route, not modal):
+  - ✅ Full job description (HTML-safe with whitespace-pre-wrap)
+  - ✅ Requirements & qualifications (displayed in description)
+  - ✅ Company information (sidebar with location, type, experience)
+  - ✅ Apply button/link (external link)
+  - ⬜ Similar jobs section (deferred to Phase 12)
+  - ⬜ Share job link (deferred to post-MVP)
+- ✅ Public access (no login required to browse)
+- ✅ Empty state when no jobs match filters
+- ✅ Loading states for job fetching (React Suspense)
+- ⬜ Error states (deferred - will add in polish phase)
+- ✅ Mobile responsive design (tested on mobile viewport)
+- ✅ SEO optimization (generateMetadata for job detail pages)
+- ✅ Test with sample job data (database has active jobs)
+
+**Phase 9 Completion Summary:**
+- ✅ **Core Features:** Job listings, filtering, detail pages all working
+- ✅ **Dynamic Filtering:** Database-driven options (not hardcoded)
+- ✅ **Currency Support:** TRY ₺, USD $, EUR € symbols
+- ✅ **Turkish Market:** 81 cities with popular ones prioritized
+- ✅ **Apply Filters Button:** Single API call on apply (optimized)
+- ✅ **Job Detail Pages:** Dynamic routing with SEO metadata
+- ✅ **Translation:** Full EN/TR support for job listings
+- ✅ **Clickable Cards:** Navigate to /jobs/[id] on click
+- ✅ **Responsive Design:** Works on mobile, tablet, desktop
+- ✅ **Zero Errors:** No TypeScript or lint errors
+- ✅ **Build Success:** npm run build completed successfully
+- ✅ **Git Committed:** All changes pushed to GitHub
+
+**Deferred Features (Post-MVP):**
+- ⏳ Match score badge (requires CV matching integration - Phase 12)
+- ⏳ Save/bookmark jobs (user feature - Phase 12)
+- ⏳ Sort by match score/salary (Phase 12)
+- ⏳ Similar jobs section (Phase 12)
+- ⏳ Share job link (Phase 13+)
+- ⏳ Advanced error handling (Phase 13)
 
 ### Phase 10: CV Upload & Parsing (Week 5-6) - NOT STARTED
 - ⬜ Create Supabase Storage bucket (`cv-uploads`)
@@ -913,6 +970,84 @@
 ---
 
 ## 📝 Change Log
+
+### November 22, 2025 - Phase 9 COMPLETED (Job Listings Page)
+- **COMPLETED:** Full job listings page with dynamic filtering and job detail pages
+- **New Route Created:**
+  - `/[locale]/jobs`: Main job listings page with FilterPanel and JobList
+  - `/[locale]/jobs/[id]`: Dynamic route for individual job details
+- **New Components Created:**
+  - `components/jobs/filter-panel.tsx`: Complete filtering UI (search, location, employment type, experience level, salary range)
+  - `components/jobs/job-list.tsx`: Job cards with pagination, clickable navigation
+  - `components/jobs/job-card.tsx`: Individual job card component
+  - `components/jobs/job-detail-client.tsx`: Full job detail page (client component)
+  - `app/[locale]/jobs/page.tsx`: Server component for job listings
+  - `app/[locale]/jobs/[id]/page.tsx`: Server component for job detail with SEO metadata
+- **New Server Actions (lib/actions/job-actions.ts):**
+  - `getJobs()`: Fetch jobs with filters (search, location, employment type, experience, salary, offset)
+  - `getJobLocations()`: Get unique locations from database
+  - `getEmploymentTypes()`: Get unique employment types from database
+  - `getExperienceLevels()`: Get unique experience levels from database
+  - `getSalaryRange()`: Calculate min/max salary from all jobs
+  - `getJobById()`: Fetch single job by ID with is_active check
+  - Extended `JobResult` interface with `salary_currency` field
+- **Dynamic Filtering System:**
+  - Database-driven filter options (not hardcoded)
+  - 81 Turkish cities hardcoded with popular cities prioritized
+  - Location filter handles both "City" and "City, Country" formats
+  - Client-side filtering for comma-containing locations (e.g., "İstanbul, Türkiye")
+  - Apply Filters button mechanism (batches all filter changes into single API call)
+- **Currency Support:**
+  - Added `getCurrencySymbol()` function (TRY → ₺, USD → $, EUR → €)
+  - Reads `salary_currency` from database field
+  - Displays correct symbol based on job's currency
+- **Job Detail Page:**
+  - Full-page route (not modal)
+  - Server-side data fetching with Supabase
+  - SEO metadata generation (`generateMetadata` function)
+  - JobDetailClient component with:
+    - Back to Jobs button
+    - Full job description (whitespace-pre-wrap)
+    - Skills tags (extracted from required_skills)
+    - Company info sidebar (location, employment type, experience level, posted date)
+    - Apply Now button (external link)
+  - Responsive design (mobile sidebar below content, desktop sidebar on right)
+  - notFound() handling for invalid job IDs
+- **Translation Support:**
+  - Added 50+ translation keys to messages/en.json and messages/tr.json
+  - jobs.* namespace: filters, detail page, empty states
+  - jobs.detail.* namespace: backToJobs, applyNow, jobDescription, requiredSkills, overview, experienceLevel, employmentType, location, salaryFrequency, aboutCompany, interestedTitle, interestedText
+  - jobs.detail.posted* keys: postedToday, postedYesterday, postedDaysAgo
+- **UI/UX Features:**
+  - Clickable job cards with hover effects (cursor-pointer, hover:shadow-md)
+  - onClick handler navigates to /jobs/[id] route
+  - Empty state when no jobs match filters
+  - Loading states (React Suspense with skeleton UI)
+  - Responsive grid layout (1 column mobile, 2 columns desktop)
+  - Sticky filter panel on desktop
+  - Posted date formatting (relative time: Today, Yesterday, X days ago)
+- **Database Integration:**
+  - Used existing `jobs` table with is_active = true filter
+  - Salary range calculation from min_salary and max_salary fields
+  - Location, employment_type, experience_level all fetched dynamically
+  - No new database migrations required
+- **Build & Testing:**
+  - npm run build successful
+  - Zero TypeScript errors
+  - Zero lint errors
+  - All routes working in development
+  - Dynamic routes confirmed in build output
+- **Git Commits:**
+  - Multiple commits throughout implementation
+  - Final commit: "feat(jobs): complete job listings page with dynamic filtering and detail pages"
+  - All changes pushed to GitHub (main branch)
+- **Deferred Features:**
+  - Match score badge (requires CV matching - Phase 12)
+  - Save/bookmark jobs (user feature - Phase 12)
+  - Sort by match score/salary (Phase 12)
+  - Similar jobs section (Phase 12)
+  - Share job link (post-MVP)
+  - Advanced error handling (Phase 13)
 
 ### November 17, 2025 - Dashboard CV Display & Database Fixes
 - **COMPLETED:** Dashboard now displays saved CVs from database
