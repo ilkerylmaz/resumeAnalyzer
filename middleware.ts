@@ -10,7 +10,7 @@ const intlMiddleware = createMiddleware({
     defaultLocale: "en",
 });
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     // First, handle Supabase auth session
     const supabaseResponse = await updateSession(request);
 
@@ -24,6 +24,6 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-    // Match only internationalized pathnames
-    matcher: ["/((?!_next|_vercel|.*\\..*).*)"],
+    // Match only internationalized pathnames, exclude API routes
+    matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };

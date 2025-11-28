@@ -39,15 +39,60 @@
         },
         "logout": "Çıkış Yap"
     },
+    "upload": {
+        "title": "CV'nizi Yükleyin",
+        "description": "Mevcut CV'nizi yükleyerek bilgilerinizi otomatik olarak çıkarın",
+        "dropZone": {
+            "title": "CV'nizi buraya bırakın",
+            "subtitle": "veya dosya seçmek için tıklayın",
+            "fileTypes": "Sadece PDF (max 5MB, 10 sayfa)"
+        },
+        "selected": {
+            "file": "Seçilen dosya",
+            "size": "Boyut",
+            "pages": "Sayfa"
+        },
+        "button": {
+            "upload": "Yükle ve Analiz Et",
+            "uploading": "Yükleniyor...",
+            "parsing": "CV'niz analiz ediliyor...",
+            "change": "Dosyayı Değiştir"
+        },
+        "progress": {
+            "uploading": "Dosya yükleniyor...",
+            "parsing": "Bilgiler çıkarılıyor... Bu 10-15 saniye sürebilir",
+            "finalizing": "Neredeyse bitti..."
+        },
+        "success": {
+            "title": "CV Başarıyla Yüklendi!",
+            "message": "Bilgileriniz çıkarıldı. Gerekirse inceleyin ve düzenleyin."
+        },
+        "errors": {
+            "invalidType": "Lütfen bir PDF dosyası yükleyin",
+            "tooLarge": "Dosya boyutu 5MB'dan küçük olmalıdır",
+            "tooManyPages": "PDF en fazla 10 sayfa olmalıdır",
+            "uploadFailed": "Yükleme başarısız. Lütfen tekrar deneyin.",
+            "parseFailed": "CV analiz edilemedi. Farklı bir format deneyin veya manuel oluşturun.",
+            "corrupted": "Dosya bozuk veya şifreli görünüyor",
+            "networkError": "Ağ hatası. Lütfen bağlantınızı kontrol edin ve tekrar deneyin."
+        }
+    },
+    "parsing": {
+        "banner": {
+            "title": "CV Yüklendi",
+            "message": "CV'niz otomatik olarak analiz edildi. Kaydetmeden önce lütfen hataları inceleyin ve düzeltin."
+        }
+    },
     "dashboard": {
         "welcome": "Tekrar hoş geldin, {name}!",
-        "subtitle": "Profesyonel profilinizin ve fırsatlarınızın özeti burada.",
+        "subtitle": "Profesyonel profilin ve fırsatların özeti burada.",
         "myResumes": "Özgeçmişlerim",
         "addNewResume": "Yeni Özgeçmiş Ekle",
-        "createFirstResume": "İlk Özgeçmişinizi Oluşturun",
+        "uploadCV": "CV Yükle",
+        "createFirstResume": "İlk Özgeçmişini Oluştur",
         "emptyState": {
             "noCVs": "Henüz özgeçmiş yok",
-            "description": "İş eşleştirme ve ATS optimizasyonuna başlamak için yapay zeka destekli ilk özgeçmişinizi oluşturun"
+            "description": "İş eşleştirme ve ATS optimizasyonu için ilk yapay zeka destekli özgeçmişini oluştur"
         },
         "recommendedJobs": "Sizin İçin Önerilen İşler",
         "jobsSubtitle": "Kişiselleştirilmiş iş eşleşmelerini görmek için bir özgeçmiş oluşturun",

@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Navbar } from "@/components/navbar";
-import { CreateCVButton } from "@/components/create-cv-button";
+import { DashboardActions } from "@/components/dashboard-actions";
 import { CVCard } from "@/components/cv-card";
 import { fetchUserResumes } from "@/lib/actions/resume-actions";
 
@@ -58,22 +58,7 @@ export default async function DashboardPage({
                                     <h2 className="text-slate-900 dark:text-slate-50 text-xl font-bold tracking-tight">
                                         {t("myResumes")}
                                     </h2>
-                                    <CreateCVButton locale={locale} variant="secondary">
-                                        <svg
-                                            className="w-5 h-5"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M12 4v16m8-8H4"
-                                            />
-                                        </svg>
-                                        <span className="truncate">{t("addNewResume")}</span>
-                                    </CreateCVButton>
+                                    <DashboardActions />
                                 </div>
 
                                 {/* Resume Cards Grid or Empty State */}

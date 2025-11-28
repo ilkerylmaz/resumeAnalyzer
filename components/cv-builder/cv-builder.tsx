@@ -16,9 +16,10 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { saveResume } from "@/lib/actions/resume-actions";
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast, Toaster } from "sonner";
 import { useReactToPrint } from "react-to-print";
+import { X } from "lucide-react";
 
 interface CVBuilderProps {
     locale: string;
@@ -45,6 +46,7 @@ const sections: Section[] = [
 
 export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const cvStore = useCVStore();
     const {
         activeSection,
@@ -64,10 +66,12 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
     const tSections = useTranslations("cvBuilder.sections");
     const tNav = useTranslations("cvBuilder.navigation");
     const tActions = useTranslations("cvBuilder.actions");
+    const tParsing = useTranslations("parsing");
 
     const currentIndex = sections.findIndex((s) => s.id === activeSection);
     const isCreateMode = !resumeId;
     const cvPreviewRef = useRef<HTMLDivElement>(null);
+    const [showUploadBanner, setShowUploadBanner] = useState(false);
 
     // PDF Export Handler (react-to-print v3.x)
     const handlePrint = useReactToPrint({
@@ -77,6 +81,26 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
             toast.success(tActions("downloadSuccess") || "PDF downloaded successfully!");
         },
     });
+
+    // Load uploaded CV data from localStorage if ?source=upload
+    useEffect(() => {
+        const source = searchParams.get("source");
+        if (source === "upload" && !resumeId) {
+            try {
+                const uploadedData = localStorage.getItem("cv-upload-draft");
+                if (uploadedData) {
+                    const parsedData = JSON.parse(uploadedData);
+                    loadCV(parsedData);
+                    setHasUnsavedChanges(true); // Mark as unsaved (parsed but not saved to DB)
+                    setShowUploadBanner(true);
+                    // Clear from localStorage after loading
+                    localStorage.removeItem("cv-upload-draft");
+                }
+            } catch (error) {
+                console.error("Failed to load uploaded CV data:", error);
+            }
+        }
+    }, [searchParams, resumeId, loadCV, setHasUnsavedChanges]);
 
     // Load initial data if editing existing resume
     useEffect(() => {
@@ -246,6 +270,28 @@ export function CVBuilder({ locale, resumeId, initialData }: CVBuilderProps) {
 
                         {/* Form Content - Scrollable */}
                         <div className="flex flex-col gap-4 py-6 px-6 flex-1 overflow-y-auto custom-scrollbar">
+                            {/* Upload Banner */}
+                            {showUploadBanner && (
+                                <div className="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex-1">
+                                            <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
+                                                {tParsing("banner.title")}
+                                            </h4>
+                                            <p className="text-xs text-blue-700 dark:text-blue-300">
+                                                {tParsing("banner.message")}
+                                            </p>
+                                        </div>
+                                        <button
+                                            onClick={() => setShowUploadBanner(false)}
+                                            className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
                             {renderForm()}
                         </div>
 

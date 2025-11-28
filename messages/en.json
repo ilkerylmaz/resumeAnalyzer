@@ -39,11 +39,56 @@
         },
         "logout": "Log Out"
     },
+    "upload": {
+        "title": "Upload Your CV",
+        "description": "Upload your existing CV to automatically extract your information",
+        "dropZone": {
+            "title": "Drop your CV here",
+            "subtitle": "or click to browse",
+            "fileTypes": "PDF only (max 5MB, 10 pages)"
+        },
+        "selected": {
+            "file": "Selected file",
+            "size": "Size",
+            "pages": "Pages"
+        },
+        "button": {
+            "upload": "Upload & Parse",
+            "uploading": "Uploading...",
+            "parsing": "Parsing your CV...",
+            "change": "Change File"
+        },
+        "progress": {
+            "uploading": "Uploading file...",
+            "parsing": "Extracting information... This may take 10-15 seconds",
+            "finalizing": "Almost done..."
+        },
+        "success": {
+            "title": "CV Uploaded Successfully!",
+            "message": "Your information has been extracted. Review and edit as needed."
+        },
+        "errors": {
+            "invalidType": "Please upload a PDF file",
+            "tooLarge": "File size must be less than 5MB",
+            "tooManyPages": "PDF must have 10 pages or less",
+            "uploadFailed": "Upload failed. Please try again.",
+            "parseFailed": "Failed to parse CV. Please try a different format or create manually.",
+            "corrupted": "File appears to be corrupted or password-protected",
+            "networkError": "Network error. Please check your connection and try again."
+        }
+    },
+    "parsing": {
+        "banner": {
+            "title": "CV Uploaded",
+            "message": "Your CV has been parsed automatically. Please review and correct any errors before saving."
+        }
+    },
     "dashboard": {
         "welcome": "Welcome back, {name}!",
         "subtitle": "Here's a summary of your professional profile and opportunities.",
         "myResumes": "My Resumes",
         "addNewResume": "Add New Resume",
+        "uploadCV": "Upload CV",
         "createFirstResume": "Create Your First Resume",
         "emptyState": {
             "noCVs": "No resumes yet",

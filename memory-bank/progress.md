@@ -1,9 +1,9 @@
 # Progress
 
 ## Project Status
-**Phase:** Phase 8 (PDF Export) Complete → Phase 9 (Job Listings Page) Next  
-**Timeline:** 54 days until deadline (January 15, 2026)  
-**Current Date:** November 22, 2025  
+**Phase:** Phase 11 (CV Upload & Parse) In Progress  
+**Timeline:** 48 days until deadline (January 15, 2026)  
+**Current Date:** November 28, 2025  
 
 ---
 
@@ -681,6 +681,61 @@
   - ⬜ Different layouts
 - ⬜ Cleanup uploaded file after parsing
 
+### Phase 10.5: CV Upload & Parsing (Week 5-6) - 🔄 IN PROGRESS (15%)
+**Started:** November 28, 2025
+
+**Approach Decision:**
+- ✅ **Primary:** Gemini Vision API (PDF → JSON directly)
+- ⬜ **Fallback:** Python child process with PDFPlumber (if Gemini fails)
+- ⚠️ **Deferred:** ML/NLP approach (Phase 17+ - requires 1000+ training CVs)
+
+**Completed:**
+- ✅ UX design finalized:
+  - ✅ Upload button: Dashboard (next to "Create New CV")
+  - ✅ Upload UI: Modal with drag-drop
+  - ✅ Save strategy: Manual (user reviews → saves)
+  - ✅ Data flow: Upload → Parse → localStorage → CV Builder → Review → Manual save
+- ✅ Technical decisions:
+  - ✅ Max file size: 5MB
+  - ✅ Max pages: 10
+  - ✅ File type: PDF only
+  - ✅ Parse method: Gemini Vision API
+  - ✅ Fallback: Python PDFPlumber
+- ✅ Dependencies:
+  - ✅ pdf-lib installed (PDF validation)
+
+**In Progress:**
+- 🔄 Backend `/api/cv/parse`:
+  - 🔄 Gemini Vision API integration
+  - ⬜ PDF validation (size, pages, type)
+  - ⬜ Error handling
+  - ⬜ Response schema (Zod validation)
+
+**Not Started:**
+- ⬜ Frontend components:
+  - ⬜ UploadCVDialog (modal + drag-drop)
+  - ⬜ DashboardActions (Upload + Create buttons)
+  - ⬜ Progress indicator (spinner + %)
+- ⬜ CV Builder integration:
+  - ⬜ ?source=upload param detection
+  - ⬜ localStorage → Zustand load
+  - ⬜ Info banner ("Parsed automatically, review before saving")
+  - ⬜ Clear localStorage after load
+- ⬜ Translations (EN/TR):
+  - ⬜ upload.* keys (title, description, errors)
+  - ⬜ parsing.* keys (uploading, parsing, success)
+- ⬜ Testing:
+  - ⬜ Single-page CV
+  - ⬜ Multi-page CV (2-5 pages)
+  - ⬜ Different formats (traditional, modern, creative)
+  - ⬜ Edge cases (empty, scanned, corrupted)
+
+**Timeline:**
+- Backend API: 0.5 day (Nov 28 PM)
+- Frontend: 0.5 day (Nov 29 AM)
+- Integration: 0.5 day (Nov 29 PM)
+- **Total: 1.5 days**
+
 ### Phase 11: Embedding Generation (Week 6) - NOT STARTED
 - ⬜ Create Gemini embedding wrapper function
 - ⬜ Implement CV text extraction logic
@@ -793,6 +848,181 @@
   - ⬜ Tech stack
   - ⬜ Setup instructions
   - ⬜ Environment variables
+  - ⬜ Deployment guide
+- ⬜ Create user guide (optional, for evaluators)
+- ⬜ Document API routes (optional)
+- ⬜ Create demo video (10-15 minutes)
+
+---
+
+## 🚀 Post-MVP Roadmap (Phase 17+)
+
+### Phase 17: Advanced CV Parsing with ML/NLP - DEFERRED
+**Rationale:** Requires extensive training data and time investment. Gemini Vision API provides 70-85% accuracy for MVP. ML/NLP will boost accuracy to 90%+ but not critical for launch.
+
+**Prerequisites:**
+- ✅ MVP deployed and tested
+- ⬜ Collect 1000+ diverse CV samples
+- ⬜ Manual annotation/labeling
+- ⬜ ML infrastructure setup
+
+**Implementation Plan:**
+
+**1. Data Collection & Preparation (2 weeks):**
+- ⬜ Collect diverse CV dataset (1000+ CVs minimum)
+  - Industries: Tech, marketing, finance, healthcare, education
+  - Formats: Traditional, modern, creative, academic
+  - Languages: Turkish, English (bilingual CVs)
+  - Sources: Public datasets, user uploads (anonymized with consent)
+- ⬜ Annotate/label CVs (manual tagging):
+  - Personal info entities: NAME, EMAIL, PHONE, LOCATION, TITLE
+  - Sections: EXPERIENCE, EDUCATION, SKILLS, PROJECTS, CERTIFICATES, LANGUAGES
+  - Entity types: COMPANY, JOB_TITLE, DATE, DEGREE, INSTITUTION, SKILL, TECHNOLOGY
+- ⬜ Split dataset: 80% train, 10% validation, 10% test
+- ⬜ Quality check: Remove duplicates, fix mislabels
+
+**2. Text Extraction & Preprocessing (3 days):**
+- ⬜ Library: **PDFPlumber** or **PyMuPDF** (pdfminer.six)
+  - Extract text with layout preservation
+  - Handle multi-column layouts, tables, bullet points
+  - Support scanned PDFs (OCR with Tesseract if needed)
+- ⬜ Text cleaning pipeline:
+  - Normalize whitespace (remove excessive newlines/spaces)
+  - Fix encoding issues (UTF-8, handle Turkish chars: ğ, ü, ş, ı, ç, ö)
+  - Remove noise (page numbers, headers/footers, watermarks)
+  - Date normalization (convert "Jan 2020" → "2020-01")
+- ⬜ Structure detection:
+  - Identify section headers (regex + ML classifier)
+  - Extract bullet points, lists
+  - Preserve formatting (bold, italic for job titles/companies)
+
+**3. Named Entity Recognition (NER) (1-2 weeks):**
+- ⬜ Framework: **spaCy** or **Hugging Face Transformers**
+- ⬜ Train custom NER model:
+  - Entities: PERSON, EMAIL, PHONE, ORG (company), GPE (location), DATE, SKILL, JOB_TITLE
+  - Use pre-trained model as base (en_core_web_lg or Turkish BERT)
+  - Fine-tune on CV-specific dataset
+- ⬜ Entity extraction pipeline:
+  - Extract all entities from CV text
+  - Validate formats (email regex, phone patterns)
+  - Disambiguate (differentiate company vs school, job title vs skill)
+- ⬜ Evaluation metrics:
+  - Precision: 85%+
+  - Recall: 80%+
+  - F1-score: 82%+
+
+**4. Section Detection & Classification (1 week):**
+- ⬜ Train text classifier (scikit-learn or PyTorch):
+  - Input: Text chunk (paragraph or multi-line block)
+  - Output: Section type (EXPERIENCE, EDUCATION, SKILLS, etc.)
+- ⬜ Rule-based fallback (regex patterns):
+  - "Work Experience", "İş Deneyimi", "Professional Experience"
+  - "Education", "Eğitim", "Academic Background"
+  - "Skills", "Yetenekler", "Technical Skills"
+  - "Projects", "Projeler", "Portfolio"
+- ⬜ Confidence scoring:
+  - High confidence (>0.9): Use ML prediction
+  - Low confidence (<0.7): Use rule-based fallback
+  - Medium: Combine both
+
+**5. Structured Data Extraction (1-2 weeks):**
+- ⬜ Hybrid approach (Rule-based + ML):
+  - **NER** for entities (names, emails, dates, companies)
+  - **Regex** for patterns (phone: +90 555 123 4567, URLs: linkedin.com/in/...)
+  - **ML** for ambiguous fields (job responsibilities, project descriptions)
+- ⬜ Post-processing pipeline:
+  - Date normalization → ISO 8601 (YYYY-MM-DD)
+  - Skill categorization:
+    - Frontend: React, Vue, Angular
+    - Backend: Node.js, Python, Java
+    - Tools: Git, Docker, Kubernetes
+    - Soft skills: Leadership, Communication
+  - Email/phone validation:
+    - Email: RFC 5322 regex
+    - Phone: International format (+90...)
+  - URL normalization:
+    - Remove http://, https://
+    - Extract domain (linkedin.com, github.com)
+
+**6. Integration with Next.js (3-5 days):**
+- ⬜ **Option A: Python Microservice (Production-ready)**
+  - Framework: FastAPI
+  - Deployment: Railway, Render, or AWS Lambda
+  - API endpoint: POST /parse-cv
+  - Request: Multipart form-data (PDF file)
+  - Response: JSON (structured CV data)
+  - Async processing: Celery + Redis for queue (for large CVs)
+  - Benefits: Scalable, isolated, language-agnostic
+- ⬜ **Option B: Python Child Process (Simpler for MVP)**
+  - Spawn Python script from Next.js API route
+  - Command: `python scripts/parse_cv.py /tmp/cv.pdf`
+  - Output: JSON printed to stdout
+  - Synchronous (blocks until parsing complete)
+  - Benefits: Simple, no extra infrastructure
+  - Drawbacks: Slower, not scalable
+
+**7. Quality Assurance & Testing (1 week):**
+- ⬜ Accuracy metrics (on test set):
+  - Field extraction accuracy: 90%+ (email, phone, name)
+  - Section detection accuracy: 95%+
+  - NER precision/recall: 85%+
+  - End-to-end accuracy: 90%+ (full CV correctly parsed)
+- ⬜ Edge case handling:
+  - Missing sections (CV without education, CV without experience)
+  - Non-standard formats (creative layouts, infographic CVs)
+  - Multilingual CVs (Turkish + English mixed)
+  - Scanned PDFs (OCR required)
+- ⬜ Human review loop:
+  - Flag low-confidence predictions
+  - Allow manual correction in UI
+  - Use corrections to retrain model (active learning)
+- ⬜ Performance benchmarks:
+  - Parsing time: < 10 seconds per CV
+  - Throughput: 100+ CVs/hour (with async processing)
+
+**8. Tools & Libraries:**
+- ⬜ **PDF Processing:**
+  - PDFPlumber (layout-aware text extraction)
+  - PyMuPDF (fast, handles images)
+  - pdfminer.six (detailed text positioning)
+  - Tesseract OCR (for scanned PDFs)
+- ⬜ **NLP & ML:**
+  - spaCy (NER, tokenization, POS tagging)
+  - Hugging Face Transformers (BERT, fine-tuning)
+  - scikit-learn (classifiers, vectorizers)
+  - PyTorch (custom models)
+- ⬜ **Data Labeling:**
+  - Label Studio (open-source annotation tool)
+  - Prodigy (spaCy's annotation tool)
+- ⬜ **Deployment:**
+  - Docker (containerization)
+  - FastAPI (Python web framework)
+  - Railway/Render (PaaS for microservices)
+  - Celery + Redis (async task queue)
+
+**Timeline:**
+- Data collection: 2 weeks
+- Model training: 2-3 weeks
+- Integration: 1 week
+- Testing & tuning: 1 week
+- **Total: 6-7 weeks**
+
+**Success Criteria:**
+- ✅ 90%+ field extraction accuracy
+- ✅ Handles 10+ different CV formats
+- ✅ Turkish + English support (bilingual)
+- ✅ Parsing time < 10 seconds per CV
+- ✅ Scalable (100+ CVs/hour with async queue)
+- ✅ Low error rate (< 5% complete parsing failures)
+
+**Cost Estimate:**
+- Development time: 6-7 weeks × 1 developer = 1.5 months
+- Infrastructure: $20-50/month (Railway/Render for microservice)
+- No additional API costs (self-hosted ML models)
+
+---
+
+
   - ⬜ Deployment guide
 - ⬜ Create user guide (optional, for evaluators)
 - ⬜ Document API routes (optional)
