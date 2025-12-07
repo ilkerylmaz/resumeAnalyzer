@@ -1105,8 +1105,162 @@
 
 ## 🐛 Known Issues
 
+### CRITICAL BUGS (Priority: VERY HIGH) - Documented November 30, 2025
+
+#### BUG #1: CV Data Overwrite Between Different CVs (VERY HIGH Priority)
+**Reported:** November 30, 2025  
+**Status:** NOT FIXED - Requires investigation  
+
+**Problem Description:**
+When editing and saving CV X, then navigating to edit CV Y, CV Y displays data from CV X instead of its own original data. The database correctly stores two separate CV records, but the application incorrectly applies CV X's data to CV Y.
+
+**Reproduction Steps:**
+1. Open CV X (e.g., resume_id = "abc123") in edit mode
+2. Make changes to CV X (e.g., change name, add experience)
+3. Click Save (data successfully saved to database for CV X)
+4. Navigate to CV Y (e.g., resume_id = "def456") in edit mode
+5. **BUG:** CV Y displays CV X's modified data instead of CV Y's original data
+6. Database verification shows both CVs exist as separate records with correct data
+
+**Expected Behavior:**
+- CV X should display only CV X's data
+- CV Y should display only CV Y's data
+- Each CV should be completely isolated with no data bleeding
+
+**Technical Investigation Needed:**
+- Check Zustand persist middleware (localStorage key collision?)
+- Check fetchResume() function (wrong resume_id in query?)
+- Check loadCV() function (state merge issue?)
+- Check useEffect dependencies in cv-builder.tsx
+- Check if resumeId prop is being properly updated between routes
+
+**Impact:**
+- **Severity:** CRITICAL - Data loss/corruption risk
+- **User Experience:** Broken - Users cannot safely edit multiple CVs
+- **Data Integrity:** Database OK, but application state management broken
+
+**Potential Root Causes:**
+1. Zustand persist middleware using single "cv-storage" key for all CVs
+2. loadCV() not clearing previous CV data before loading new one
+3. fetchResume() caching issue or incorrect query
+4. useEffect not re-running when resumeId prop changes
+5. Race condition between localStorage persist and database load
+
+---
+
+#### BUG #2: Upload CV Missing localStorage Draft Detection (HIGH Priority)
+**Reported:** November 30, 2025  
+**Status:** NOT FIXED - Implementation needed  
+
+**Problem Description:**
+The "Upload CV" button in dashboard does not check localStorage for existing unsaved draft work. When a user has an in-progress CV (not saved), clicking "Upload CV" directly opens the upload dialog without warning about potential data loss.
+
+**Reproduction Steps:**
+1. Click "Create New CV" and fill out some form fields
+2. Do NOT save the CV (localStorage has draft data)
+3. Return to dashboard
+4. Click "Upload CV" button
+5. **BUG:** Upload dialog opens immediately without warning modal
+6. User uploads new CV → previous draft is lost
+
+**Expected Behavior:**
+1. Click "Upload CV" → Check localStorage for draft data
+2. If draft exists → Show warning modal: "You have unsaved work. Uploading a new CV will replace all current data. Continue?"
+3. If user clicks "Yes, Upload New CV" → Clear localStorage → Open upload dialog
+4. If user clicks "Cancel" → Close modal, preserve draft
+
+**Current Behavior:**
+- "Create New CV" button correctly shows UnsavedDraftModal
+- "Upload CV" button bypasses this check entirely
+
+**Implementation Plan:**
+- Add same localStorage detection logic to Upload CV button handler
+- Create UploadCVWarningModal component (similar to UnsavedDraftModal)
+- Show modal before opening UploadCVDialog if draft detected
+- Clear localStorage only after user confirms upload
+
+**Impact:**
+- **Severity:** HIGH - Data loss risk
+- **User Experience:** Broken - Users lose unsaved work without warning
+- **Consistency:** Upload CV and Create New CV should have same protection
+
+---
+
+#### BUG #3: clearCV() Incorrectly Deletes Saved CVs (HIGH Priority)
+**Reported:** November 30, 2025  
+**Status:** NOT FIXED - Logic redesign needed  
+
+**Problem Description:**
+When editing a saved CV (e.g., CV X), if the user navigates to dashboard and clicks "Create New CV", the UnsavedDraftModal appears (correct). However, clicking "Create New (Clear Draft)" calls clearCV() which removes the saved CV X from localStorage, making it appear deleted even though it exists in the database.
+
+**Reproduction Steps:**
+1. Open saved CV X in edit mode (/cv/edit/[id])
+2. Make some changes but DO NOT save
+3. Navigate to dashboard
+4. Click "Create New CV" → Modal appears: "Unsaved Draft Found"
+5. Click "Create New (Clear Draft)" option
+6. **BUG:** CV X is removed from localStorage and disappears from dashboard
+7. Database still has CV X record (not deleted from database)
+8. User thinks CV X is gone but it's just not loading from database anymore
+
+**Expected Behavior:**
+- **Edit Mode (saved CV):** UnsavedDraftModal should NOT appear when navigating away
+  - Changes should only exist in memory, not localStorage
+  - Navigating away should discard unsaved edits
+  - Original saved CV should remain untouched
+- **Create Mode (new CV):** UnsavedDraftModal correctly warns about unsaved draft
+  - clearCV() should clear localStorage for new CV only
+  - Should NOT affect saved CVs in database
+
+**Root Cause Analysis:**
+The issue is that Edit mode and Create mode share the same localStorage persistence:
+- Edit mode: Should load from database, NOT use localStorage for draft
+- Create mode: Should use localStorage for draft protection
+- Current implementation: Both modes use same Zustand persist, causing confusion
+
+**Proposed Solution:**
+1. **Edit Mode:**
+   - Disable Zustand persist when resumeId exists (edit mode)
+   - Load CV from database into store (no localStorage)
+   - Changes exist only in memory until user clicks Save
+   - Navigating away = discard unsaved edits (no modal needed)
+   - Save button updates database directly
+
+2. **Create Mode:**
+   - Enable Zustand persist when resumeId is undefined (create mode)
+   - Use localStorage for crash protection
+   - UnsavedDraftModal works as intended
+   - clearCV() only affects localStorage, not database
+
+3. **Implementation:**
+   - Add conditional persist middleware based on resumeId
+   - OR: Use two separate Zustand stores (cvEditStore, cvDraftStore)
+   - OR: Clear localStorage when entering edit mode, restore on save
+
+**Impact:**
+- **Severity:** HIGH - Data integrity issue
+- **User Experience:** Confusing - Saved CVs appear deleted
+- **Trust:** Users may lose trust in the system
+
+**Alternative Quick Fix (Temporary):**
+- In edit mode, always fetch from database on page load (ignore localStorage)
+- Never clear localStorage for CVs with resumeId
+- This allows coexistence of saved CVs and drafts but doesn't solve root issue
+
+---
+
+### Known Issues Summary Table
+
+| Bug # | Title | Priority | Status | Impact |
+|-------|-------|----------|--------|--------|
+| #1 | CV Data Overwrite Between Different CVs | VERY HIGH | NOT FIXED | Data corruption |
+| #2 | Upload CV Missing localStorage Draft Detection | HIGH | NOT FIXED | Data loss |
+| #3 | clearCV() Incorrectly Deletes Saved CVs | HIGH | NOT FIXED | Data integrity |
+
+---
+
 ### Current Issues
-(None yet - project not started)
+(See Critical Bugs section above)
 
 ### Expected Challenges
 1. **PDF Parsing Accuracy:** Gemini may struggle with non-standard CV formats
