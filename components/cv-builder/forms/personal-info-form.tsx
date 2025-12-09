@@ -19,12 +19,18 @@ export function PersonalInfoForm() {
         formState: { errors },
         watch,
         trigger,
+        reset,
     } = useForm<PersonalInfoInput>({
         resolver: zodResolver(personalInfoSchema),
         defaultValues: personalInfo,
         mode: "onChange", // Validate on every change
         reValidateMode: "onChange", // Re-validate on every change
     });
+
+    // Reset form when personalInfo changes from store (e.g., loadCV)
+    useEffect(() => {
+        reset(personalInfo);
+    }, [personalInfo, reset]);
 
     // Watch all fields for real-time updates
     const formData = watch();

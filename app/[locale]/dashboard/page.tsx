@@ -5,7 +5,7 @@ import { Navbar } from "@/components/navbar";
 import { DashboardActions } from "@/components/dashboard-actions";
 import { CVCard } from "@/components/cv-card";
 import { fetchUserResumes } from "@/lib/actions/resume-actions";
-
+import { CreateCVButton } from "@/components/create-cv-button";
 export default async function DashboardPage({
     params,
 }: {
