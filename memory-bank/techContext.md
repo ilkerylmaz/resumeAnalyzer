@@ -176,7 +176,7 @@
 **Google Gemini API**
 - **Models Used:**
   - `gemini-pro`: CV parsing, ATS analysis (text generation)
-  - `text-embedding-004`: Embedding generation (1024 dimensions)
+  - `text-embedding-004`: Embedding generation (768 dimensions) ← CORRECTED Dec 21, 2025
 - **SDK:** `@google/generative-ai` (official Node.js library)
 - **API Key:** Stored in `.env.local` as `GEMINI_API_KEY`
 - **Rate Limiting:** 
@@ -228,10 +228,10 @@ const cvText = `
 
 const embedding = await gemini.embedContent({
   content: cvText,
-  model: 'text-embedding-004'  // 1024 dimensions
+  model: 'text-embedding-004'  // 768 dimensions ← CORRECTED Dec 21, 2025
 })
 
-// Store in resumes.embedding (vector(1024) column)
+// Store in resumes.embedding (vector(768) column)
 ```
 
 **Job Embeddings (Single-Vector MVP):**
@@ -260,10 +260,10 @@ const jobText = `
 
 const embedding = await gemini.embedContent({
   content: jobText,
-  model: 'text-embedding-004'  // 1024 dimensions
+  model: 'text-embedding-004'  // 768 dimensions ← CORRECTED Dec 21, 2025
 })
 
-// Store in jobs.embedding (vector(1024) column)
+// Store in jobs.embedding (vector(768) column)
 ```
 
 **Why This Structure Works:**
@@ -353,7 +353,7 @@ CREATE EXTENSION IF NOT EXISTS vector;
 
 -- Add vector column to resumes (already in 001_initial_schema.sql)
 ALTER TABLE resumes 
-ADD COLUMN embedding vector(1024);
+ADD COLUMN embedding vector(768);  -- CORRECTED: was vector(1024)
 
 -- Create index for fast similarity search
 CREATE INDEX ON resumes 
@@ -363,13 +363,13 @@ WITH (lists = 100);
 -- JOBS TABLE: Multi-vector structure (002_enhance_jobs_table.sql - Nov 24, 2025)
 -- Main embedding (MVP)
 ALTER TABLE jobs 
-ADD COLUMN embedding vector(1024);
+ADD COLUMN embedding vector(768);  -- CORRECTED: was vector(1024)
 
 -- Multi-vector embeddings (Phase 12)
 ALTER TABLE jobs
 ADD COLUMN title_embedding vector(384),
-ADD COLUMN skills_embedding vector(1024),
-ADD COLUMN responsibilities_embedding vector(1024),
+ADD COLUMN skills_embedding vector(768),  -- CORRECTED: was vector(1024)
+ADD COLUMN responsibilities_embedding vector(768),  -- CORRECTED: was vector(1024)
 ADD COLUMN context_embedding vector(384);
 
 -- HNSW indexes (faster than IVFFlat for approximate nearest neighbor)
@@ -401,7 +401,7 @@ const { data: jobs } = await supabase.rpc('match_jobs', {
 
 // SQL function (in 002_enhance_jobs_table.sql):
 CREATE FUNCTION match_jobs(
-  query_embedding vector(1024),
+  query_embedding vector(768),  -- CORRECTED: was vector(1024)
   match_threshold float DEFAULT 0.5,
   match_count int DEFAULT 20,
   user_language text DEFAULT 'en'
@@ -445,8 +445,8 @@ $$;
 // Advanced matching with weighted scores
 const { data: jobs } = await supabase.rpc('match_jobs_multi_vector', {
   query_title_embedding: cvTitleEmbedding,        // 384-dim
-  query_skills_embedding: cvSkillsEmbedding,      // 1024-dim
-  query_responsibilities_embedding: cvExpEmbedding, // 1024-dim
+  query_skills_embedding: cvSkillsEmbedding,      // 768-dim (CORRECTED)
+  query_responsibilities_embedding: cvExpEmbedding, // 768-dim (CORRECTED)
   query_context_embedding: cvContextEmbedding,    // 384-dim
   match_threshold: 0.6,  // Higher threshold for multi-vector
   match_count: 20,
@@ -456,8 +456,8 @@ const { data: jobs } = await supabase.rpc('match_jobs_multi_vector', {
 // SQL function (in 002_enhance_jobs_table.sql):
 CREATE FUNCTION match_jobs_multi_vector(
   query_title_embedding vector(384),
-  query_skills_embedding vector(1024),
-  query_responsibilities_embedding vector(1024),
+  query_skills_embedding vector(768),  -- CORRECTED: was vector(1024)
+  query_responsibilities_embedding vector(768),  -- CORRECTED: was vector(1024)
   query_context_embedding vector(384),
   match_threshold float DEFAULT 0.5,
   match_count int DEFAULT 20,
@@ -799,7 +799,7 @@ CREATE TABLE resumes (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   title VARCHAR(255) NOT NULL,
   is_primary BOOLEAN DEFAULT false,
-  embedding vector(1024),  -- Gemini embedding
+  embedding vector(768),  -- Gemini embedding (CORRECTED: was 1024)
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   
@@ -1021,10 +1021,10 @@ CREATE TABLE jobs (
   -- ============================================
   -- EMBEDDINGS (Multi-Vector Strategy)
   -- ============================================
-  embedding vector(1024), -- Main embedding (MVP - Phase 11)
+  embedding vector(768), -- Main embedding (MVP - Phase 11) [CORRECTED]
   title_embedding vector(384), -- Job title + company (Phase 12)
-  skills_embedding vector(1024), -- Must-have + nice-to-have (Phase 12)
-  responsibilities_embedding vector(1024), -- Key duties (Phase 12)
+  skills_embedding vector(768), -- Must-have + nice-to-have (Phase 12) [CORRECTED]
+  responsibilities_embedding vector(768), -- Key duties (Phase 12) [CORRECTED]
   context_embedding vector(384), -- Company, industry, benefits (Phase 12)
   
   -- ============================================

@@ -334,7 +334,9 @@
             "score": "Puan",
             "label": "ATS Puanı"
         },
-        "saveSuccess": "CV kaydedildi! Dashboard'a yönlendiriliyorsunuz..."
+        "saveSuccess": "CV kaydedildi! Dashboard'a yönlendiriliyorsunuz...",
+        "savingWithEmbedding": "CV kaydediliyor ve iş eşleştirmesi için optimize ediliyor...",
+        "embeddingGenerated": "CV iş eşleştirmesi için optimize edildi!"
     },
     "unsavedDraftModal": {
         "title": "Kaydedilmemiş Taslak Bulundu",

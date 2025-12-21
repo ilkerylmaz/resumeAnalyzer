@@ -2,6 +2,11 @@
 
 import { createClient } from "@/lib/supabase/server";
 import type { CVState } from "@/stores/cv-store";
+import {
+    generateCVEmbedding,
+    shouldRegenerateCVEmbedding,
+    type ResumeData,
+} from "@/lib/gemini/embeddings";
 
 export interface SaveResumeResult {
     success: boolean;
@@ -139,6 +144,23 @@ export async function saveResume(cvData: Partial<CVState>): Promise<SaveResumeRe
 
             if (sectionErrors.length > 0) {
                 console.warn("⚠️ Some sections failed to save:", sectionErrors);
+            }
+
+            // Step 3: Generate and save embedding (non-blocking)
+            // Run in background - don't block CV save if embedding fails
+            try {
+                console.log("🔄 Generating CV embedding...");
+                const embeddingResult = await generateAndSaveEmbedding(resumeId);
+
+                if (embeddingResult.success) {
+                    console.log("✅ CV embedding generated successfully");
+                } else {
+                    console.error("⚠️ Embedding generation failed:", embeddingResult.error);
+                    // Don't fail the entire save operation
+                }
+            } catch (embeddingError) {
+                console.error("⚠️ Embedding generation error:", embeddingError);
+                // Don't fail the entire save operation
             }
         }
 
@@ -818,5 +840,135 @@ export async function fetchUserResumes() {
     } catch (error) {
         console.error("Error fetching user resumes:", error);
         return [];
+    }
+}
+
+/**
+ * Generate and save CV embedding to database
+ * Called after CV is saved/updated
+ * 
+ * @param resumeId - The resume ID to generate embedding for
+ * @returns Success status and embedding array (if successful)
+ */
+export async function generateAndSaveEmbedding(
+    resumeId: string
+): Promise<{ success: boolean; embedding?: number[]; error?: string }> {
+    try {
+        const supabase = await createClient();
+
+        // Fetch complete resume data
+        const cvData = await fetchResume(resumeId);
+
+        if (!cvData || !cvData.personalInfo) {
+            return { success: false, error: "Resume not found or incomplete" };
+        }
+
+        // Convert to ResumeData format for embedding generation
+        const resumeData: ResumeData = {
+            personalInfo: cvData.personalInfo,
+            experiences: cvData.experiences || [],
+            education: cvData.education || [],
+            skills: cvData.skills || [],
+            projects: cvData.projects || [],
+            certificates: cvData.certificates || [],
+            languages: cvData.languages || [],
+            socialMedia: cvData.socialMedia || [],
+            interests: cvData.interests || [],
+        };
+
+        // Generate embedding using Gemini API
+        const embedding = await generateCVEmbedding(resumeData);
+
+        // Save embedding to database (Supabase client handles pgvector conversion)
+        const { error: updateError } = await supabase
+            .from("resumes")
+            .update({ embedding })
+            .eq("resume_id", resumeId);
+
+        if (updateError) {
+            console.error("Error saving embedding:", updateError);
+            return { success: false, error: updateError.message };
+        }
+
+        return { success: true, embedding };
+    } catch (error) {
+        console.error("Error generating embedding:", error);
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : "Unknown error",
+        };
+    }
+}
+
+/**
+ * Check if embedding regeneration is needed and do it if necessary
+ * 
+ * @param resumeId - The resume ID to check
+ * @param newCVData - The new CV data to compare
+ * @returns Whether embedding was regenerated
+ */
+export async function regenerateEmbeddingIfNeeded(
+    resumeId: string,
+    newCVData: Partial<CVState>
+): Promise<{ regenerated: boolean; error?: string }> {
+    try {
+        const supabase = await createClient();
+
+        // Fetch current resume data from database
+        const currentCVData = await fetchResume(resumeId);
+
+        if (!currentCVData || !currentCVData.personalInfo) {
+            return { regenerated: false, error: "Resume not found" };
+        }
+
+        // Convert to ResumeData format for comparison
+        const oldResumeData: ResumeData = {
+            personalInfo: currentCVData.personalInfo,
+            experiences: currentCVData.experiences || [],
+            education: currentCVData.education || [],
+            skills: currentCVData.skills || [],
+            projects: currentCVData.projects || [],
+            certificates: currentCVData.certificates || [],
+            languages: currentCVData.languages || [],
+            socialMedia: currentCVData.socialMedia || [],
+            interests: currentCVData.interests || [],
+        };
+
+        const newResumeData: ResumeData = {
+            personalInfo: newCVData.personalInfo!,
+            experiences: newCVData.experiences || [],
+            education: newCVData.education || [],
+            skills: newCVData.skills || [],
+            projects: newCVData.projects || [],
+            certificates: newCVData.certificates || [],
+            languages: newCVData.languages || [],
+            socialMedia: newCVData.socialMedia || [],
+            interests: newCVData.interests || [],
+        };
+
+        // Check if regeneration is needed
+        const needsRegeneration = shouldRegenerateCVEmbedding(
+            oldResumeData,
+            newResumeData
+        );
+
+        if (!needsRegeneration) {
+            return { regenerated: false };
+        }
+
+        // Regenerate embedding
+        const result = await generateAndSaveEmbedding(resumeId);
+
+        if (!result.success) {
+            return { regenerated: false, error: result.error };
+        }
+
+        return { regenerated: true };
+    } catch (error) {
+        console.error("Error checking/regenerating embedding:", error);
+        return {
+            regenerated: false,
+            error: error instanceof Error ? error.message : "Unknown error",
+        };
     }
 }

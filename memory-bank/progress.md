@@ -1,9 +1,9 @@
 # Progress
 
 ## Project Status
-**Phase:** Phase 11 (CV Upload & Parse) In Progress  
-**Timeline:** 48 days until deadline (January 15, 2026)  
-**Current Date:** November 28, 2025  
+**Phase:** Phase 12 (Job Matching) Ready to Start  
+**Timeline:** 25 days until deadline (January 15, 2026)  
+**Current Date:** December 21, 2025  
 
 ---
 
@@ -736,15 +736,20 @@
 - Integration: 0.5 day (Nov 29 PM)
 - **Total: 1.5 days**
 
-### Phase 11: Embedding Generation (Week 6) - NOT STARTED
-- ⬜ Create Gemini embedding wrapper function
-- ⬜ Implement CV text extraction logic
-- ⬜ Create `/api/cv/embed` route
-- ⬜ Trigger embedding on CV save/update
-- ⬜ Implement change detection (only regenerate if content changed)
-- ⬜ Store embedding in `resumes.embedding` column
-- ⬜ Test embedding generation
-- ⬜ Verify vector dimensions (1024)
+### Phase 11: Embedding Generation (Week 6) - ✅ COMPLETED (Dec 21, 2025)
+- ✅ Create Gemini embedding wrapper function (`lib/gemini/client.ts`, `lib/gemini/embeddings.ts`)
+- ✅ Implement CV text extraction logic (weighted formatting with [🎯 TOP SKILLS] sections)
+- ✅ Create server actions (`generateAndSaveEmbedding`, `regenerateEmbeddingIfNeeded`)
+- ✅ Trigger embedding on CV save/update (integrated into `saveResume` flow)
+- ✅ Implement change detection (`shouldRegenerateCVEmbedding`)
+- ✅ Store embedding in `resumes.embedding` column (pgvector format)
+- ✅ Test embedding generation (test script + real CV save)
+- ✅ **CRITICAL FIX:** Corrected vector dimensions (1024 → 768)
+  - Created migration `003_fix_embedding_dimensions.sql`
+  - Updated all embedding columns to vector(768)
+  - Cleaned up malformed embeddings with `004_cleanup_malformed_embeddings.sql`
+- ✅ Verified embeddings save correctly in database
+- ✅ Updated Memory Bank with correct embedding information
 
 ### Phase 12: Job Matching (Week 6-7) - NOT STARTED
 - ⬜ Create sample job data (manual entry in database)
@@ -1107,44 +1112,101 @@
 
 ### CRITICAL BUGS (Priority: VERY HIGH) - Documented November 30, 2025
 
-#### BUG #1: CV Data Overwrite Between Different CVs (VERY HIGH Priority)
+#### BUG #1: CV Data Bleeding Between Different CVs - ✅ FIXED (December 9, 2025)
 **Reported:** November 30, 2025  
-**Status:** NOT FIXED - Requires investigation  
+**Fixed:** December 9, 2025  
+**Status:** RESOLVED  
+**Git Commit:** 4c06e91 - "fix: BUG #1 - CV data bleeding between different CVs"
 
 **Problem Description:**
-When editing and saving CV X, then navigating to edit CV Y, CV Y displays data from CV X instead of its own original data. The database correctly stores two separate CV records, but the application incorrectly applies CV X's data to CV Y.
+When editing and saving CV X, then navigating to edit CV Y, CV Y displayed data from CV X instead of its own original data. The database correctly stored two separate CV records, but the application incorrectly applied CV X's data to CV Y.
 
-**Reproduction Steps:**
-1. Open CV X (e.g., resume_id = "abc123") in edit mode
-2. Make changes to CV X (e.g., change name, add experience)
-3. Click Save (data successfully saved to database for CV X)
-4. Navigate to CV Y (e.g., resume_id = "def456") in edit mode
-5. **BUG:** CV Y displays CV X's modified data instead of CV Y's original data
-6. Database verification shows both CVs exist as separate records with correct data
+**Root Cause Analysis:**
+After extensive debugging with console logs and code archaeology, the issue was identified:
 
-**Expected Behavior:**
-- CV X should display only CV X's data
-- CV Y should display only CV Y's data
-- Each CV should be completely isolated with no data bleeding
+1. **Zustand Persist Middleware:**
+   - Used single `cv-storage` localStorage key for ALL CVs
+   - When CV X was edited, data saved to localStorage with resumeId = X
+   - When CV Y page loaded, persist middleware auto-loaded CV X's data from localStorage
+   - Database fetch worked correctly but form didn't update
 
-**Technical Investigation Needed:**
-- Check Zustand persist middleware (localStorage key collision?)
-- Check fetchResume() function (wrong resume_id in query?)
-- Check loadCV() function (state merge issue?)
-- Check useEffect dependencies in cv-builder.tsx
-- Check if resumeId prop is being properly updated between routes
+2. **React Hook Form defaultValues:**
+   - `defaultValues` in `useForm()` only set on component mount
+   - When `loadCV(Y_data)` updated Zustand store, form didn't re-render
+   - Form showed old data (from persist) even though store had correct data
+
+**Timeline of Investigation:**
+- **Session 1 (Nov 30):** Bug reported, initial investigation
+- **Session 2 (Dec 9):** Deep dive analysis with debug logs
+- **Attempts Made:**
+  1. Changed `loadCV()` to use `initialState` instead of state merge ❌
+  2. Added `partialize` to prevent edit mode persistence ❌
+  3. Added `merge` function to block localStorage reads in edit mode ❌
+  4. Added `skipHydration: true` with manual hydration ❌
+  5. Removed persist middleware entirely ✅
+  6. Added `reset()` to PersonalInfoForm ✅
+
+**Solution Implemented:**
+1. **Removed Zustand Persist Middleware:**
+   ```typescript
+   // BEFORE:
+   export const useCVStore = create<CVState>()(
+       devtools(persist((set) => ({ ...}), { name: "cv-storage" }))
+   );
+   
+   // AFTER:
+   export const useCVStore = create<CVState>()(
+       devtools((set) => ({ ...}))
+   );
+   ```
+
+2. **Fixed PersonalInfoForm React Hook Form:**
+   ```typescript
+   // Added reset() method
+   const { register, ..., reset } = useForm({ ... });
+   
+   // Reset form when store updates (e.g., loadCV called)
+   useEffect(() => {
+       reset(personalInfo);
+   }, [personalInfo, reset]);
+   ```
+
+3. **Simplified CreateCVButton:**
+   - Removed localStorage draft detection (no longer needed)
+   - Simplified to direct `clearCV()` + navigation
+   - Removed UnsavedDraftModal component usage
+
+4. **Fixed loadCV() to Start from initialState:**
+   ```typescript
+   loadCV: (data) => set(() => ({ ...initialState, ...data }))
+   ```
+
+**Files Changed (5 files, +186/-275 lines):**
+- `stores/cv-store.ts`: Removed persist middleware, simplified clearCV()
+- `components/cv-builder/forms/personal-info-form.tsx`: Added reset() useEffect
+- `components/create-cv-button.tsx`: Removed draft detection logic
+- `components/dashboard-actions.tsx`: Integrated CreateCVButton
+- `app/[locale]/dashboard/page.tsx`: Added CreateCVButton import
+
+**Trade-offs:**
+- ✅ **Fixed:** CV data isolation works perfectly
+- ✅ **Fixed:** Form syncs with store updates
+- ❌ **Lost:** Draft protection (browser crash = data loss)
+- ✅ **Gained:** Simpler codebase, no localStorage conflicts
+
+**Testing Results:**
+- ✅ Create 2+ CVs with different data
+- ✅ Edit CV X → displays CV X data correctly
+- ✅ Edit CV Y → displays CV Y data correctly
+- ✅ No data bleeding between CVs
+- ✅ Forms update when loadCV() called
+- ✅ Zero TypeScript errors
+- ✅ Build successful
 
 **Impact:**
-- **Severity:** CRITICAL - Data loss/corruption risk
-- **User Experience:** Broken - Users cannot safely edit multiple CVs
-- **Data Integrity:** Database OK, but application state management broken
-
-**Potential Root Causes:**
-1. Zustand persist middleware using single "cv-storage" key for all CVs
-2. loadCV() not clearing previous CV data before loading new one
-3. fetchResume() caching issue or incorrect query
-4. useEffect not re-running when resumeId prop changes
-5. Race condition between localStorage persist and database load
+- **Severity:** CRITICAL → RESOLVED
+- **User Experience:** BROKEN → WORKING
+- **Data Integrity:** Database was always OK, application state now matches
 
 ---
 

@@ -112,10 +112,10 @@ jobs: ← REBUILT Nov 24, 2025 (Migration 002)
   - application_url (VARCHAR 500)
   - application_deadline, posted_date (DATE)
   - required_skills (TEXT, legacy comma-separated)
-  - embedding (vector 1024, main embedding for MVP)
+  - embedding (vector 768, main embedding for MVP) ← FIXED Dec 21, 2025
   - title_embedding (vector 384, Phase 12)
-  - skills_embedding (vector 1024, Phase 12)
-  - responsibilities_embedding (vector 1024, Phase 12)
+  - skills_embedding (vector 768, Phase 12) ← FIXED Dec 21, 2025
+  - responsibilities_embedding (vector 768, Phase 12) ← FIXED Dec 21, 2025
   - context_embedding (vector 384, Phase 12)
 ```
 
@@ -489,7 +489,7 @@ const generateEmbedding = async (text: string): Promise<number[]> => {
 // 1. Create Postgres function (run in Supabase SQL editor)
 /*
 CREATE OR REPLACE FUNCTION match_jobs(
-  query_embedding vector(1024),
+  query_embedding vector(768),  -- CORRECTED: was vector(1024)
   user_language text,
   match_threshold float DEFAULT 0.5,
   match_count int DEFAULT 20

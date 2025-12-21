@@ -1,6 +1,60 @@
 # Active Context
 
 ## Current Focus
+**Phase 11: Optimized Embedding Generation - ✅ COMPLETED** (Dec 21, 2025)
+
+**What Was Done:**
+- ✅ Created Gemini API client wrapper (`lib/gemini/client.ts`)
+  - Lazy initialization to prevent premature API key checks
+  - Model configuration (text-embedding-004, gemini-2.0-flash-exp)
+- ✅ Created embedding generation library (`lib/gemini/embeddings.ts`)
+  - **Weighted CV formatting** with Gemini recommendations:
+    - `[🎯 TOP SKILLS]` - Most critical for matching (transformer attention favors beginning)
+    - `[📋 EXPERIENCE]` - Professional history
+    - `[🎯 CORE REQUIREMENTS]` - Education, languages, summary
+    - `[📂 ADDITIONAL CONTEXT]` - Projects, certificates, interests
+  - **Job embedding** with JSONB array support (must_have_skills, responsibilities, etc.)
+  - **Change detection** (`shouldRegenerateCVEmbedding`) - only regenerate when meaningful changes occur
+- ✅ Created server actions (`lib/actions/resume-actions.ts`, `lib/actions/job-actions.ts`)
+  - `generateAndSaveEmbedding()` - Generate and save CV embedding
+  - `regenerateEmbeddingIfNeeded()` - Smart regeneration based on change detection
+  - `generateAndSaveJobEmbedding()` - Generate and save job embedding
+- ✅ **CRITICAL FIX:** Corrected embedding dimensions (1024 → 768)
+  - `text-embedding-004` produces **768-dimensional** embeddings, NOT 1024
+  - Created migration `003_fix_embedding_dimensions.sql`
+  - Updated `resumes.embedding`: vector(1024) → vector(768)
+  - Updated `jobs.embedding`: vector(1024) → vector(768)
+  - Updated `jobs.skills_embedding`: vector(1024) → vector(768)
+  - Updated `jobs.responsibilities_embedding`: vector(1024) → vector(768)
+  - All HNSW indexes recreated successfully
+- ✅ Test script created and validated (`scripts/test-embeddings.ts`)
+  - Test CV and Job data generated embeddings successfully
+  - **Similarity score: 84.02%** (excellent match quality)
+  - Embedding dimensions confirmed: 768
+- ✅ **Memory Bank updated** with correct embedding information across all files
+
+**Next Steps:**
+1. **Integrate embedding generation into CV save flow**
+   - Call `generateAndSaveEmbedding()` after successful `saveResume()`
+   - Add loading state to CV builder during embedding generation
+   - Handle embedding errors gracefully (save CV even if embedding fails)
+
+2. **Create job matching dashboard component**
+   - Fetch user's primary CV embedding
+   - Call Supabase `match_jobs()` function
+   - Display matched jobs with similarity scores
+   - Sort by relevance (highest match first)
+
+3. **Test end-to-end job matching**
+   - Create real CV through UI
+   - Verify embedding is generated and saved
+   - Test job matching with existing 3 sample jobs
+   - Validate similarity scores make sense
+
+---
+
+## Previous Context
+
 **Phase 10: Jobs Table Enhancement & Multi-Vector Embedding Architecture - ✅ MIGRATION COMPLETE** (Nov 24, 2025)
 
 **Critical Database Change:** Jobs table completely rebuilt from scratch with production-grade structure for semantic matching.
@@ -688,7 +742,7 @@
 - **Vector Indexes:** pgvector's ivfflat indexes dramatically speed up similarity search (100+ lists for >10k jobs)
 
 ### AI Integration Insights
-- **Gemini Embeddings:** 1024 dimensions (text-embedding-004) - ensure pgvector column matches
+- **Gemini Embeddings:** 768 dimensions (text-embedding-004) ← CORRECTED Dec 21, 2025 (was incorrectly documented as 1024)
 - **Parsing Accuracy:** Gemini's structured output requires explicit JSON schema in prompt
 - **Cost Management:** Cache embeddings, only regenerate when CV content changes (not on contact info edits)
 - **Error Handling:** Always provide fallback when AI parsing fails (raw text for manual entry)

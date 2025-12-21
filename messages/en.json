@@ -334,7 +334,9 @@
             "score": "Score",
             "label": "ATS Score"
         },
-        "saveSuccess": "CV saved! Redirecting to dashboard..."
+        "saveSuccess": "CV saved! Redirecting to dashboard...",
+        "savingWithEmbedding": "Saving CV and optimizing for job matching...",
+        "embeddingGenerated": "CV optimized for job matching!"
     },
     "unsavedDraftModal": {
         "title": "Unsaved Draft Found",

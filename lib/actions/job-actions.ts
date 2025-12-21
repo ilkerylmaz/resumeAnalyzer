@@ -1,6 +1,10 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import {
+    generateJobEmbedding,
+    type JobData,
+} from "@/lib/gemini/embeddings";
 
 export interface JobFilters {
     search?: string
@@ -234,5 +238,74 @@ export async function getExperienceLevels(): Promise<string[]> {
     } catch (error) {
         console.error('Error fetching experience levels:', error)
         return []
+    }
+}
+
+/**
+ * Generate and save job embedding to database
+ * Called when admin creates/updates a job posting
+ * 
+ * @param jobId - The job ID to generate embedding for
+ * @returns Success status and embedding array (if successful)
+ */
+export async function generateAndSaveJobEmbedding(
+    jobId: string
+): Promise<{ success: boolean; embedding?: number[]; error?: string }> {
+    try {
+        const supabase = await createClient();
+
+        // Fetch job data
+        const { data: job, error: fetchError } = await supabase
+            .from("jobs")
+            .select("*")
+            .eq("job_id", jobId)
+            .single();
+
+        if (fetchError || !job) {
+            return { success: false, error: "Job not found" };
+        }
+
+        // Convert to JobData format for embedding generation
+        const jobData: JobData = {
+            job_title: job.job_title,
+            company_name: job.company_name,
+            location: job.location,
+            job_summary: job.job_summary,
+            responsibilities: job.responsibilities, // JSONB array
+            must_have_skills: job.must_have_skills, // JSONB array
+            nice_to_have_skills: job.nice_to_have_skills, // JSONB array
+            qualifications: job.qualifications, // JSONB array
+            required_education_level: job.required_education_level,
+            years_of_experience_min: job.years_of_experience_min,
+            years_of_experience_max: job.years_of_experience_max,
+            experience_level: job.experience_level,
+            employment_type: job.employment_type,
+            remote_type: job.remote_type,
+            company_size: job.company_size,
+            industry: job.industry,
+            benefits: job.benefits, // JSONB array
+        };
+
+        // Generate embedding using Gemini API
+        const embedding = await generateJobEmbedding(jobData);
+
+        // Save embedding to database (Supabase client handles pgvector conversion)
+        const { error: updateError } = await supabase
+            .from("jobs")
+            .update({ embedding })
+            .eq("job_id", jobId);
+
+        if (updateError) {
+            console.error("Error saving job embedding:", updateError);
+            return { success: false, error: updateError.message };
+        }
+
+        return { success: true, embedding };
+    } catch (error) {
+        console.error("Error generating job embedding:", error);
+        return {
+            success: false,
+            error: error instanceof Error ? error.message : "Unknown error",
+        };
     }
 }
